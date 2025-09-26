@@ -1,0 +1,25 @@
+html {
+  scroll-behavior: smooth;
+}
+
+/* body { */
+/* letter-spacing: 0.4px; */
+/* font-family: 'Inter-Regular', sans-serif;
+  font-weight: 400; */
+/* } */
+
+*,
+*::before,
+*::after,
+button,
+ul,
+li {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  background: none;
+  border: none;
+  list-style: none;
+  text-decoration: none;
+}

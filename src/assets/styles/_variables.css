@@ -1,0 +1,18 @@
+:root {
+  --text-color-primary: #1d293d;
+  --text-color-secondary: #45556c;
+
+  --white-primary: #ffffff;
+  --white-secondary: #fdfeff;
+
+  --violet-primary: #f3e8ff;
+  --violet-secondary: #9810fa;
+
+  --green-primary: #cbfbf1;
+  --green-secondary: #009689;
+
+  --background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  --background-logo: linear-gradient(90deg, #00bba7 0%, #2b7fff 100%);
+
+  --border-color-primary: #e2e8f0;
+}
