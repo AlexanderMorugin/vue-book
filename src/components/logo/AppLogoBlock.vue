@@ -1,20 +1,3 @@
-<script setup>
-import { onMounted, ref } from 'vue'
-import AppLogo from './AppLogo.vue'
-
-const { place } = defineProps(['place'])
-
-const subtitle = ref('Ваш читательский журнал')
-
-const setSubtitle = () => {
-  if (place === 'sidebar') subtitle.value = 'Ваш читательский журнал'
-  if (place === 'register') subtitle.value = 'Начните свой читательский путь'
-  if (place === 'login') subtitle.value = 'Ваш персональный трекер чтения'
-}
-
-onMounted(() => setSubtitle())
-</script>
-
 <template>
   <div class="logoBlock">
     <AppLogo :place="place" />
@@ -39,15 +22,28 @@ onMounted(() => setSubtitle())
   </div>
 </template>
 
+<script setup>
+import { onMounted, ref } from 'vue'
+import AppLogo from './AppLogo.vue'
+
+const { place } = defineProps(['place'])
+
+const subtitle = ref('Ваш читательский журнал')
+
+const setSubtitle = () => {
+  if (place === 'sidebar') subtitle.value = 'Ваш читательский журнал'
+  if (place === 'register') subtitle.value = 'Начните свой читательский путь'
+  if (place === 'login') subtitle.value = 'Ваш персональный трекер чтения'
+}
+
+onMounted(() => setSubtitle())
+</script>
+
 <style scoped>
 .logoBlock {
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 97px;
-  border-bottom: 1px solid var(--border-color-primary);
-  padding-left: 24px;
-  padding-right: 24px;
 }
 .logoBlock__title {
   font-family: 'Inter_SemiBold', sans-serif;

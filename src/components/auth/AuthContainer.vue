@@ -1,0 +1,16 @@
+<template>
+  <section class="authContainer">
+    <slot />
+  </section>
+</template>
+
+<style scoped>
+.authContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 32px;
+  width: 100%;
+  max-width: 1152px;
+  border: 1px solid red;
+}
+</style>

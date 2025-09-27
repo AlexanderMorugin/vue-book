@@ -1,6 +1,11 @@
+<script setup lang="ts">
+import ArrowIcon from './icon/ArrowIcon.vue'
+</script>
+
 <template>
   <header class="header">
     <span class="header__title">Главная</span>
+    <ArrowIcon class="arrowIcon" />
   </header>
 </template>
 
@@ -10,7 +15,7 @@
   justify-content: space-between;
   align-items: center;
   height: 69px;
-  background: var(--bg-color-secondary);
+  background: var(--white-secondary);
   border-bottom: 1px solid var(--border-color-primary);
   backdrop-filter: blur(8px);
   padding-left: 24px;
@@ -20,5 +25,8 @@
   font-family: 'Inter_SemiBold', sans-serif;
   font-size: 22px;
   color: var(--text-color-primary);
+}
+.arrowIcon {
+  color: var(--text-color-secondary);
 }
 </style>

@@ -1,8 +1,3 @@
-<script setup>
-import SideBar from '@/components/AppSideBar.vue'
-import Header from '@/components/AppHeader.vue'
-</script>
-
 <template>
   <div class="mainLayout">
     <SideBar />
@@ -15,10 +10,19 @@ import Header from '@/components/AppHeader.vue'
   </div>
 </template>
 
+<script setup>
+import SideBar from '@/components/sidebar/SideBar.vue'
+import Header from '@/components/AppHeader.vue'
+</script>
+
 <style scoped>
 .mainLayout {
   display: flex;
+  width: 100%;
+  max-width: var(--screen-xxl);
   min-height: 100vh;
+  border: 1px solid var(--border-color-primary);
+  margin: 0 auto;
 }
 .mainLayout__content {
   display: flex;
@@ -29,6 +33,6 @@ import Header from '@/components/AppHeader.vue'
 .mainLayout__main {
   width: 100%;
   height: 100%;
-  background: var(--background);
+  background: var(--gradient-primary);
 }
 </style>

@@ -2,11 +2,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* body { */
-/* letter-spacing: 0.4px; */
-/* font-family: 'Inter-Regular', sans-serif;
-  font-weight: 400; */
-/* } */
+body {
+  background: var(--white-primary);
+}
 
 *,
 *::before,

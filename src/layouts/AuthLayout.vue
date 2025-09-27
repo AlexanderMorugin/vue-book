@@ -1,0 +1,16 @@
+<template>
+  <main class="authLayout">
+    <RouterView />
+  </main>
+</template>
+
+<style scoped>
+.authLayout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--gradient-primary);
+}
+</style>

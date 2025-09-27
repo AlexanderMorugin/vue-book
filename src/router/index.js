@@ -1,3 +1,4 @@
+import { LOGIN_PATH, REGISTER_PATH } from '@/mock/routes'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -6,6 +7,18 @@ const routes = [
     name: 'HomeView',
     component: () => import('../views/HomeView.vue'),
     meta: { layout: 'main' },
+  },
+  {
+    path: REGISTER_PATH,
+    name: 'RegisterView',
+    component: () => import('../views/RegisterView.vue'),
+    meta: { layout: 'auth' },
+  },
+  {
+    path: LOGIN_PATH,
+    name: 'LoginView',
+    component: () => import('../views/LoginView.vue'),
+    meta: { layout: 'auth' },
   },
 ]
 

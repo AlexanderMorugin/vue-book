@@ -11,8 +11,14 @@
   --green-primary: #cbfbf1;
   --green-secondary: #009689;
 
-  --background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-  --background-logo: linear-gradient(90deg, #00bba7 0%, #2b7fff 100%);
+  --gradient-primary: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  --gradient-logo-primary: linear-gradient(90deg, #00bba7 0%, #2b7fff 100%);
 
   --border-color-primary: #e2e8f0;
+
+  --screen-xxl: 1920px;
+  --screen-xl: 1399px;
+  --screen-l: 1023px;
+  --screen-m: 767px;
+  --screen-s: 379px;
 }

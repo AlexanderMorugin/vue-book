@@ -1,3 +1,8 @@
+<script setup>
+console.log(import.meta.env.VITE_SUPABASE_URL)
+console.log(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY)
+</script>
+
 <template>
   <div>
     <h1 class="title">Hello World!</h1>
