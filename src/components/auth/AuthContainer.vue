@@ -11,6 +11,5 @@
   column-gap: 32px;
   width: 100%;
   max-width: 1152px;
-  border: 1px solid red;
 }
 </style>

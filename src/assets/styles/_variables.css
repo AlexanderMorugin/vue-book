@@ -1,12 +1,14 @@
 :root {
   --text-color-primary: #1d293d;
   --text-color-secondary: #45556c;
+  --text-color-thirdly: #314158;
 
   --white-primary: #ffffff;
   --white-secondary: #fdfeff;
 
   --violet-primary: #f3e8ff;
   --violet-secondary: #9810fa;
+  --violet-thirdly: #ad46ff;
 
   --green-primary: #cbfbf1;
   --green-secondary: #009689;
