@@ -2,6 +2,9 @@
   --text-color-primary: #1d293d;
   --text-color-secondary: #45556c;
   --text-color-thirdly: #314158;
+  --text-color-fourthly: #0a0a0a;
+  --text-color-fifthly: #717182;
+  --text-color-sixthly: #62748e;
 
   --white-primary: #ffffff;
   --white-secondary: #fdfeff;
@@ -12,13 +15,17 @@
 
   --green-primary: #cbfbf1;
   --green-secondary: #009689;
+  --green-thirdly: #00bba7;
 
   --border-color-primary: #e2e8f0;
 
   --gradient-primary: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
   --gradient-logo-primary: linear-gradient(90deg, #00bba7 0%, #2b7fff 100%);
+  --gradient-form-register: linear-gradient(90deg, #ad46ff 0%, #9810fa 100%);
+  --gradient-form-login: linear-gradient(90deg, #00bba7 0%, #009689 100%);
 
   --shadow-primary: 0px 25px 50px -12px rgba(0, 0, 0, 0.4);
+  --shadow-secondary: 0px 4px 6px -4px rgba(0, 0, 0, 1);
 
   --screen-xxl: 1920px;
   --screen-xl: 1399px;

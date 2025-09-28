@@ -39,7 +39,6 @@ const authList = ref([
   font-family: 'Inter-Regular', sans-serif;
   font-size: 15px;
   line-height: 24px;
-  vertical-align: middle;
   color: var(--text-color-thirdly);
 }
 </style>

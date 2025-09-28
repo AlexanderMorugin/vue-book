@@ -19,14 +19,12 @@ const { title, text } = defineProps(['title', 'text'])
   font-family: 'Inter-Medium', sans-serif;
   font-size: 22px;
   line-height: 32px;
-  vertical-align: middle;
   color: var(--text-color-primary);
 }
 .authPromoText__text {
   font-family: 'Inter-Regular', sans-serif;
   font-size: 17px;
   line-height: 29px;
-  vertical-align: middle;
   color: var(--text-color-secondary);
 }
 </style>

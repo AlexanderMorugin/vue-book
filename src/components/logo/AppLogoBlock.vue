@@ -49,7 +49,6 @@ onMounted(() => setSubtitle())
   font-family: 'Inter_SemiBold', sans-serif;
   font-size: 18px;
   line-height: 28px;
-  vertical-align: middle;
 }
 .logoBlock__title_login {
   font-size: 28px;
@@ -59,7 +58,6 @@ onMounted(() => setSubtitle())
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
   line-height: 20px;
-  vertical-align: middle;
   color: var(--text-color-secondary);
 }
 .logoBlock__subtitle_login {

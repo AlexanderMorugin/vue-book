@@ -1,14 +1,22 @@
 <template>
-  <AuthFormContainer>
-    Login Form
+  <form class="form-auth" @submit.prevent="submitLoginForm">
+    <FormInput
+      label="Электронная почта"
+      type="email"
+      name="email"
+      placeholder="example@email.com"
+    />
+    <FormInput label="Пароль" type="password" name="password" placeholder="Минимум 6 символов" />
 
-    <router-link :to="REGISTER_PATH">REGISTER_PATH</router-link>
-
-    <router-link to="/">MAIN PAGE</router-link>
-  </AuthFormContainer>
+    <FormSubmitButton :place="place" />
+  </form>
 </template>
 
 <script setup>
-import { REGISTER_PATH } from '@/mock/routes'
-import AuthFormContainer from './AuthFormContainer.vue'
+import FormInput from '../form/FormInput.vue'
+import FormSubmitButton from '../form/FormSubmitButton.vue'
+
+const { place } = defineProps(['place'])
+
+const submitLoginForm = async () => {}
 </script>
