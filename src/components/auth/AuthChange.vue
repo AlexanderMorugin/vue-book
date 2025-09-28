@@ -10,14 +10,23 @@
       {{ place === 'register' ? 'Уже есть аккаунт?' : 'Нет аккаунта?' }}
     </span>
 
-    <AuthAccountButton :place="place" />
+    <AuthAccountButton :place="place" @goToAuthPage="goToAuthPage" />
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import AuthAccountButton from './AuthAccountButton.vue'
+import { LOGIN_PATH, REGISTER_PATH } from '@/mock/routes'
+
+const router = useRouter()
 
 const { place } = defineProps(['place'])
+
+const goToAuthPage = () => {
+  if (place === 'register') router.push(LOGIN_PATH)
+  else router.push(REGISTER_PATH)
+}
 </script>
 
 <style scoped>

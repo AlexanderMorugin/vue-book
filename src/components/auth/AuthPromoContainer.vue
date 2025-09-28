@@ -11,7 +11,5 @@
   gap: 24px;
   width: 100%;
   max-width: 560px;
-
-  /* border: 1px solid red; */
 }
 </style>

@@ -6,15 +6,13 @@
 
 <script setup>
 import ClearIcon from '../icon/ClearIcon.vue'
-
-// const emit = defineEmits(["clearInput"]);
 </script>
 
 <style scoped>
 .formClearButton {
   position: absolute;
-  bottom: 0;
-  right: 4px;
+  bottom: 8px;
+  right: 0;
   width: 36px;
   height: 36px;
   cursor: pointer;
@@ -22,7 +20,7 @@ import ClearIcon from '../icon/ClearIcon.vue'
 .clearIcon {
   width: 18px;
   height: 18px;
-  color: var(--text-color-fifthly);
+  color: var(--text-color-sixthly);
   transition: 0.25s ease;
 }
 .formClearButton:hover .clearIcon {

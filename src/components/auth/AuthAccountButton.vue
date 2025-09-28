@@ -1,5 +1,6 @@
 <template>
   <button
+    @click="emit('goToAuthPage')"
     :class="[
       'authAccountButton',
       { authAccountButton_register: place === 'register' },
@@ -18,6 +19,7 @@
 import ArrowIcon from '../icon/ArrowIcon.vue'
 
 const { place } = defineProps(['place'])
+const emit = defineEmits(['goToAuthPage'])
 </script>
 
 <style scoped>

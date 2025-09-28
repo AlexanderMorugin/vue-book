@@ -3,7 +3,9 @@
     :class="[
       'formSubmitButton',
       { formSubmitButton_register: place === 'register' },
+      { formSubmitButton_registerActive: place === 'register' && !isFromEmpty && !isValid },
       { formSubmitButton_login: place === 'login' },
+      { formSubmitButton_loginActive: place === 'login' && !isFromEmpty && !isValid },
     ]"
   >
     <RegisterIcon v-if="place === 'register'" class="authIcon" />
@@ -16,7 +18,7 @@
 import LoginIcon from '../icon/LoginIcon.vue'
 import RegisterIcon from '../icon/RegisterIcon.vue'
 
-const { place } = defineProps(['place'])
+const { place, isFromEmpty, isValid } = defineProps(['place', 'isFromEmpty', 'isValid'])
 </script>
 
 <style scoped>
@@ -29,13 +31,15 @@ const { place } = defineProps(['place'])
   height: 36px;
   border-radius: 8px;
   box-shadow: var(--shadow-secondary);
-  cursor: pointer;
 }
 .formSubmitButton_register {
   background: var(--gradient-form-register);
+  opacity: 0.5;
 }
-.formSubmitButton_register:hover {
-  animation: shine 3s ease;
+.formSubmitButton_registerActive {
+  cursor: pointer;
+  opacity: 1;
+  animation: shine 3s infinite;
   background-image: -webkit-gradient(
     linear,
     left center,
@@ -53,9 +57,12 @@ const { place } = defineProps(['place'])
 }
 .formSubmitButton_login {
   background: var(--gradient-form-login);
+  opacity: 0.5;
 }
-.formSubmitButton_login:hover {
-  animation: shine 3s ease;
+.formSubmitButton_loginActive {
+  cursor: pointer;
+  opacity: 1;
+  animation: shine 3s infinite;
   background-image: -webkit-gradient(
     linear,
     left center,
