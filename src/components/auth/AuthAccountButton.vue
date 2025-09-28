@@ -66,14 +66,40 @@ const { place } = defineProps(['place'])
 }
 .authAccountButton_register:hover .arrowIcon {
   color: var(--violet-secondary);
+  animation: slide-to-left 1.5s infinite;
 }
 .authAccountButton_register:hover .authAccountButton__text {
   color: var(--violet-secondary);
 }
 .authAccountButton_login:hover .arrowIcon {
   color: var(--green-secondary);
+  animation: slide-to-right 1.5s infinite;
 }
 .authAccountButton_login:hover .authAccountButton__text {
   color: var(--green-secondary);
+}
+
+@keyframes slide-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-to-right {
+  0% {
+    transform: rotate(180deg) translateX(0);
+  }
+  30% {
+    transform: rotate(180deg) translateX(-5px);
+  }
+  100% {
+    transform: rotate(180deg) translateX(0);
+  }
 }
 </style>
