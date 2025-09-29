@@ -64,4 +64,22 @@ onMounted(() => setSubtitle())
   font-size: 17px;
   line-height: 28px;
 }
+
+@media (max-width: 1023px) {
+  .logoBlock {
+    flex-direction: column;
+    border-bottom: 1px solid var(--border-color-primary);
+    padding-bottom: 20px;
+  }
+  .logoBlock__title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 379px) {
+  .logoBlock {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 </style>

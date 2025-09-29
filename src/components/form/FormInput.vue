@@ -1,6 +1,7 @@
 <template>
   <div class="form-field">
     <label :for="name" class="form-label">{{ label }}</label>
+    <!-- Последний в цепочке инпут, остлеживает валидацию при вводе -->
     <input
       v-if="lastInput"
       :type="type"
@@ -11,6 +12,7 @@
       @input="updateValue"
       class="form-input"
     />
+    <!-- Первый и средние в цепочке инпуты, остлеживает валидацию после перехода на другой инпут -->
     <input
       v-else
       :type="type"
@@ -50,7 +52,7 @@ const emit = defineEmits(['update:value', 'clearInput'])
 const updateValue = (e) => emit('update:value', e.target.value)
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;
@@ -60,4 +62,4 @@ const updateValue = (e) => emit('update:value', e.target.value)
   opacity: 0;
   transform: translateX(30px);
 }
-</style>
+</style> -->

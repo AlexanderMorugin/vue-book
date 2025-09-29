@@ -3,24 +3,40 @@
     <FormInput
       label="Электронная почта"
       type="email"
-      name="email"
+      name="emailField"
       placeholder="example@email.com"
       v-model:value="v$.emailField.$model"
       :error="v$.emailField.$errors"
       @clearInput="emailField = null"
+      @click="clearErrorMessage"
     />
     <FormInput
       lastInput="true"
       label="Пароль"
       type="password"
-      name="password"
+      name="passwordField"
       placeholder="Минимум 6 символов"
       v-model:value="v$.passwordField.$model"
       :error="v$.passwordField.$errors"
       @clearInput="passwordField = null"
+      @click="clearErrorMessage"
     />
 
-    <FormSubmitButton :place="place" :isFromEmpty="isFromEmpty" :isValid="isValid.length" />
+    <!-- Появляющийся текст ошибки -->
+    <TransitionGroup name="error" tag="ul">
+      <FormErrorMessage
+        v-if="userStore.existUserErrorMessage"
+        :text="userStore.existUserErrorMessage"
+      />
+    </TransitionGroup>
+
+    <!-- Кнопка Сабмит -->
+    <FormSubmitButton
+      :place="place"
+      :isFromEmpty="isFromEmpty"
+      :isValid="isValid.length"
+      :isLoading="isLoading"
+    />
   </form>
 </template>
 
@@ -30,18 +46,25 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, email } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
+import { useUserStore } from '@/stores/user-store'
+import FormErrorMessage from '../form/FormErrorMessage.vue'
 
 const { place } = defineProps(['place'])
+
+const userStore = useUserStore()
 
 const isLoading = ref(false)
 const emailField = ref(null)
 const passwordField = ref(null)
 
+// При клике на инпуте - очищаем в сторе реф ошибки
+const clearErrorMessage = () => userStore.clearExistUserErrorMessage()
+
 // Валидация
 const rules = computed(() => ({
   emailField: {
     required: helpers.withMessage('Укажите почту', required),
-    email: helpers.withMessage('Введите корректную почту', email),
+    email: helpers.withMessage('Не корректно', email),
   },
   passwordField: {
     required: helpers.withMessage('Укажите пароль', required),
@@ -59,13 +82,26 @@ const isFromEmpty = computed(() => !emailField.value || !passwordField.value)
 const isValid = computed(() => v$.value.$errors)
 
 const submitLoginForm = async () => {
-  const data = {
-    email: emailField.value,
-    password: passwordField.value,
+  isLoading.value = false
+
+  const userData = {
+    email: emailField.value.trim(),
+    password: passwordField.value.trim(),
   }
 
-  isLoading.value = true
+  try {
+    isLoading.value = true
+    await userStore.loginUser(userData)
 
-  console.log(data)
+    // Если приходит ошибка - очищаем поля
+    if (userStore.existUserErrorMessage) {
+      emailField.value = null
+      passwordField.value = null
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>

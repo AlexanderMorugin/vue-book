@@ -1,5 +1,6 @@
 <template>
   <div class="authFormContainer">
+    <AppLogoBlock :place="place" v-if="isScreenLarge" />
     <div class="authFormContainer__titleBox">
       <h2 class="authFormContainer__title">{{ title }}</h2>
       <p class="authFormContainer__subtitle">{{ subtitle }}</p>
@@ -15,16 +16,21 @@
 </template>
 
 <script setup>
+import AppLogoBlock from '../logo/AppLogoBlock.vue'
 import AuthChange from './AuthChange.vue'
 import AuthConditions from './AuthConditions.vue'
 import LoginForm from './LoginForm.vue'
 import RegisterForm from './RegisterForm.vue'
+import { useResizeLarge } from '@/composables/useResizeLarge'
+
+const { isScreenLarge } = useResizeLarge()
 
 const { place, title, subtitle } = defineProps(['place', 'title', 'subtitle'])
 </script>
 
 <style scoped>
 .authFormContainer {
+  grid-area: form;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -53,5 +59,19 @@ const { place, title, subtitle } = defineProps(['place', 'title', 'subtitle'])
   font-size: 15px;
   line-height: 24px;
   color: var(--text-color-secondary);
+}
+
+@media (max-width: 1023px) {
+  .authFormContainer {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 379px) {
+  .authFormContainer {
+    box-shadow: none;
+    border-radius: 0;
+    padding: 40px 10px 20px 10px;
+  }
 }
 </style>

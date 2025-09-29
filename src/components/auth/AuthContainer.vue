@@ -8,9 +8,18 @@
 .authContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: 'promo form';
   align-items: center;
-  column-gap: 32px;
+  gap: 32px;
   width: 100%;
   max-width: 1152px;
+}
+
+@media (max-width: 1023px) {
+  .authContainer {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'form' 'promo';
+    gap: 62px;
+  }
 }
 </style>

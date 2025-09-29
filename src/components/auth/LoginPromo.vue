@@ -1,8 +1,8 @@
 <template>
   <AuthPromoContainer>
-    <AppLogoBlock place="login" />
+    <AppLogoBlock :place="place" v-if="!isScreenLarge" />
     <AuthPromoText :title="details.title" :text="details.text" />
-    <AuthPromoImage place="login" :image="details.image" :title="details.title" />
+    <AuthPromoImage :place="place" :image="details.image" :title="details.title" />
   </AuthPromoContainer>
 </template>
 
@@ -12,6 +12,11 @@ import AppLogoBlock from '../logo/AppLogoBlock.vue'
 import AuthPromoContainer from './AuthPromoContainer.vue'
 import AuthPromoImage from './AuthPromoImage.vue'
 import AuthPromoText from './AuthPromoText.vue'
+import { useResizeLarge } from '@/composables/useResizeLarge'
+
+const { isScreenLarge } = useResizeLarge()
+
+const { place } = defineProps(['place'])
 
 const details = ref({
   title: 'Отслеживайте свои книги',

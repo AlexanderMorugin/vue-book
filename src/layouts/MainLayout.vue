@@ -21,7 +21,8 @@ import Header from '@/components/AppHeader.vue'
   width: 100%;
   max-width: var(--screen-xxl);
   min-height: 100vh;
-  border: 1px solid var(--border-color-primary);
+  border-left: 1px solid var(--border-color-primary);
+  border-right: 1px solid var(--border-color-primary);
   margin: 0 auto;
 }
 .mainLayout__content {

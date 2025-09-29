@@ -8,6 +8,7 @@
       v-model:value="v$.nameField.$model"
       :error="v$.nameField.$errors"
       @clearInput="nameField = null"
+      @click="clearErrorMessage"
     />
     <FormInput
       label="Электронная почта"
@@ -17,6 +18,7 @@
       v-model:value="v$.emailField.$model"
       :error="v$.emailField.$errors"
       @clearInput="emailField = null"
+      @click="clearErrorMessage"
     />
     <FormInput
       label="Пароль"
@@ -26,6 +28,7 @@
       v-model:value="v$.passwordField.$model"
       :error="v$.passwordField.$errors"
       @clearInput="passwordField = null"
+      @click="clearErrorMessage"
     />
     <FormInput
       lastInput="true"
@@ -38,7 +41,21 @@
       @clearInput="confirmPasswordField = null"
     />
 
-    <FormSubmitButton :place="place" :isFromEmpty="isFromEmpty" :isValid="isValid.length" />
+    <!-- Появляющийся текст ошибки -->
+    <TransitionGroup name="error" tag="ul">
+      <FormErrorMessage
+        v-if="userStore.existUserErrorMessage"
+        :text="userStore.existUserErrorMessage"
+      />
+    </TransitionGroup>
+
+    <!-- Кнопка Сабмит -->
+    <FormSubmitButton
+      :place="place"
+      :isFromEmpty="isFromEmpty"
+      :isValid="isValid.length"
+      :isLoading="isLoading"
+    />
   </form>
 </template>
 
@@ -48,8 +65,12 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, email, sameAs } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
+import { useUserStore } from '@/stores/user-store'
+import FormErrorMessage from '../form/FormErrorMessage.vue'
 
 const { place } = defineProps(['place'])
+
+const userStore = useUserStore()
 
 const isLoading = ref(false)
 const nameField = ref(null)
@@ -57,15 +78,18 @@ const emailField = ref(null)
 const passwordField = ref(null)
 const confirmPasswordField = ref(null)
 
+// При клике на инпуте - очищаем в сторе реф ошибки
+const clearErrorMessage = () => userStore.clearExistUserErrorMessage()
+
 // Валидация
 const rules = computed(() => ({
   nameField: {
     required: helpers.withMessage('Укажите имя', required),
-    minLength: helpers.withMessage('Не менее 2 символов', minLength(2)),
+    minLength: helpers.withMessage('Не менее 3 символов', minLength(3)),
   },
   emailField: {
     required: helpers.withMessage('Укажите почту', required),
-    email: helpers.withMessage('Введите корректную почту', email),
+    email: helpers.withMessage('Не корректно', email),
   },
   passwordField: {
     required: helpers.withMessage('Укажите пароль', required),
@@ -73,7 +97,7 @@ const rules = computed(() => ({
   },
   confirmPasswordField: {
     required: helpers.withMessage('', required),
-    sameAsPassword: helpers.withMessage('Пароли не совпадают', sameAs(passwordField.value)),
+    sameAsPassword: helpers.withMessage('Не совпадает', sameAs(passwordField.value)),
   },
 }))
 
@@ -92,15 +116,29 @@ const isFromEmpty = computed(
 const isValid = computed(() => v$.value.$errors)
 
 const submitRegisterForm = async () => {
-  const data = {
-    email: emailField.value,
-    name: nameField.value,
-    password: passwordField.value,
-    confirmPassword: confirmPasswordField.value,
+  isLoading.value = false
+
+  const userData = {
+    email: emailField.value.trim(),
+    name: nameField.value.trim(),
+    password: passwordField.value.trim(),
   }
 
-  isLoading.value = true
+  try {
+    isLoading.value = true
+    await userStore.registerUser(userData)
 
-  console.log(data)
+    // Если приходит ошибка - очищаем поля
+    if (userStore.existUserErrorMessage) {
+      emailField.value = null
+      nameField.value = null
+      passwordField.value = null
+      confirmPasswordField.value = null
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>

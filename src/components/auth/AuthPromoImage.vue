@@ -48,9 +48,13 @@ const { place, image, title } = defineProps(['place', 'image', 'title'])
 }
 .authPromoImage__picture_register {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .authPromoImage__picture_login {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 .authPromoImage__mask {
   position: absolute;
@@ -65,5 +69,12 @@ const { place, image, title } = defineProps(['place', 'image', 'title'])
 }
 .authPromoImage__mask_login {
   background: linear-gradient(0deg, rgba(11, 79, 74, 0.2) 0%, rgba(11, 79, 74, 0) 100%);
+}
+
+@media (max-width: 379px) {
+  .authPromoImage {
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <AuthContainer>
-    <LoginPromo />
+    <LoginPromo place="login" />
     <AuthFormContainer
       place="login"
       title="Добро пожаловать!"

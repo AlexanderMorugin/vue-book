@@ -8,17 +8,29 @@
       { formSubmitButton_loginActive: place === 'login' && !isFromEmpty && !isValid },
     ]"
   >
-    <RegisterIcon v-if="place === 'register'" class="authIcon" />
-    <LoginIcon v-if="place === 'login'" class="authIcon" />
-    <span class="formSubmitButton__text">Создать аккаунт</span>
+    <LoaderForButton v-if="isLoading" />
+
+    <div v-else class="formSubmitButton__content">
+      <RegisterIcon v-if="place === 'register'" class="authIcon" />
+      <LoginIcon v-if="place === 'login'" class="authIcon" />
+      <span class="formSubmitButton__text">
+        {{ place === 'register' ? 'Создать аккаунт' : 'Войти' }}
+      </span>
+    </div>
   </button>
 </template>
 
 <script setup>
 import LoginIcon from '../icon/LoginIcon.vue'
 import RegisterIcon from '../icon/RegisterIcon.vue'
+import LoaderForButton from '../loader/LoaderForButton.vue'
 
-const { place, isFromEmpty, isValid } = defineProps(['place', 'isFromEmpty', 'isValid'])
+const { place, isFromEmpty, isValid, isLoading } = defineProps([
+  'place',
+  'isFromEmpty',
+  'isValid',
+  'isLoading',
+])
 </script>
 
 <style scoped>
@@ -26,7 +38,6 @@ const { place, isFromEmpty, isValid } = defineProps(['place', 'isFromEmpty', 'is
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
   width: 100%;
   height: 36px;
   border-radius: 8px;
@@ -78,13 +89,20 @@ const { place, isFromEmpty, isValid } = defineProps(['place', 'isFromEmpty', 'is
     var(--green-thirdly) 100%
   );
 }
-.authIcon {
-  color: var(--white-primary);
+.formSubmitButton__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
 }
 .formSubmitButton__text {
   font-family: 'Inter-Medium', sans-serif;
   font-size: 14px;
   line-height: 14px;
+  color: var(--white-primary);
+}
+.authIcon {
   color: var(--white-primary);
 }
 

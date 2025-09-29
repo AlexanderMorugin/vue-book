@@ -1,6 +1,6 @@
 <template>
   <AuthContainer>
-    <RegisterPromo />
+    <RegisterPromo place="register" />
     <AuthFormContainer
       place="register"
       title="Создать аккаунт"

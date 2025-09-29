@@ -27,4 +27,11 @@ const { title, text } = defineProps(['title', 'text'])
   line-height: 29px;
   color: var(--text-color-secondary);
 }
+
+@media (max-width: 379px) {
+  .authPromoText {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 </style>
