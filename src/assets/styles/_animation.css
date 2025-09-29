@@ -1,0 +1,50 @@
+@keyframes scale {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slide-to-left {
+  0% {
+    transform: translateX(0);
+  }
+  30% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-to-right {
+  0% {
+    transform: rotate(180deg) translateX(0);
+  }
+  30% {
+    transform: rotate(180deg) translateX(-5px);
+  }
+  100% {
+    transform: rotate(180deg) translateX(0);
+  }
+}

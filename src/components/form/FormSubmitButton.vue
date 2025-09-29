@@ -106,12 +106,11 @@ const { place, isFromEmpty, isValid, isLoading } = defineProps([
   color: var(--white-primary);
 }
 
-@keyframes shine {
-  0% {
-    background-position: -500px 0;
-  }
-  100% {
-    background-position: 500px 0;
-  }
+.formSubmitButton_registerActive:hover .authIcon {
+  animation: scale 0.3s ease-in-out;
+}
+
+.formSubmitButton_loginActive:hover .authIcon {
+  animation: scale 0.3s ease-in-out;
 }
 </style>

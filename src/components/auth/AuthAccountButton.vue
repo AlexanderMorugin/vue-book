@@ -80,28 +80,4 @@ const emit = defineEmits(['goToAuthPage'])
 .authAccountButton_login:hover .authAccountButton__text {
   color: var(--green-secondary);
 }
-
-@keyframes slide-to-left {
-  0% {
-    transform: translateX(0);
-  }
-  30% {
-    transform: translateX(-5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-to-right {
-  0% {
-    transform: rotate(180deg) translateX(0);
-  }
-  30% {
-    transform: rotate(180deg) translateX(-5px);
-  }
-  100% {
-    transform: rotate(180deg) translateX(0);
-  }
-}
 </style>

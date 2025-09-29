@@ -42,6 +42,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, email } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
@@ -52,6 +53,7 @@ import FormErrorMessage from '../form/FormErrorMessage.vue'
 const { place } = defineProps(['place'])
 
 const userStore = useUserStore()
+const router = useRouter()
 
 const isLoading = ref(false)
 const emailField = ref(null)
@@ -81,6 +83,7 @@ const isFromEmpty = computed(() => !emailField.value || !passwordField.value)
 
 const isValid = computed(() => v$.value.$errors)
 
+// Сабмит
 const submitLoginForm = async () => {
   isLoading.value = false
 
@@ -98,6 +101,8 @@ const submitLoginForm = async () => {
       emailField.value = null
       passwordField.value = null
     }
+
+    router.push('/')
   } catch (error) {
     console.log(error)
   } finally {

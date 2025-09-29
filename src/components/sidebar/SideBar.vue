@@ -1,17 +1,9 @@
 <template>
   <aside class="side-bar">
     <div>
-      <SideBarContainer padding="wide" line="bottom">
-        <AppLogoBlock place="sidebar" />
-      </SideBarContainer>
-
-      <SideBarContainer padding="slim" line="bottom">
-        <div>profile</div>
-      </SideBarContainer>
-
-      <SideBarContainer padding="slim">
-        <div>menu</div>
-      </SideBarContainer>
+      <SideBarLogo />
+      <SideBarAuth />
+      <SideBarMenu />
 
       <SideBarContainer padding="slim">
         <div>target</div>
@@ -29,8 +21,11 @@
 </template>
 
 <script setup>
-import AppLogoBlock from '../logo/AppLogoBlock.vue'
+// import AppLogoBlock from '../logo/AppLogoBlock.vue'
+import SideBarAuth from './SideBarAuth.vue'
 import SideBarContainer from './SideBarContainer.vue'
+import SideBarLogo from './SideBarLogo.vue'
+import SideBarMenu from './SideBarMenu.vue'
 </script>
 
 <style scoped>

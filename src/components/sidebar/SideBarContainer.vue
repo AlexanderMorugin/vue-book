@@ -26,7 +26,7 @@ const { padding, line } = defineProps(['padding', 'line'])
   padding: 24px;
 }
 .sideBarContainer_slim {
-  padding: 24px;
+  padding: 16px;
 }
 .sideBarContainer_top {
   border-top: 1px solid var(--border-color-primary);
