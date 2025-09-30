@@ -32,8 +32,11 @@ import Header from '@/components/AppHeader.vue'
   min-height: 100vh;
 }
 .mainLayout__main {
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background: var(--gradient-primary);
+  padding: 32px;
 }
 </style>

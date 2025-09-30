@@ -4,7 +4,12 @@
       <SideBarLogo />
       <SideBarAuth />
       <SideBarMenu />
-      <SideBarProgress :progress="yearProgress" />
+      <SideBarYearProgress
+        :progress="yearProgress"
+        place="sidebar"
+        title="Цель 2024"
+        :progressBookData="progressBookData"
+      />
 
       <SideBarContainer padding="slim">
         <div>now reading</div>
@@ -23,9 +28,14 @@ import SideBarAuth from './SideBarAuth.vue'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarLogo from './SideBarLogo.vue'
 import SideBarMenu from './SideBarMenu.vue'
-import SideBarProgress from './SideBarProgress.vue'
+import SideBarYearProgress from './SideBarYearProgress.vue'
 
-const yearProgress = ref(20)
+const yearProgress = ref(10)
+const progressBookData = ref({
+  all: 20,
+  done: 2,
+  mustDo: 18,
+})
 </script>
 
 <style scoped>

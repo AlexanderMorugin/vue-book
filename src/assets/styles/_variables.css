@@ -26,6 +26,8 @@
   --gray-thirdly: #eff6ff;
   --gray-fourthly: #f1f5f9;
 
+  --yellow-primary: #ffba00;
+
   --border-color-primary: #e2e8f0;
 
   --gradient-primary: linear-gradient(135deg, var(--gray-primary) 0%, var(--gray-thirdly) 100%);
@@ -43,9 +45,9 @@
     var(--green-secondary) 100%
   );
 
-  --shadow-primary: 0px 25px 50px -12px rgba(0, 0, 0, 0.4);
-  --shadow-secondary: 0px 4px 6px -4px rgba(0, 0, 0, 1);
-  --shadow-thirdly: 0px 1px 2px -1px rgba(0, 0, 0, 1);
+  --shadow-primary: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-secondary: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-thirdly: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
   --screen-xxl: 1920px;
   --screen-xl: 1399px;

@@ -36,7 +36,6 @@ const { name, title, number, isActive } = defineProps(['name', 'title', 'number'
   height: 48px;
   border-radius: 14px;
   padding: 14px 16px;
-  transition: 0.25s all;
 }
 .sideBarMenuButton_active {
   background: var(--gray-thirdly);
