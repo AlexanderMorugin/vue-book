@@ -4,10 +4,7 @@
       <SideBarLogo />
       <SideBarAuth />
       <SideBarMenu />
-
-      <SideBarContainer padding="slim">
-        <div>target</div>
-      </SideBarContainer>
+      <SideBarProgress :progress="yearProgress" />
 
       <SideBarContainer padding="slim">
         <div>now reading</div>
@@ -21,11 +18,14 @@
 </template>
 
 <script setup>
-// import AppLogoBlock from '../logo/AppLogoBlock.vue'
+import { ref } from 'vue'
 import SideBarAuth from './SideBarAuth.vue'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarLogo from './SideBarLogo.vue'
 import SideBarMenu from './SideBarMenu.vue'
+import SideBarProgress from './SideBarProgress.vue'
+
+const yearProgress = ref(20)
 </script>
 
 <style scoped>
