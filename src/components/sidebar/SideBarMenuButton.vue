@@ -34,7 +34,7 @@ const { name, title, number, isActive } = defineProps(['name', 'title', 'number'
   align-items: center;
   width: 100%;
   height: 48px;
-  border-radius: 14px;
+  border-radius: var(--border-radius-l);
   padding: 14px 16px;
 }
 .sideBarMenuButton_active {
@@ -61,7 +61,7 @@ const { name, title, number, isActive } = defineProps(['name', 'title', 'number'
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: var(--border-radius-s);
   background: var(--gray-fourthly);
   font-family: 'Inter-Medium', sans-serif;
   font-size: 12px;

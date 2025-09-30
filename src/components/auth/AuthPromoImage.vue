@@ -33,7 +33,7 @@ const { place, image, title } = defineProps(['place', 'image', 'title'])
 .authPromoImage {
   position: relative;
   width: 100%;
-  border-radius: 16px;
+  border-radius: var(--border-radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-primary);
 }

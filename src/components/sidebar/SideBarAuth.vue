@@ -31,7 +31,7 @@ import SideBarContainer from './SideBarContainer.vue'
   width: 100%;
   height: 64px;
   background: var(--gray-primary);
-  border-radius: 14px;
+  border-radius: var(--border-radius-l);
   padding: 12px;
 }
 .sideBarAuth__profile {
@@ -45,7 +45,7 @@ import SideBarContainer from './SideBarContainer.vue'
   align-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background: var(--gradient-user-icon-box);
 }
 .sideBarAuth__userNameBox {

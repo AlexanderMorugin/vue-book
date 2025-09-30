@@ -32,7 +32,7 @@ const authList = ref([
 .authList__circle {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background: var(--violet-thirdly);
 }
 .authList__text {

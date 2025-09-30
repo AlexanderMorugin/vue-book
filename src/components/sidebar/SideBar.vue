@@ -10,10 +10,7 @@
         title="Цель 2024"
         :progressBookData="progressBookData"
       />
-
-      <SideBarContainer padding="slim">
-        <div>now reading</div>
-      </SideBarContainer>
+      <SideBarReadingProgress place="sidebar" title="Сейчас читаю" :readingBook="readingBook" />
     </div>
 
     <SideBarContainer padding="slim" line="top">
@@ -29,12 +26,21 @@ import SideBarContainer from './SideBarContainer.vue'
 import SideBarLogo from './SideBarLogo.vue'
 import SideBarMenu from './SideBarMenu.vue'
 import SideBarYearProgress from './SideBarYearProgress.vue'
+import SideBarReadingProgress from './SideBarReadingProgress.vue'
+import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 
 const yearProgress = ref(10)
 const progressBookData = ref({
   all: 20,
   done: 2,
   mustDo: 18,
+})
+
+const readingBook = ref({
+  title: 'Полуночная библиотека',
+  author: 'Мэтт Хейг',
+  image: BookMidnightLibraryImage,
+  readingProgress: 65,
 })
 </script>
 

@@ -30,7 +30,7 @@ const emit = defineEmits(['goToAuthPage'])
   gap: 8px;
   width: 100%;
   height: 50px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-m);
   margin-top: 8px;
   cursor: pointer;
   transition: 0.25s ease;

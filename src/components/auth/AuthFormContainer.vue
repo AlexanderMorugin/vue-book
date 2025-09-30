@@ -40,7 +40,7 @@ const { place, title, subtitle } = defineProps(['place', 'title', 'subtitle'])
   background: var(--white-secondary);
   box-shadow: var(--shadow-primary);
   backdrop-filter: blur(8px);
-  border-radius: 14px;
+  border-radius: var(--border-radius-l);
   padding: 32px;
 }
 .authFormContainer__titleBox {

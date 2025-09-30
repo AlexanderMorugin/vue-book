@@ -10,7 +10,7 @@
     <div class="progressYearBlock__titleBox">
       <div class="progressYearBlock__titleIcon">
         <ProgressIcon v-if="place === 'sidebar'" class="progressIcon" />
-        <span class="progressYearBlock__title">{{ title }}</span>
+        <h2 class="progressYearBlock__title">{{ title }}</h2>
       </div>
 
       <div v-if="place === 'home'" class="progressYearBlock__starBox">
@@ -30,7 +30,7 @@
       </div>
 
       <div class="progressYearBlock__detailsMain">
-        <ProgressBar :progress="progress" />
+        <ProgressBar :progress="progress" color="green" />
         <div
           :class="[
             'progressYearBlock__detailsTextBox',
@@ -67,7 +67,7 @@ const { progress, place, title, progressBookData } = defineProps([
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-radius: 14px;
+  border-radius: var(--border-radius-l);
   background: var(--gray-thirdly);
   width: 100%;
   padding: 16px;

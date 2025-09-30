@@ -29,19 +29,19 @@ const { place } = defineProps(['place'])
   align-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 14px;
+  border-radius: var(--border-radius-l);
   background: var(--gradient-logo-primary);
 }
 .logoBox_register {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
+  border-radius: var(--border-radius-xl);
   background: var(--violet-primary);
 }
 .logoBox_login {
   width: 56px;
   height: 56px;
-  border-radius: 16px;
+  border-radius: var(--border-radius-xl);
   background: var(--green-primary);
 }
 .logoIcon {

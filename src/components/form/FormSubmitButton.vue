@@ -40,7 +40,7 @@ const { place, isFromEmpty, isValid, isLoading } = defineProps([
   align-items: center;
   width: 100%;
   height: 36px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-s);
   box-shadow: var(--shadow-secondary);
 }
 .formSubmitButton_register {

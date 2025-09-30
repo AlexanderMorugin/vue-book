@@ -9,6 +9,7 @@
 
   --white-primary: #ffffff;
   --white-secondary: #fdfeff;
+  --white-thirdly: rgba(255, 255, 255, 0.8);
 
   --violet-primary: #f3e8ff;
   --violet-secondary: #9810fa;
@@ -39,15 +40,31 @@
     var(--green-secondary) 100%
   );
   --gradient-user-icon-box: linear-gradient(90deg, #ad46ff 0%, #f6339a 100%);
-  --gradient-progress-primary: linear-gradient(
+  --gradient-progress-green: linear-gradient(
     90deg,
     var(--green-thirdly) 0%,
     var(--green-secondary) 100%
   );
+  --gradient-progress-blue: linear-gradient(90deg, #2b7fff 0%, #155dfc 100%);
 
   --shadow-primary: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-secondary: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-thirdly: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  --shadow-fourthly: 0px 2px 4px -2px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  --border-radius-full: 50%;
+  --border-radius-s: 8px;
+  --border-radius-m: 10px;
+  --border-radius-l: 14px;
+  --border-radius-xl: 16px;
 
   --screen-xxl: 1920px;
   --screen-xl: 1399px;
