@@ -6,11 +6,11 @@
           <ProfileIcon class="profileIcon" />
         </div>
         <div class="sideBarAuth__userNameBox">
-          <span class="sideBarAuth__name">Alexander</span>
-          <span class="sideBarAuth__email">mail@mail.ru</span>
+          <span class="sideBarAuth__name">{{ userStore.user.name }}</span>
+          <span class="sideBarAuth__email">{{ userStore.user.email }}</span>
         </div>
       </div>
-      <button class="sideBarAuth__logoutButton">
+      <button class="sideBarAuth__logoutButton" @click="handleLogout">
         <LogoutIcon class="logoutIcon" />
       </button>
     </div>
@@ -18,9 +18,20 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import LogoutIcon from '../icon/LogoutIcon.vue'
 import ProfileIcon from '../icon/ProfileIcon.vue'
 import SideBarContainer from './SideBarContainer.vue'
+import { useUserStore } from '@/stores/user-store'
+import { LOGIN_PATH } from '@/mock/routes'
+
+const userStore = useUserStore()
+const router = useRouter()
+
+const handleLogout = () => {
+  userStore.logout()
+  router.push(LOGIN_PATH)
+}
 </script>
 
 <style scoped>

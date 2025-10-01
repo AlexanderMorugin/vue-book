@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { supabase } from '@/config/supabase'
 import { LOGIN_PATH, REGISTER_PATH } from '@/mock/routes'
+import { useUserStore } from '@/stores/user-store'
 
 const routes = [
   {
@@ -37,10 +38,13 @@ const router = createRouter({
 
 const getLocalUser = async (next) => {
   const localUser = await supabase.auth.getSession()
+  const userStore = useUserStore()
 
   if (localUser.data.session == null) {
     next(LOGIN_PATH)
   } else {
+    // создаем в сторе пользователя при перезагрузке страницы
+    userStore.setUserInStore(localUser)
     next()
   }
 }

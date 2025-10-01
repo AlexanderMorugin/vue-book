@@ -24,6 +24,8 @@
 
     <router-link :to="REGISTER_PATH">REGISTER PAGE</router-link>
     <router-link :to="LOGIN_PATH">LOGIN PAGE</router-link>
+
+    <!-- {{ bookStore.books }} -->
   </div>
 </template>
 
@@ -33,6 +35,9 @@ import { LOGIN_PATH, REGISTER_PATH } from '@/mock/routes'
 import ProgressYearBlock from '@/components/progress/ProgressYearBlock.vue'
 import ProgressReadingBlock from '@/components/progress/ProgressReadingBlock.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
+// import { useBookStore } from '@/stores/book-store'
+
+// const bookStore = useBookStore()
 
 const yearProgress = ref(10)
 const progressBookData = ref({
@@ -47,6 +52,10 @@ const readingBook = ref({
   image: BookMidnightLibraryImage,
   readingProgress: 65,
 })
+
+// onMounted(() => {
+//   bookStore.loadBooks()
+// })
 </script>
 
 <style scoped>
