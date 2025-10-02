@@ -4,15 +4,16 @@ import { supabase } from '@/config/supabase'
 
 export const useUserStore = defineStore('userStore', () => {
   /* state */
-  // const user = ref(null)
-  const user = ref({
-    id: '',
-    email: '',
-    name: '',
-  })
+  const user = ref([])
+  // const user = ref({
+  //   id: null,
+  //   email: null,
+  //   name: null,
+  // })
   const existUserErrorMessage = ref(null)
 
   /* actions */
+
   const registerUser = async (userData) => {
     existUserErrorMessage.value = null
 
@@ -35,8 +36,8 @@ export const useUserStore = defineStore('userStore', () => {
         name: data.user.user_metadata.first_name,
         email: data.user.email,
       }
-      // создаем пользователя в Database
-      await addUserToDatabase(newUser)
+      // создаем нового пользователя в Database
+      await createUserInDatabase(newUser)
 
       // собираем пользователя для логина
       const userForLogin = {
@@ -48,20 +49,42 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  const addUserToDatabase = async (newUser) => {
+  const createUserInDatabase = async (newUser) => {
     const { data, error } = await supabase.from('users').insert(newUser).select()
     if (error) console.log(error.message)
     else console.log(data)
   }
 
-  const setUserInStore = (userData) => {
-    // console.log(userData.data.session.user.user_metadata.first_name)
-    // console.log(userData.data.session.user.id)
+  const searchUserInDatabaseById = async (localUser) => {
+    let { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', `${localUser.data.session.user.id}`) // поиск по ID
 
-    user.value.id = userData.data.session.user.id
-    user.value.name = userData.data.session.user.user_metadata.first_name
-    user.value.email = userData.data.session.user.user_metadata.email
+    if (error) console.log(error.message)
+
+    if (data) {
+      user.value = []
+      user.value = data
+
+      // return data
+      // записываем данные пользователя в стейт и далее с ним везде работаем
+      // user.value = data
+    }
+
+    // console.log(user.value[0].id)
+    // console.log(user.value[0].name)
+    // console.log(user.value[0].email)
   }
+
+  // const setUserInStore = (userData) => {
+  //   // console.log(userData.data.session.user.user_metadata.first_name)
+  //   // console.log(userData.data.session.user.id)
+
+  //   user.value.id = userData.data.session.user.id
+  //   user.value.name = userData.data.session.user.user_metadata.first_name
+  //   user.value.email = userData.data.session.user.user_metadata.email
+  // }
 
   const loginUser = async (userData) => {
     existUserErrorMessage.value = null
@@ -87,7 +110,7 @@ export const useUserStore = defineStore('userStore', () => {
     const { error } = await supabase.auth.signOut()
 
     if (error) console.log(error)
-    else console.log('Logout has been successfull')
+    else user.value = []
   }
 
   const clearExistUserErrorMessage = () => (existUserErrorMessage.value = null)
@@ -100,6 +123,7 @@ export const useUserStore = defineStore('userStore', () => {
     getUser,
     logout,
     clearExistUserErrorMessage,
-    setUserInStore,
+    // setUserInStore,
+    searchUserInDatabaseById,
   }
 })

@@ -37,14 +37,23 @@ const router = createRouter({
 })
 
 const getLocalUser = async (next) => {
+  // во всем фронтенде делаем пользователя доступным по его сессии аутентификации
   const localUser = await supabase.auth.getSession()
+
   const userStore = useUserStore()
+
+  // console.log('Router - getLocalUser: ', localUser.data.session.user)
 
   if (localUser.data.session == null) {
     next(LOGIN_PATH)
   } else {
-    // создаем в сторе пользователя при перезагрузке страницы
-    userStore.setUserInStore(localUser)
+    // на основании ID аутентифицированного пользователя, находим его уже в Database
+    // и создаем его в сторе для дальнейшей работы
+    await userStore.searchUserInDatabaseById(localUser)
+
+    // console.log('databaseUser - ', databaseUser[0])
+    // // создаем в сторе пользователя при перезагрузке страницы
+    // userStore.setUserInStore(localUser)
     next()
   }
 }

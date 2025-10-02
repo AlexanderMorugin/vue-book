@@ -121,6 +121,7 @@ const isValid = computed(() => v$.value.$errors)
 const submitRegisterForm = async () => {
   isLoading.value = false
 
+  // собираем пользователя для регистрации
   const userData = {
     email: emailField.value.trim(),
     name: nameField.value.trim(),
@@ -129,9 +130,11 @@ const submitRegisterForm = async () => {
 
   try {
     isLoading.value = true
+
+    // отправляем данные пользователя на регистрацию
     await userStore.registerUser(userData)
 
-    // Если приходит ошибка - очищаем поля
+    // Если приходит ошибка - очищаем поля чтобы снова регистрироваться
     if (userStore.existUserErrorMessage) {
       emailField.value = null
       nameField.value = null
@@ -139,6 +142,7 @@ const submitRegisterForm = async () => {
       confirmPasswordField.value = null
     }
 
+    // если пользователь зарегистрирован, перенаправляем его на главную страницу
     router.push('/')
   } catch (error) {
     console.log(error)
