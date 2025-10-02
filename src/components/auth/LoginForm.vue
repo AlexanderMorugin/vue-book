@@ -88,8 +88,8 @@ const submitLoginForm = async () => {
   isLoading.value = false
 
   const userData = {
-    email: emailField.value.trim(),
-    password: passwordField.value.trim(),
+    email: emailField.value?.trim(),
+    password: passwordField.value?.trim(),
   }
 
   try {

@@ -100,6 +100,7 @@ const { readingBook, title } = defineProps(['readingBook', 'place', 'title'])
   color: var(--text-color-primary);
 }
 .progressReadingBlock__title_wide {
+  font-family: 'Inter_SemiBold', sans-serif;
   font-size: 19px;
   line-height: 28px;
 }

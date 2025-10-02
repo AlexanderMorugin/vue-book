@@ -1,13 +1,19 @@
-<script setup lang="ts">
-import ArrowIcon from './icon/ArrowIcon.vue'
-</script>
-
 <template>
   <header class="header">
-    <span class="header__title">Главная</span>
-    <ArrowIcon class="arrowIcon" />
+    <div class="header__titleBox">
+      <ButtonIconNavigate v-if="isScreenLarge" name="menu" />
+      <span class="header__title">Главная</span>
+    </div>
+    <ButtonIconNavigate name="back" />
   </header>
 </template>
+
+<script setup>
+import ButtonIconNavigate from './page/ButtonIconNavigate.vue'
+import { useResizeLarge } from '@/composables/useResizeLarge'
+
+const { isScreenLarge } = useResizeLarge()
+</script>
 
 <style scoped>
 .header {
@@ -21,12 +27,21 @@ import ArrowIcon from './icon/ArrowIcon.vue'
   padding-left: 24px;
   padding-right: 24px;
 }
+.header__titleBox {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .header__title {
   font-family: 'Inter_SemiBold', sans-serif;
   font-size: 22px;
   color: var(--text-color-primary);
 }
-.arrowIcon {
-  color: var(--text-color-secondary);
+
+@media (max-width: 767px) {
+  .header {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 </style>

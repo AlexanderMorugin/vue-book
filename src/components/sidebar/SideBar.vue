@@ -13,20 +13,18 @@
       <SideBarReadingProgress place="sidebar" title="Сейчас читаю" :readingBook="readingBook" />
     </div>
 
-    <SideBarContainer padding="slim" line="top">
-      <div>counter</div>
-    </SideBarContainer>
+    <SideBarCounter />
   </aside>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import SideBarAuth from './SideBarAuth.vue'
-import SideBarContainer from './SideBarContainer.vue'
 import SideBarLogo from './SideBarLogo.vue'
 import SideBarMenu from './SideBarMenu.vue'
 import SideBarYearProgress from './SideBarYearProgress.vue'
 import SideBarReadingProgress from './SideBarReadingProgress.vue'
+import SideBarCounter from './SideBarCounter.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 
 const yearProgress = ref(10)

@@ -19,6 +19,10 @@
   --green-secondary: #009689;
   --green-thirdly: #00bba7;
   --green-fourthly: #00786f;
+  --green-fifthly: #00a63e;
+  --green-sixthly: #00c950;
+
+  --blue-primary: #155dfc;
 
   --red-primary: #ff0000;
 
@@ -26,8 +30,11 @@
   --gray-secondary: #90a1b9;
   --gray-thirdly: #eff6ff;
   --gray-fourthly: #f1f5f9;
+  --gray-fifthly: rgba(255, 255, 255, 0.6);
 
   --yellow-primary: #ffba00;
+
+  --brown-primary: #e17100;
 
   --border-color-primary: #e2e8f0;
 
@@ -45,20 +52,13 @@
     var(--green-thirdly) 0%,
     var(--green-secondary) 100%
   );
-  --gradient-progress-blue: linear-gradient(90deg, #2b7fff 0%, #155dfc 100%);
+
+  --gradient-progress-blue: linear-gradient(90deg, #2b7fff 0%, var(--blue-primary) 100%);
 
   --shadow-primary: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
   --shadow-secondary: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-thirdly: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
   --shadow-fourthly: 0px 2px 4px -2px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
-
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
-
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
-
-  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
-
-  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 
   --border-radius-full: 50%;
   --border-radius-s: 8px;
@@ -68,7 +68,8 @@
 
   --screen-xxl: 1920px;
   --screen-xl: 1399px;
-  --screen-l: 1023px;
-  --screen-m: 767px;
-  --screen-s: 379px;
+  --screen-l: 1279px;
+  --screen-m: 1023px;
+  --screen-s: 767px;
+  --screen-xs: 379px;
 }

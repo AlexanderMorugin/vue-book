@@ -1,6 +1,6 @@
 <template>
   <div class="mainLayout">
-    <SideBar />
+    <SideBar v-if="!isScreenLarge" />
     <div class="mainLayout__content">
       <Header />
       <main class="mainLayout__main">
@@ -13,6 +13,9 @@
 <script setup>
 import SideBar from '@/components/sidebar/SideBar.vue'
 import Header from '@/components/AppHeader.vue'
+import { useResizeLarge } from '@/composables/useResizeLarge'
+
+const { isScreenLarge } = useResizeLarge()
 </script>
 
 <style scoped>
@@ -38,5 +41,11 @@ import Header from '@/components/AppHeader.vue'
   height: 100%;
   background: var(--gradient-primary);
   padding: 32px;
+}
+
+@media (max-width: 767px) {
+  .mainLayout__main {
+    padding: 20px 10px;
+  }
 }
 </style>

@@ -9,7 +9,7 @@
     stroke-width="1.7"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="menuIcon"
+    class="libraryIcon"
   >
     <path d="M13.3334 5L16.6667 16.6667" />
     <path d="M10 5V16.6667" />

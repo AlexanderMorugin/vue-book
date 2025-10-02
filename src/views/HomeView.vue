@@ -6,7 +6,7 @@
     </section>
 
     <section class="home__content">
-      <div class="home__contentLeft">
+      <div class="home__contentBlock">
         <ProgressYearBlock
           :progress="yearProgress"
           place="home"
@@ -20,24 +20,39 @@
           :readingBook="readingBook"
         />
       </div>
+      <div class="home__contentBlock">
+        <div class="home__contentItems">
+          <ButtonWithIcon name="addBook" text="Добавить книгу" />
+          <ButtonWithIcon name="library" text="Библиотека" number="4" />
+        </div>
+
+        <div class="home__contentItems">
+          <h2 class="home__contentTitle">Последние активности</h2>
+          <div class="home__contentSubItems">
+            <LastRatingPlate
+              bookName='Закончена "Гордость и предубеждение"'
+              author="Джейн Остин"
+              rating="5"
+            />
+            <LastRatingPlate
+              bookName='Закончена "Великий Гэтсби"'
+              author="Ф. Скотт Фицджеральд"
+              rating="4"
+            />
+          </div>
+        </div>
+      </div>
     </section>
-
-    <router-link :to="REGISTER_PATH">REGISTER PAGE</router-link>
-    <router-link :to="LOGIN_PATH">LOGIN PAGE</router-link>
-
-    <!-- {{ bookStore.books }} -->
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { LOGIN_PATH, REGISTER_PATH } from '@/mock/routes'
 import ProgressYearBlock from '@/components/progress/ProgressYearBlock.vue'
 import ProgressReadingBlock from '@/components/progress/ProgressReadingBlock.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
-// import { useBookStore } from '@/stores/book-store'
-
-// const bookStore = useBookStore()
+import ButtonWithIcon from '@/components/page/ButtonWithIcon.vue'
+import LastRatingPlate from '@/components/page/LastRatingPlate.vue'
 
 const yearProgress = ref(10)
 const progressBookData = ref({
@@ -52,10 +67,6 @@ const readingBook = ref({
   image: BookMidnightLibraryImage,
   readingProgress: 65,
 })
-
-// onMounted(() => {
-//   bookStore.loadBooks()
-// })
 </script>
 
 <style scoped>
@@ -92,9 +103,31 @@ const readingBook = ref({
   grid-template-columns: 1fr 384px;
   gap: 32px;
 }
-.home__contentLeft {
+.home__contentBlock {
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+.home__contentItems {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.home__contentTitle {
+  font-family: 'Inter_SemiBold', sans-serif;
+  font-size: 19px;
+  line-height: 28px;
+  color: var(--text-color-primary);
+}
+.home__contentSubItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 1279px) {
+  .home__content {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
