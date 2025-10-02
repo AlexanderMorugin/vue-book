@@ -39,7 +39,7 @@ const { bookName, author, rating } = defineProps(['bookName', 'author', 'rating'
   gap: 12px;
 }
 .lastRatingPlate__circle {
-  width: 8px;
+  min-width: 8px;
   height: 8px;
   border-radius: var(--border-radius-full);
   background: var(--green-sixthly);
@@ -66,5 +66,12 @@ const { bookName, author, rating } = defineProps(['bookName', 'author', 'rating'
   height: 12px;
   fill: var(--yellow-primary);
   color: var(--yellow-primary);
+}
+
+@media (max-width: 767px) {
+  .lastRatingPlate {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 </style>

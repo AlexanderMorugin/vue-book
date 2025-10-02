@@ -130,4 +130,16 @@ const readingBook = ref({
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 767px) {
+  .home {
+    gap: 0;
+  }
+  .home__content {
+    gap: 64px;
+  }
+  .home__contentBlock {
+    gap: 64px;
+  }
+}
 </style>

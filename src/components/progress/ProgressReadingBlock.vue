@@ -163,4 +163,13 @@ const { readingBook, title } = defineProps(['readingBook', 'place', 'title'])
   line-height: 16px;
   color: var(--text-color-secondary);
 }
+
+@media (max-width: 767px) {
+  .progressReadingBlock__bookBlock {
+    gap: 12px;
+  }
+  .progressReadingBlock__bookBlock_wide {
+    padding: 20px 10px;
+  }
+}
 </style>

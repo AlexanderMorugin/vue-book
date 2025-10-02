@@ -160,4 +160,10 @@ const { progress, place, title, progressBookData } = defineProps([
   fill: var(--yellow-primary);
   color: var(--yellow-primary);
 }
+
+@media (max-width: 767px) {
+  .progressYearBlock_wide {
+    padding: 20px 10px;
+  }
+}
 </style>
