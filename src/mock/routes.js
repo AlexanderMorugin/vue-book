@@ -1,2 +1,5 @@
 export const REGISTER_PATH = '/register'
 export const LOGIN_PATH = '/login'
+export const BOOKS_PATH = '/books'
+export const CURRENT_BOOK_PATH = '/books/:id'
+export const ADD_BOOK_PATH = '/add-book'

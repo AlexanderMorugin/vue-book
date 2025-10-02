@@ -1,9 +1,3 @@
-<script setup>
-import LogoIcon from '../icon/LogoIcon.vue'
-
-const { place } = defineProps(['place'])
-</script>
-
 <template>
   <div
     :class="[
@@ -21,6 +15,12 @@ const { place } = defineProps(['place'])
     />
   </div>
 </template>
+
+<script setup>
+import LogoIcon from '../icon/LogoIcon.vue'
+
+const { place } = defineProps(['place'])
+</script>
 
 <style scoped>
 .logoBox {

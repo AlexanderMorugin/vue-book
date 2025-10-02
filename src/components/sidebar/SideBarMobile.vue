@@ -30,7 +30,7 @@ const emit = defineEmits(['closeMobileSideBar'])
   z-index: 20;
   transform: translateX(-100%);
   transition: 0.3s ease-in-out;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .sideBarMobile_active {
   box-shadow: var(--shadow-fifthly);

@@ -8,13 +8,17 @@
       />
       <span class="header__title">Главная</span>
     </div>
-    <ButtonIconNavigate name="back" />
+
+    <AppLogoMobile v-if="isScreenLarge" />
+
+    <!-- <ButtonIconNavigate name="back" /> -->
   </header>
 </template>
 
 <script setup>
 import ButtonIconNavigate from './page/ButtonIconNavigate.vue'
 import { useResizeLarge } from '@/composables/useResizeLarge'
+import AppLogoMobile from './logo/AppLogoMobile.vue'
 
 const { isScreenLarge } = useResizeLarge()
 
@@ -41,7 +45,15 @@ const emit = defineEmits(['openMobileSideBar'])
 .header__title {
   font-family: 'Inter_SemiBold', sans-serif;
   font-size: 22px;
+  line-height: 28px;
   color: var(--text-color-primary);
+}
+
+@media (max-width: 1023px) {
+  .header__title {
+    font-size: 18px;
+    line-height: 24px;
+  }
 }
 
 @media (max-width: 767px) {

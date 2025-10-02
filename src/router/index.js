@@ -1,6 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { supabase } from '@/config/supabase'
-import { LOGIN_PATH, REGISTER_PATH } from '@/mock/routes'
+import {
+  ADD_BOOK_PATH,
+  BOOKS_PATH,
+  CURRENT_BOOK_PATH,
+  LOGIN_PATH,
+  REGISTER_PATH,
+} from '@/mock/routes'
 import { useUserStore } from '@/stores/user-store'
 
 const routes = [
@@ -21,6 +27,24 @@ const routes = [
     name: 'LoginView',
     component: () => import('../views/LoginView.vue'),
     meta: { layout: 'auth', requiresAuth: false },
+  },
+  {
+    path: BOOKS_PATH,
+    name: 'BooksView',
+    component: () => import('../views/books/BooksView.vue'),
+    meta: { layout: 'main', requiresAuth: true },
+  },
+  {
+    path: CURRENT_BOOK_PATH,
+    name: 'CurrentBookView',
+    component: () => import('../views/books/CurrentBookView.vue'),
+    meta: { layout: 'main', requiresAuth: true },
+  },
+  {
+    path: ADD_BOOK_PATH,
+    name: 'AddBookView',
+    component: () => import('../views/AddBookView.vue'),
+    meta: { layout: 'main', requiresAuth: true },
   },
 ]
 
