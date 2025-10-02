@@ -34,6 +34,13 @@
   }
 }
 
+@media (max-width: 767px) {
+  .authLayout {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 @media (max-width: 379px) {
   .authLayout {
     padding: 0 0 30px 0;

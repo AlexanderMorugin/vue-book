@@ -1,8 +1,18 @@
 <template>
   <div class="mainLayout">
+    <!-- Сайдбар для десктопа -->
     <SideBar v-if="!isScreenLarge" />
+
+    <!-- Сайдбар для мобилки -->
+    <SideBarMobile
+      :isMobileSideBarOpen="isMobileSideBarOpen"
+      @closeMobileSideBar="closeMobileSideBar"
+    >
+      <SideBar v-if="isScreenLarge" />
+    </SideBarMobile>
+
     <div class="mainLayout__content">
-      <Header />
+      <Header @openMobileSideBar="openMobileSideBar" />
       <main class="mainLayout__main">
         <RouterView />
       </main>
@@ -11,11 +21,18 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import SideBar from '@/components/sidebar/SideBar.vue'
 import Header from '@/components/AppHeader.vue'
 import { useResizeLarge } from '@/composables/useResizeLarge'
+import SideBarMobile from '@/components/sidebar/SideBarMobile.vue'
 
 const { isScreenLarge } = useResizeLarge()
+
+const isMobileSideBarOpen = ref(false)
+
+const openMobileSideBar = () => (isMobileSideBarOpen.value = true)
+const closeMobileSideBar = () => (isMobileSideBarOpen.value = false)
 </script>
 
 <style scoped>

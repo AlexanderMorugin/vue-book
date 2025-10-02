@@ -1,7 +1,11 @@
 <template>
   <header class="header">
     <div class="header__titleBox">
-      <ButtonIconNavigate v-if="isScreenLarge" name="menu" />
+      <ButtonIconNavigate
+        v-if="isScreenLarge"
+        name="menu"
+        @handleClick="emit('openMobileSideBar')"
+      />
       <span class="header__title">Главная</span>
     </div>
     <ButtonIconNavigate name="back" />
@@ -13,6 +17,8 @@ import ButtonIconNavigate from './page/ButtonIconNavigate.vue'
 import { useResizeLarge } from '@/composables/useResizeLarge'
 
 const { isScreenLarge } = useResizeLarge()
+
+const emit = defineEmits(['openMobileSideBar'])
 </script>
 
 <style scoped>

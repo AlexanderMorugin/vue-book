@@ -10,20 +10,18 @@
           <span class="sideBarAuth__email">{{ userStore.user[0]?.email }}</span>
         </div>
       </div>
-      <button class="sideBarAuth__logoutButton" @click="handleLogout">
-        <LogoutIcon class="logoutIcon" />
-      </button>
+      <ButtonIconNavigate name="logout" @handleClick="handleLogout" />
     </div>
   </SideBarContainer>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
-import LogoutIcon from '../icon/LogoutIcon.vue'
 import ProfileIcon from '../icon/ProfileIcon.vue'
 import SideBarContainer from './SideBarContainer.vue'
 import { useUserStore } from '@/stores/user-store'
 import { LOGIN_PATH } from '@/mock/routes'
+import ButtonIconNavigate from '../page/ButtonIconNavigate.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -75,22 +73,7 @@ const handleLogout = () => {
   line-height: 16px;
   color: var(--text-color-secondary);
 }
-.sideBarAuth__logoutButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 32px;
-  height: 32px;
-}
 .profileIcon {
   color: var(--white-primary);
-}
-.logoutIcon {
-  color: var(--gray-secondary);
-  transition: 0.25s ease;
-}
-.sideBarAuth__logoutButton:hover .logoutIcon {
-  color: var(--text-color-primary);
-  animation: scale 0.3s ease-in-out;
 }
 </style>
