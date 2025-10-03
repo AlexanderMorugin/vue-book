@@ -1,8 +1,13 @@
 <template>
-  <SideBarContainer padding="slim" line="top">
+  <SideBarContainer :padding="padding" :line="line" :place="place">
     <ul class="sideBarCounter">
       <li v-for="item in counter" :key="item.text">
-        <SideBarCounterBadge :number="item.number" :text="item.text" :status="item.status" />
+        <SideBarCounterBadge
+          :number="item.number"
+          :text="item.text"
+          :status="item.status"
+          :place="place"
+        />
       </li>
     </ul>
   </SideBarContainer>
@@ -12,6 +17,8 @@
 import { ref } from 'vue'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarCounterBadge from './SideBarCounterBadge.vue'
+
+const { padding, line, place } = defineProps(['padding', 'line', 'place'])
 
 const counter = ref([
   {

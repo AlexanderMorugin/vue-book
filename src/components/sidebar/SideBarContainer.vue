@@ -6,6 +6,7 @@
       { sideBarContainer_slim: padding === 'slim' },
       { sideBarContainer_top: line === 'top' },
       { sideBarContainer_bottom: line === 'bottom' },
+      { sideBarContainer_books: place === 'books' },
     ]"
   >
     <slot />
@@ -13,7 +14,7 @@
 </template>
 
 <script setup>
-const { padding, line } = defineProps(['padding', 'line'])
+const { padding, line, place } = defineProps(['padding', 'line', 'place'])
 </script>
 
 <style scoped>
@@ -33,5 +34,10 @@ const { padding, line } = defineProps(['padding', 'line'])
 }
 .sideBarContainer_bottom {
   border-bottom: 1px solid var(--border-color-primary);
+}
+.sideBarContainer_books {
+  border-radius: var(--border-radius-l);
+  background: var(--gradient-status-counter);
+  padding: 18px;
 }
 </style>

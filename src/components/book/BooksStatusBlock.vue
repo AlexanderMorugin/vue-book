@@ -1,14 +1,16 @@
 <template>
-  <ul class="booksStatusBlock">
-    <li v-for="button in statusButtons" :key="button.id">
-      <StatusButton
-        :title="button.title"
-        :number="button.number"
-        :isActive="button.status"
-        @handleClick="setActive(button.id)"
-      />
-    </li>
-  </ul>
+  <section>
+    <ul class="booksStatusBlock">
+      <li v-for="button in statusButtons" :key="button.id">
+        <StatusButton
+          :title="button.title"
+          :number="button.number"
+          :isActive="button.status"
+          @handleClick="setActive(button.id)"
+        />
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script setup>

@@ -13,7 +13,7 @@
       <SideBarReadingProgress place="sidebar" title="Сейчас читаю" :readingBook="readingBook" />
     </div>
 
-    <SideBarCounter />
+    <SideBarCounter padding="slim" line="top" />
   </aside>
 </template>
 

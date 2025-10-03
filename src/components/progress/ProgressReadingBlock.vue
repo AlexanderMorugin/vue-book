@@ -63,14 +63,7 @@
           </p>
         </div>
 
-        <div class="progressReadingBlock__detailsProgressBlock">
-          <div class="progressReadingBlock__detailsProgress">
-            <span>Прогресс</span>
-            <span>{{ readingBook.readingProgress }}%</span>
-          </div>
-
-          <ProgressBar :progress="readingBook.readingProgress" color="blue" />
-        </div>
+        <ProgressBarDetails :progress="readingBook.readingProgress" />
       </div>
     </div>
   </div>
@@ -78,7 +71,7 @@
 
 <script setup>
 import BookImage from '../book/BookImage.vue'
-import ProgressBar from './ProgressBar.vue'
+import ProgressBarDetails from './ProgressBarDetails.vue'
 
 const { readingBook, title } = defineProps(['readingBook', 'place', 'title'])
 </script>
@@ -146,22 +139,6 @@ const { readingBook, title } = defineProps(['readingBook', 'place', 'title'])
 .progressReadingBlock__detailsAuthor_wide {
   font-size: 16px;
   line-height: 24px;
-}
-.progressReadingBlock__detailsProgressBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-}
-.progressReadingBlock__detailsProgress {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-family: 'Inter-Regular', sans-serif;
-  font-size: 12px;
-  line-height: 16px;
-  color: var(--text-color-secondary);
 }
 
 @media (max-width: 767px) {

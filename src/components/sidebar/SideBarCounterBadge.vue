@@ -6,6 +6,9 @@
         { sideBarCounterBadge__number_done: status === 'done' },
         { sideBarCounterBadge__number_reading: status === 'reading' },
         { sideBarCounterBadge__number_mustDo: status === 'mustDo' },
+        { sideBarCounterBadge__number_booksDone: place === 'books' && status === 'done' },
+        { sideBarCounterBadge__number_booksReading: place === 'books' && status === 'reading' },
+        { sideBarCounterBadge__number_booksMustDo: place === 'books' && status === 'mustDo' },
       ]"
       >{{ number }}</span
     >
@@ -14,7 +17,7 @@
 </template>
 
 <script setup>
-const { number, text, status } = defineProps(['number', 'text', 'status'])
+const { number, text, status, place } = defineProps(['number', 'text', 'status', 'place'])
 </script>
 
 <style scoped>
@@ -35,6 +38,21 @@ const { number, text, status } = defineProps(['number', 'text', 'status'])
   color: var(--blue-primary);
 }
 .sideBarCounterBadge__number_mustDo {
+  color: var(--brown-primary);
+}
+.sideBarCounterBadge__number_booksDone {
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--green-eighthly);
+}
+.sideBarCounterBadge__number_booksReading {
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--blue-primary);
+}
+.sideBarCounterBadge__number_booksMustDo {
+  font-size: 24px;
+  line-height: 32px;
   color: var(--brown-primary);
 }
 .sideBarCounterBadge__text {

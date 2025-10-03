@@ -8,15 +8,12 @@
       </div>
     </div>
 
-    <div class="lastRatingPlate__ratingBlock">
-      <StarIcon class="starIcon" />
-      <span class="lastRatingPlate__text">{{ rating }}</span>
-    </div>
+    <BookRating :rating="rating" />
   </div>
 </template>
 
 <script setup>
-import StarIcon from '../icon/StarIcon.vue'
+import BookRating from '../book/BookRating.vue'
 
 const { bookName, author, rating } = defineProps(['bookName', 'author', 'rating'])
 </script>
@@ -55,17 +52,6 @@ const { bookName, author, rating } = defineProps(['bookName', 'author', 'rating'
   font-size: 14px;
   line-height: 20px;
   color: var(--text-color-secondary);
-}
-.lastRatingPlate__ratingBlock {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.starIcon {
-  width: 12px;
-  height: 12px;
-  fill: var(--yellow-primary);
-  color: var(--yellow-primary);
 }
 
 @media (max-width: 767px) {

@@ -8,7 +8,8 @@
       @clearInput="bookField = null"
     />
     <BooksStatusBlock />
-    <h1>Моя библиотека</h1>
+    <BooksBlock />
+    <SideBarCounter place="books" />
   </PageContainer>
 </template>
 
@@ -16,7 +17,9 @@
 import { ref } from 'vue'
 import PageContainer from '@/components/page/PageContainer.vue'
 import SearchInput from '@/components/form/SearchInput.vue'
-import BooksStatusBlock from '@/components/status/BooksStatusBlock.vue'
+import BooksStatusBlock from '@/components/book/BooksStatusBlock.vue'
+import BooksBlock from '@/components/book/BooksBlock.vue'
+import SideBarCounter from '@/components/sidebar/SideBarCounter.vue'
 
 const bookField = ref(null)
 </script>
