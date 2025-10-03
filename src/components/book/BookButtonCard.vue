@@ -1,5 +1,5 @@
 <template>
-  <button class="bookButtonCard">
+  <router-link :to="`/books/${book.id}`" class="bookButtonCard">
     <img :src="book.image" :alt="book.title" class="bookButtonCard__image" />
     <span class="bookButtonCard__title">{{ book.title }}</span>
     <span class="bookButtonCard__author">{{ book.author }}</span>
@@ -11,7 +11,7 @@
       :progress="book.progress"
       class="bookButtonCard__progress"
     />
-  </button>
+  </router-link>
 </template>
 
 <script setup>

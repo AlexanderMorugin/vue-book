@@ -4,12 +4,14 @@
     <ArrowIcon v-if="name === 'back'" class="icon" />
     <ClearIcon v-if="name === 'clear'" class="icon" />
     <LogoutIcon v-if="name === 'logout'" class="icon" />
+    <EditionIcon v-if="name === 'edit'" class="editionIcon" />
   </button>
 </template>
 
 <script setup>
 import ArrowIcon from '../icon/ArrowIcon.vue'
 import ClearIcon from '../icon/ClearIcon.vue'
+import EditionIcon from '../icon/EditionIcon.vue'
 import LogoutIcon from '../icon/LogoutIcon.vue'
 import MenuIcon from '../icon/MenuIcon.vue'
 
@@ -41,6 +43,14 @@ const emit = defineEmits(['handleClick'])
   color: var(--text-color-primary);
 }
 .buttonIconNavigate:hover .icon {
+  animation: scale 0.3s ease-in-out;
+}
+.editionIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-color-eighthly);
+}
+.buttonIconNavigate:hover .editionIcon {
   animation: scale 0.3s ease-in-out;
 }
 </style>
