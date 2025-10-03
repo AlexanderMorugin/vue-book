@@ -1,5 +1,5 @@
 <template>
-  <div class="logoBlock">
+  <div :class="['logoBlock', { logoBlock_login: place === 'register' || place === 'login' }]">
     <AppLogo :place="place" />
     <div>
       <div
@@ -68,6 +68,8 @@ onMounted(() => setSubtitle())
 @media (max-width: 1023px) {
   .logoBlock {
     flex-direction: column;
+  }
+  .logoBlock_login {
     border-bottom: 1px solid var(--border-color-primary);
     padding-bottom: 20px;
   }

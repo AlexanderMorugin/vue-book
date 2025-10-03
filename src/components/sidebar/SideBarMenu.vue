@@ -7,7 +7,7 @@
           :title="button.title"
           :number="button.number"
           :isActive="button.status"
-          @click="setActive(button.id)"
+          @click="setActive(button.id, button.route)"
         />
       </li>
     </ul>
@@ -16,8 +16,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarMenuButton from './SideBarMenuButton.vue'
+import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
+
+const router = useRouter()
 
 const menuButtons = ref([
   {
@@ -26,6 +30,7 @@ const menuButtons = ref([
     title: 'Главная',
     number: null,
     status: false,
+    route: '/',
   },
   {
     id: 2,
@@ -33,6 +38,7 @@ const menuButtons = ref([
     title: 'Моя библиотека',
     number: 4,
     status: false,
+    route: BOOKS_PATH,
   },
   {
     id: 3,
@@ -40,10 +46,11 @@ const menuButtons = ref([
     title: 'Добавить книгу',
     number: null,
     status: false,
+    route: ADD_BOOK_PATH,
   },
 ])
 
-const setActive = (id) => {
+const setActive = (id, route) => {
   const currentButton = menuButtons.value.find((item) => item.id === id)
   const activeButton = menuButtons.value.find((item) => item.status === true)
 
@@ -54,6 +61,7 @@ const setActive = (id) => {
   } else {
     currentButton.status = true
     activeButton.status = false
+    router.push(route)
   }
 }
 </script>

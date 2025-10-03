@@ -1,6 +1,7 @@
 <template>
   <div class="form-field">
     <label :for="name" class="form-label">{{ label }}</label>
+
     <!-- Последний в цепочке инпут, остлеживает валидацию при вводе -->
     <input
       v-if="lastInput"
@@ -51,15 +52,3 @@ const emit = defineEmits(['update:value', 'clearInput'])
 
 const updateValue = (e) => emit('update:value', e.target.value)
 </script>
-
-<!-- <style scoped>
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-</style> -->

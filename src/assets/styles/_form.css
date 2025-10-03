@@ -7,6 +7,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-items: center;
   gap: 8px;
 }
 .form-label {
@@ -14,6 +15,35 @@
   font-size: 14px;
   line-height: 14px;
   color: var(--text-color-fourthly);
+}
+.form-search-input {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--border-radius-s);
+  border: 1px solid var(--border-color-primary);
+  background: var(--white-thirdly);
+  backdrop-filter: blur(8px);
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  line-height: 48px;
+  color: var(--black-primary);
+  padding-left: 41px;
+  padding-right: 41px;
+  transition: 0.3s ease all;
+}
+.form-search-input:focus {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  line-height: 48px;
+  color: var(--black-primary);
+  outline: 0;
+  border: 1px solid var(--blue-primary);
+}
+.form-search-input::placeholder {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  line-height: 48px;
+  color: var(--text-color-fifthly);
 }
 .form-input {
   height: 36px;

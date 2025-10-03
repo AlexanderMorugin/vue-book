@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <PageContainer width="home">
     <section class="home__titleBlock">
       <h1 class="home__title">Привет! 📚</h1>
       <p class="home__subtitle">Сохрани свои любимые книги</p>
@@ -43,7 +43,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </PageContainer>
 </template>
 
 <script setup>
@@ -53,6 +53,7 @@ import ProgressReadingBlock from '@/components/progress/ProgressReadingBlock.vue
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 import ButtonWithIcon from '@/components/page/ButtonWithIcon.vue'
 import LastRatingPlate from '@/components/page/LastRatingPlate.vue'
+import PageContainer from '@/components/page/PageContainer.vue'
 
 const yearProgress = ref(10)
 const progressBookData = ref({
@@ -70,13 +71,13 @@ const readingBook = ref({
 </script>
 
 <style scoped>
-.home {
+/* .home {
   display: flex;
   flex-direction: column;
   gap: 32px;
   width: 100%;
   max-width: 1216px;
-}
+} */
 .home__titleBlock {
   display: flex;
   flex-direction: column;
@@ -132,9 +133,9 @@ const readingBook = ref({
 }
 
 @media (max-width: 767px) {
-  .home {
+  /* .home {
     gap: 0;
-  }
+  } */
   .home__content {
     gap: 64px;
   }

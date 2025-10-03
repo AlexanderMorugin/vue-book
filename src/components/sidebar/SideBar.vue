@@ -1,7 +1,7 @@
 <template>
   <aside class="sideBar">
     <div>
-      <SideBarLogo v-if="!isScreenLarge" />
+      <SideBarLogo />
       <SideBarAuth />
       <SideBarMenu />
       <SideBarYearProgress
@@ -26,9 +26,6 @@ import SideBarYearProgress from './SideBarYearProgress.vue'
 import SideBarReadingProgress from './SideBarReadingProgress.vue'
 import SideBarCounter from './SideBarCounter.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
-import { useResizeLarge } from '@/composables/useResizeLarge'
-
-const { isScreenLarge } = useResizeLarge()
 
 const yearProgress = ref(10)
 const progressBookData = ref({
@@ -61,7 +58,6 @@ const readingBook = ref({
   .sideBar {
     max-width: 100%;
     border-right: none;
-    padding-top: 60px;
   }
 }
 </style>

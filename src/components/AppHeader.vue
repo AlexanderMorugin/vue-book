@@ -9,16 +9,13 @@
       <span class="header__title">Главная</span>
     </div>
 
-    <AppLogoMobile v-if="isScreenLarge" />
-
-    <!-- <ButtonIconNavigate name="back" /> -->
+    <ButtonIconNavigate name="back" />
   </header>
 </template>
 
 <script setup>
 import ButtonIconNavigate from './page/ButtonIconNavigate.vue'
 import { useResizeLarge } from '@/composables/useResizeLarge'
-import AppLogoMobile from './logo/AppLogoMobile.vue'
 
 const { isScreenLarge } = useResizeLarge()
 

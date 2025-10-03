@@ -1,11 +1,12 @@
 <template>
-  <button class="formClearButton">
+  <button :class="['formClearButton', { formClearButton_search: place === 'search' }]">
     <ClearIcon class="clearIcon" />
   </button>
 </template>
 
 <script setup>
 import ClearIcon from '../icon/ClearIcon.vue'
+const { place } = defineProps(['place'])
 </script>
 
 <style scoped>
@@ -16,6 +17,12 @@ import ClearIcon from '../icon/ClearIcon.vue'
   width: 36px;
   height: 36px;
   cursor: pointer;
+}
+.formClearButton_search {
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  height: 48px;
 }
 .clearIcon {
   width: 18px;
