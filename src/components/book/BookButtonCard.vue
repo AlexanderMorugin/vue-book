@@ -6,7 +6,11 @@
     <span class="bookButtonCard__genre">{{ book.genre }}</span>
     <BookStatus :status="book.status" />
     <BookRating v-if="book.rating" :rating="book.rating" />
-    <ProgressBarDetails v-if="book.progress" :progress="book.progress" />
+    <ProgressBarDetails
+      v-if="book.progress"
+      :progress="book.progress"
+      class="bookButtonCard__progress"
+    />
   </button>
 </template>
 
@@ -63,5 +67,20 @@ const { book } = defineProps(['book'])
   color: var(--text-color-sixthly);
   text-align: left;
   padding-top: 4px;
+}
+.bookButtonCard__progress {
+  padding-top: 12px;
+}
+
+@media (max-width: 767px) {
+  .bookButtonCard {
+    padding: 16px 10px;
+  }
+}
+
+@media (max-width: 474px) {
+  .bookButtonCard__image {
+    height: 160px;
+  }
 }
 </style>

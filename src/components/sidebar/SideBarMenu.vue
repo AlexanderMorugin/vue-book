@@ -6,8 +6,9 @@
           :name="button.name"
           :title="button.title"
           :number="button.number"
+          :route="button.route"
           :isActive="button.status"
-          @click="setActive(button.id, button.route)"
+          @click="emit('closeMobileSideBar')"
         />
       </li>
     </ul>
@@ -16,12 +17,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarMenuButton from './SideBarMenuButton.vue'
 import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
 
-const router = useRouter()
+const emit = defineEmits(['closeMobileSideBar'])
 
 const menuButtons = ref([
   {
@@ -50,20 +50,20 @@ const menuButtons = ref([
   },
 ])
 
-const setActive = (id, route) => {
-  const currentButton = menuButtons.value.find((item) => item.id === id)
-  const activeButton = menuButtons.value.find((item) => item.status === true)
+// const setActive = (id) => {
+//   const currentButton = menuButtons.value.find((item) => item.id === id)
+//   const activeButton = menuButtons.value.find((item) => item.status === true)
 
-  if (!activeButton) {
-    currentButton.status = true
-  } else if (currentButton.status === true) {
-    return
-  } else {
-    currentButton.status = true
-    activeButton.status = false
-    router.push(route)
-  }
-}
+//   if (!activeButton) {
+//     currentButton.status = true
+//   } else if (currentButton.status === true) {
+//     return
+//   } else {
+//     currentButton.status = true
+//     activeButton.status = false
+//     emit('closeMobileSideBar')
+//   }
+// }
 </script>
 
 <style scoped>

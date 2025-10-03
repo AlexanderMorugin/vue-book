@@ -1,5 +1,5 @@
 <template>
-  <button :class="['sideBarMenuButton', { sideBarMenuButton_active: isActive }]">
+  <router-link :to="route" :class="['sideBarMenuButton', { sideBarMenuButton_active: isActive }]">
     <div class="sideBarMenuButton__iconBox">
       <component
         :is="name === 'home' ? HomeIcon : name === 'library' ? LibraryIcon : PlusIcon"
@@ -16,7 +16,7 @@
     >
       {{ number }}
     </div>
-  </button>
+  </router-link>
 </template>
 
 <script setup>
@@ -24,7 +24,13 @@ import HomeIcon from '../icon/HomeIcon.vue'
 import LibraryIcon from '../icon/LibraryIcon.vue'
 import PlusIcon from '../icon/PlusIcon.vue'
 
-const { name, title, number, isActive } = defineProps(['name', 'title', 'number', 'isActive'])
+const { name, title, number, route, isActive } = defineProps([
+  'name',
+  'title',
+  'number',
+  'route',
+  'isActive',
+])
 </script>
 
 <style scoped>

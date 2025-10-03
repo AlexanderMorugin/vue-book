@@ -81,7 +81,8 @@ const bookArray = ref([
 
 @media (max-width: 767px) {
   .booksBlock {
-    grid-template-columns: 1fr;
+    column-gap: 10px;
+    row-gap: 20px;
   }
 }
 </style>

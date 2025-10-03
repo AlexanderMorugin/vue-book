@@ -8,7 +8,7 @@
       :isMobileSideBarOpen="isMobileSideBarOpen"
       @closeMobileSideBar="closeMobileSideBar"
     >
-      <SideBar v-if="isScreenLarge" />
+      <SideBar v-if="isScreenLarge" @closeMobileSideBar="closeMobileSideBar" />
     </SideBarMobile>
 
     <div class="mainLayout__content">
