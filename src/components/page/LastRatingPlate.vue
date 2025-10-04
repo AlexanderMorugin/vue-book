@@ -50,7 +50,7 @@ const { bookName, author, rating } = defineProps(['bookName', 'author', 'rating'
 .lastRatingPlate__text {
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 24px;
   color: var(--text-color-secondary);
 }
 

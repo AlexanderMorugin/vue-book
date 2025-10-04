@@ -18,4 +18,10 @@ import BookEditRatingCard from './BookEditRatingCard.vue'
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
 }
+
+@media (max-width: 767px) {
+  .bookEditBlock {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

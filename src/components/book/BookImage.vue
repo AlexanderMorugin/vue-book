@@ -19,7 +19,15 @@ const { place, image, title } = defineProps(['place', 'image', 'title'])
   box-shadow: var(--shadow-thirdly);
 }
 .bookImage__picture {
+  width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .bookImage_home {
+    width: 160px;
+    height: 100%;
+  }
 }
 </style>
