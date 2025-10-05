@@ -1,6 +1,6 @@
 <template>
   <div class="authPromoText">
-    <h2 class="authPromoText__title">{{ title }}</h2>
+    <h1 class="authPromoText__title">{{ title }}</h1>
     <p class="authPromoText__text">{{ text }}</p>
   </div>
 </template>

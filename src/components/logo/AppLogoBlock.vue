@@ -1,13 +1,22 @@
 <template>
-  <div :class="['logoBlock', { logoBlock_login: place === 'register' || place === 'login' }]">
+  <div
+    :class="[
+      'logoBlock',
+      { logoBlock_login: place === 'register' || place === 'login' || place === 'addBook' },
+    ]"
+  >
     <AppLogo :place="place" />
     <div>
-      <div
+      <component
+        :is="place === 'addBook' ? 'h1' : 'div'"
         :class="[
           'logoBlock__title',
           {
             logoBlock__title_login:
-              place === 'register' || place === 'login' || place === 'sidebar',
+              place === 'register' ||
+              place === 'login' ||
+              place === 'sidebar' ||
+              place === 'addBook',
           },
           { logoBlock__title_addBook: place === 'addBook' },
         ]"
@@ -19,7 +28,7 @@
               ? 'Добавить новую книгу'
               : ''
         }}
-      </div>
+      </component>
       <div
         :class="[
           'logoBlock__subtitle',
@@ -95,6 +104,15 @@ onMounted(() => setSubtitle())
     padding-bottom: 20px;
   }
   .logoBlock__title {
+    text-align: center;
+  }
+  .logoBlock__title_addBook {
+    font-size: 28px;
+    line-height: 36px;
+  }
+  .logoBlock__subtitle_addBook {
+    font-size: 17px;
+    line-height: 28px;
     text-align: center;
   }
 }

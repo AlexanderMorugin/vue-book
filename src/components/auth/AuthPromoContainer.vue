@@ -1,7 +1,7 @@
 <template>
-  <div class="authPromoContainer">
+  <section class="authPromoContainer">
     <slot />
-  </div>
+  </section>
 </template>
 
 <style scoped>

@@ -57,11 +57,6 @@
     var(--green-secondary) 100%
   );
   --gradient-user-icon-box: linear-gradient(90deg, #ad46ff 0%, #f6339a 100%);
-  /* --gradient-progress-green: linear-gradient(
-    90deg,
-    var(--green-thirdly) 0%,
-    var(--green-secondary) 100%
-  ); */
   --gradient-progress-done-green: linear-gradient(
     90deg,
     var(--green-sixthly) 0%,

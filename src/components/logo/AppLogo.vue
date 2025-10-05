@@ -72,4 +72,15 @@ const { place } = defineProps(['place'])
   height: 20px;
   color: var(--green-secondary);
 }
+
+@media (max-width: 1023px) {
+  .logoBox_addBook {
+    width: 56px;
+    height: 56px;
+  }
+  .logoIcon_addBook {
+    width: 32px;
+    height: 32px;
+  }
+}
 </style>

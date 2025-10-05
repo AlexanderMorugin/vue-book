@@ -1,5 +1,5 @@
 <template>
-  <div class="authFormContainer">
+  <section class="authFormContainer">
     <AppLogoBlock :place="place" v-if="isScreenLarge" />
     <div class="authFormContainer__titleBox">
       <h2 class="authFormContainer__title">{{ title }}</h2>
@@ -12,7 +12,7 @@
     <AuthChange :place="place" />
 
     <AuthConditions v-if="place === 'register'" />
-  </div>
+  </section>
 </template>
 
 <script setup>

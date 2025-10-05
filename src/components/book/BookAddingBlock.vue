@@ -22,6 +22,12 @@ import BookAddingForm from './BookAddingForm.vue'
   padding: 32px;
 }
 
+@media (max-width: 1023px) {
+  .bookAddingBlock {
+    gap: 32px;
+  }
+}
+
 @media (max-width: 379px) {
   .bookAddingBlock {
     padding: 40px 10px 20px 10px;

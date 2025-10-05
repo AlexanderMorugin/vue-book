@@ -1,6 +1,7 @@
 <template>
   <form class="form-auth" @submit.prevent="submitAddBook">
     <FormInput
+      lastInput="true"
       label="Название книги *"
       type="text"
       name="bookName"
@@ -10,6 +11,7 @@
       @clearInput="bookNameField = null"
     />
     <FormInput
+      lastInput="true"
       label="Автор *"
       type="text"
       name="author"
@@ -19,7 +21,7 @@
       @clearInput="authorField = null"
     />
 
-    <FormSelect :options="options" v-model:value="parrentSelectedOption" />
+    <FormSelect label="Жанр" :options="options" v-model:value="v$.parrentSelectedOption.$model" />
 
     <!-- Кнопка Сабмит -->
     <FormSubmitButton
@@ -46,12 +48,11 @@ const { place } = defineProps(['place'])
 const isLoading = ref(false)
 const bookNameField = ref(null)
 const authorField = ref(null)
-// const genreSelect = ref(null)
 
 const options = ref([
-  { id: 1, name: 'One', value: 1 },
-  { id: 2, name: 'Two', value: 2 },
-  { id: 3, name: 'Three', value: 3 },
+  { id: 1, name: 'Художественная литература' },
+  { id: 2, name: 'Классика' },
+  { id: 3, name: 'Саморазвитие' },
 ])
 
 const parrentSelectedOption = ref(null)
@@ -66,14 +67,20 @@ const rules = computed(() => ({
     required: helpers.withMessage('Укажите имя автора', required),
     minLength: helpers.withMessage('Не менее 3 символов', minLength(3)),
   },
+  parrentSelectedOption: {
+    required: helpers.withMessage('Выберите жанр', required),
+  },
 }))
 
 const v$ = useVuelidate(rules, {
   bookNameField,
   authorField,
+  parrentSelectedOption,
 })
 
-const isFromEmpty = computed(() => !bookNameField.value || !authorField.value)
+const isFromEmpty = computed(
+  () => !bookNameField.value || !authorField.value || !parrentSelectedOption.value,
+)
 
 const isValid = computed(() => v$.value.$errors)
 
@@ -82,13 +89,17 @@ const submitAddBook = () => {
 
   // собираем книгу для деплоя
   const bookData = {
-    name: bookNameField.value?.trim(),
-    author: authorField.value?.trim(),
+    name: bookNameField.value.trim(),
+    author: authorField.value.trim(),
+    genre: parrentSelectedOption.value.name,
   }
 
-  console.log(bookData)
   try {
     isLoading.value = true
+
+    if (!isFromEmpty.value && !isValid.value.length) {
+      console.log(bookData)
+    }
 
     //   // отправляем данные пользователя на регистрацию
     //   await userStore.registerUser(userData)
