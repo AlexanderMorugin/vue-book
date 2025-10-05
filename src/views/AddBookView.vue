@@ -1,9 +1,10 @@
 <template>
   <PageContainer width="narrow">
-    <h1>Добавить книгу</h1>
+    <BookAddingBlock />
   </PageContainer>
 </template>
 
 <script setup>
+import BookAddingBlock from '@/components/book/BookAddingBlock.vue'
 import PageContainer from '@/components/page/PageContainer.vue'
 </script>

@@ -78,7 +78,7 @@ const { book } = defineProps(['book'])
   }
 }
 
-@media (max-width: 474px) {
+@media (max-width: 379px) {
   .bookButtonCard__image {
     height: 160px;
   }

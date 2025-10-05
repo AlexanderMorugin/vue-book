@@ -1,5 +1,6 @@
 <template>
-  <button
+  <router-link
+    :to="route"
     :class="[
       'buttonWithIcon',
       { buttonWithIcon_addBook: name === 'addBook' },
@@ -19,14 +20,14 @@
       >
       <span v-if="number" class="buttonWithIcon__number">{{ number }}</span>
     </div>
-  </button>
+  </router-link>
 </template>
 
 <script setup>
 import LibraryIcon from '../icon/LibraryIcon.vue'
 import PlusIcon from '../icon/PlusIcon.vue'
 
-const { name, text, number } = defineProps(['name', 'text', 'number'])
+const { name, text, number, route } = defineProps(['name', 'text', 'number', 'route'])
 </script>
 
 <style scoped>
@@ -40,7 +41,7 @@ const { name, text, number } = defineProps(['name', 'text', 'number'])
   padding: 22px;
 }
 .buttonWithIcon_addBook {
-  background: var(--gradient-progress-green);
+  background: var(--gradient-form-login);
   box-shadow: var(--shadow-secondary);
   transition: 0.25s ease;
 }

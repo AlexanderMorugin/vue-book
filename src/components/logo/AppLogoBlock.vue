@@ -5,15 +5,26 @@
       <div
         :class="[
           'logoBlock__title',
-          { logoBlock__title_login: place === 'register' || place === 'login' },
+          {
+            logoBlock__title_login:
+              place === 'register' || place === 'login' || place === 'sidebar',
+          },
+          { logoBlock__title_addBook: place === 'addBook' },
         ]"
       >
-        Book Tracker
+        {{
+          place === 'register' || place === 'login' || place === 'sidebar'
+            ? 'Book Tracker'
+            : place === 'addBook'
+              ? 'Добавить новую книгу'
+              : ''
+        }}
       </div>
       <div
         :class="[
           'logoBlock__subtitle',
           { logoBlock__subtitle_login: place === 'register' || place === 'login' },
+          { logoBlock__subtitle_addBook: place === 'addBook' },
         ]"
       >
         {{ subtitle }}
@@ -34,6 +45,7 @@ const setSubtitle = () => {
   if (place === 'sidebar') subtitle.value = 'Ваш читательский журнал'
   if (place === 'register') subtitle.value = 'Начните свой читательский путь'
   if (place === 'login') subtitle.value = 'Ваш персональный трекер чтения'
+  if (place === 'addBook') subtitle.value = 'Пополните свою библиотеку'
 }
 
 onMounted(() => setSubtitle())
@@ -49,10 +61,15 @@ onMounted(() => setSubtitle())
   font-family: 'Inter_SemiBold', sans-serif;
   font-size: 18px;
   line-height: 28px;
+  color: var(--text-color-primary);
 }
 .logoBlock__title_login {
   font-size: 28px;
   line-height: 36px;
+}
+.logoBlock__title_addBook {
+  font-size: 19px;
+  line-height: 28px;
 }
 .logoBlock__subtitle {
   font-family: 'Inter-Regular', sans-serif;
@@ -63,6 +80,10 @@ onMounted(() => setSubtitle())
 .logoBlock__subtitle_login {
   font-size: 17px;
   line-height: 28px;
+}
+.logoBlock__subtitle_addBook {
+  font-size: 16px;
+  line-height: 24px;
 }
 
 @media (max-width: 1023px) {

@@ -22,8 +22,8 @@
       </div>
       <div class="home__contentBlock">
         <div class="home__contentItems">
-          <ButtonWithIcon name="addBook" text="Добавить книгу" />
-          <ButtonWithIcon name="library" text="Библиотека" number="4" />
+          <ButtonWithIcon name="addBook" text="Добавить книгу" :route="ADD_BOOK_PATH" />
+          <ButtonWithIcon name="library" text="Библиотека" number="4" :route="BOOKS_PATH" />
         </div>
 
         <div class="home__contentItems">
@@ -54,6 +54,7 @@ import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 import ButtonWithIcon from '@/components/page/ButtonWithIcon.vue'
 import LastRatingPlate from '@/components/page/LastRatingPlate.vue'
 import PageContainer from '@/components/page/PageContainer.vue'
+import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
 
 const yearProgress = ref(10)
 const progressBookData = ref({
@@ -63,6 +64,7 @@ const progressBookData = ref({
 })
 
 const readingBook = ref({
+  id: 1,
   title: 'Полуночная библиотека',
   author: 'Мэтт Хейг',
   image: BookMidnightLibraryImage,

@@ -4,6 +4,7 @@
       'logoBox',
       { logoBox_register: place === 'register' },
       { logoBox_login: place === 'login' },
+      { logoBox_addBook: place === 'addBook' },
     ]"
   >
     <LogoIcon
@@ -11,6 +12,7 @@
         'logoIcon',
         { logoIcon_register: place === 'register' },
         { logoIcon_login: place === 'login' },
+        { logoIcon_addBook: place === 'addBook' },
       ]"
     />
   </div>
@@ -44,6 +46,12 @@ const { place } = defineProps(['place'])
   border-radius: var(--border-radius-xl);
   background: var(--green-primary);
 }
+.logoBox_addBook {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-m);
+  background: var(--green-primary);
+}
 .logoIcon {
   width: 24px;
   height: 24px;
@@ -57,6 +65,11 @@ const { place } = defineProps(['place'])
 .logoIcon_login {
   width: 32px;
   height: 32px;
+  color: var(--green-secondary);
+}
+.logoIcon_addBook {
+  width: 20px;
+  height: 20px;
   color: var(--green-secondary);
 }
 </style>

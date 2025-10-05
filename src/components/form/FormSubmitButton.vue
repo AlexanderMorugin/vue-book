@@ -5,17 +5,23 @@
       'formSubmitButton',
       { formSubmitButton_register: place === 'register' },
       { formSubmitButton_registerActive: place === 'register' && !isFromEmpty && !isValid },
-      { formSubmitButton_login: place === 'login' },
-      { formSubmitButton_loginActive: place === 'login' && !isFromEmpty && !isValid },
+      { formSubmitButton_login: place === 'login' || place === 'addBook' },
+      {
+        formSubmitButton_loginActive:
+          (place === 'login' && !isFromEmpty && !isValid) ||
+          (place === 'addBook' && !isFromEmpty && !isValid),
+      },
       { formSubmitButton_book: place === 'book' },
     ]"
   >
     <LoaderForButton v-if="isLoading" />
 
     <div v-else class="formSubmitButton__content">
-      <RegisterIcon v-if="place === 'register'" class="authIcon" />
-      <LoginIcon v-if="place === 'login'" class="authIcon" />
-      <DoneIcon v-if="place === 'book'" class="doneIcon" />
+      <RegisterIcon v-if="place === 'register'" class="icon" />
+      <LoginIcon v-if="place === 'login'" class="icon" />
+      <DoneIcon v-if="place === 'book'" class="icon" />
+      <SaveIcon v-if="place === 'addBook'" class="icon" />
+
       <span class="formSubmitButton__text">
         {{
           place === 'register'
@@ -24,7 +30,9 @@
               ? 'Войти'
               : place === 'book'
                 ? 'Прочитано'
-                : ''
+                : place === 'addBook'
+                  ? 'Добавить книгу'
+                  : ''
         }}
       </span>
     </div>
@@ -35,6 +43,7 @@
 import DoneIcon from '../icon/DoneIcon.vue'
 import LoginIcon from '../icon/LoginIcon.vue'
 import RegisterIcon from '../icon/RegisterIcon.vue'
+import SaveIcon from '../icon/SaveIcon.vue'
 import LoaderForButton from '../loader/LoaderForButton.vue'
 
 const { place, isFromEmpty, isValid, isLoading } = defineProps([
@@ -116,13 +125,13 @@ const emit = defineEmits(['handleClick'])
   line-height: 14px;
   color: var(--white-primary);
 }
-.authIcon {
+.icon {
   color: var(--white-primary);
 }
-.formSubmitButton_registerActive:hover .authIcon {
+.formSubmitButton_registerActive:hover .icon {
   animation: scale 0.3s ease-in-out;
 }
-.formSubmitButton_loginActive:hover .authIcon {
+.formSubmitButton_loginActive:hover .icon {
   animation: scale 0.3s ease-in-out;
 }
 .formSubmitButton_book {
@@ -134,13 +143,10 @@ const emit = defineEmits(['handleClick'])
   margin-top: 32px;
   transition: 0.25s ease;
 }
-.doneIcon {
-  color: var(--white-primary);
-}
 .formSubmitButton_book:hover {
-  background: var(--gradient-progress-green);
+  background: var(--gradient-form-login);
 }
-.formSubmitButton_book:hover .doneIcon {
+.formSubmitButton_book:hover .icon {
   animation: scale 0.3s ease-in-out;
 }
 </style>

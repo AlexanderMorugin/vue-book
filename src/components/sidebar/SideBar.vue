@@ -1,7 +1,7 @@
 <template>
   <aside class="sideBar">
     <div>
-      <SideBarLogo />
+      <SideBarLogo place="sidebar" />
       <SideBarAuth />
       <SideBarMenu @closeMobileSideBar="emit('closeMobileSideBar')" />
       <SideBarYearProgress
@@ -37,6 +37,7 @@ const progressBookData = ref({
 })
 
 const readingBook = ref({
+  id: 1,
   title: 'Полуночная библиотека',
   author: 'Мэтт Хейг',
   image: BookMidnightLibraryImage,

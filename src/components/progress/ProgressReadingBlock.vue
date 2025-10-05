@@ -1,5 +1,6 @@
 <template>
-  <div
+  <router-link
+    :to="BOOKS_PATH + `/${readingBook.id}`"
     :class="[
       'progressReadingBlock',
       {
@@ -66,10 +67,11 @@
         <ProgressBarDetails :progress="readingBook.readingProgress" />
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script setup>
+import { BOOKS_PATH } from '@/mock/routes'
 import BookImage from '../book/BookImage.vue'
 import ProgressBarDetails from './ProgressBarDetails.vue'
 

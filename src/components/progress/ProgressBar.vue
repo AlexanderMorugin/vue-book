@@ -44,7 +44,7 @@ const { progress, color } = defineProps(['progress', 'color'])
   transition: all 0.3s;
 }
 .progressBar__indicator_green {
-  background: var(--gradient-progress-green);
+  background: var(--gradient-form-login);
 }
 .progressBar__indicator_blue {
   background: var(--gradient-progress-blue);
