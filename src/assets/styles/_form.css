@@ -84,25 +84,49 @@
   color: red;
   text-align: right;
 }
-/* .form-button-active {
-  background: var(--blue-secondary);
-  color: var(--white-primary);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: 0.3s ease all;
+
+.form-select {
+  height: 36px;
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--text-color-primary);
+  padding-left: 13px;
+  padding-right: 13px;
+  transition: 0.25s ease all;
 }
-.form-button-active:hover {
-  background: var(--blue-dark-primary);
+
+/* Стилизация при наведении */
+/* select:hover {
+  border-color: #999;
 } */
 
-/* @media (max-width: 767px) {
-  .form-label {
-    font-size: 16px;
-  }
-  .form-input {
-    height: 50px;
-  }
-  .form-input-error {
-    top: 78px;
-  }
+/* Стилизация при фокусе */
+/* select:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+} */
+
+/* Стиль для отключенного состояния */
+/* select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+} */
+
+/* Стиль для элемента с атрибутом required */
+/* select:required {
+  border-left: 4px solid #e74c3c;
+} */
+
+/* Работает не везде, но стоит попробовать */
+/* option {
+  padding: 10px;
+  background-color: white;
+  color: #333;
+}
+
+option:hover {
+  background-color: #f0f0f0;
 } */

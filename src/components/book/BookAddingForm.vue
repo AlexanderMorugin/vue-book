@@ -8,7 +8,6 @@
       v-model:value="v$.bookNameField.$model"
       :error="v$.bookNameField.$errors"
       @clearInput="bookNameField = null"
-      @click="clearErrorMessage"
     />
     <FormInput
       label="Автор *"
@@ -18,8 +17,9 @@
       v-model:value="v$.authorField.$model"
       :error="v$.authorField.$errors"
       @clearInput="authorField = null"
-      @click="clearErrorMessage"
     />
+
+    <FormSelect :options="options" v-model:value="parrentSelectedOption" />
 
     <!-- Кнопка Сабмит -->
     <FormSubmitButton
@@ -29,6 +29,8 @@
       :isLoading="isLoading"
     />
   </form>
+
+  parrentSelectedOption - {{ parrentSelectedOption }}
 </template>
 
 <script setup>
@@ -37,12 +39,22 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
+import FormSelect from '../form/FormSelect.vue'
 
 const { place } = defineProps(['place'])
 
 const isLoading = ref(false)
 const bookNameField = ref(null)
 const authorField = ref(null)
+// const genreSelect = ref(null)
+
+const options = ref([
+  { id: 1, name: 'One', value: 1 },
+  { id: 2, name: 'Two', value: 2 },
+  { id: 3, name: 'Three', value: 3 },
+])
+
+const parrentSelectedOption = ref(null)
 
 // Валидация
 const rules = computed(() => ({
@@ -70,8 +82,8 @@ const submitAddBook = () => {
 
   // собираем книгу для деплоя
   const bookData = {
-    name: bookNameField.value.trim(),
-    author: authorField.value.trim(),
+    name: bookNameField.value?.trim(),
+    author: authorField.value?.trim(),
   }
 
   console.log(bookData)
