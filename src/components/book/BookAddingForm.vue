@@ -23,6 +23,19 @@
 
     <FormSelect label="Жанр" :options="options" v-model:value="v$.parrentSelectedOption.$model" />
 
+    <FormInput
+      lastInput="true"
+      label="Обложка книги"
+      type="text"
+      name="imageUrl"
+      placeholder="Вставьте ссылку на изображение"
+      v-model:value="v$.imageUrlField.$model"
+      :error="v$.imageUrlField.$errors"
+      @clearInput="imageUrlField = null"
+    />
+
+    <BookUploadImageBlock />
+
     <!-- Кнопка Сабмит -->
     <FormSubmitButton
       :place="place"
@@ -38,16 +51,18 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
-import { helpers, required, minLength } from '@vuelidate/validators'
+import { helpers, required, minLength, url } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
 import FormSelect from '../form/FormSelect.vue'
+import BookUploadImageBlock from './BookUploadImageBlock.vue'
 
 const { place } = defineProps(['place'])
 
 const isLoading = ref(false)
 const bookNameField = ref(null)
 const authorField = ref(null)
+const imageUrlField = ref(null)
 
 const options = ref([
   { id: 1, name: 'Художественная литература' },
@@ -70,12 +85,16 @@ const rules = computed(() => ({
   parrentSelectedOption: {
     required: helpers.withMessage('Выберите жанр', required),
   },
+  imageUrlField: {
+    url: helpers.withMessage('Вставьте ссылку', url),
+  },
 }))
 
 const v$ = useVuelidate(rules, {
   bookNameField,
   authorField,
   parrentSelectedOption,
+  imageUrlField,
 })
 
 const isFromEmpty = computed(
@@ -92,6 +111,7 @@ const submitAddBook = () => {
     name: bookNameField.value.trim(),
     author: authorField.value.trim(),
     genre: parrentSelectedOption.value.name,
+    image: imageUrlField.value,
   }
 
   try {
