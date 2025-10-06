@@ -15,4 +15,10 @@
   backdrop-filter: blur(8px);
   padding: 24px;
 }
+
+@media (max-width: 767px) {
+  .bookEditContainer {
+    padding: 20px 10px;
+  }
+}
 </style>

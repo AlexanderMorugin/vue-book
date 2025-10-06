@@ -98,4 +98,10 @@ const setBooksQuantity = () => console.log(quantityBooksField.value)
     gap: 32px;
   }
 }
+
+@media (max-width: 474px) {
+  .bookEditProgressYearBlock {
+    padding: 40px 10px 20px 10px;
+  }
+}
 </style>

@@ -45,7 +45,7 @@
     />
   </form>
 
-  parrentSelectedOption - {{ parrentSelectedOption }}
+  <!-- parrentSelectedOption - {{ parrentSelectedOption }} -->
 </template>
 
 <script setup>
