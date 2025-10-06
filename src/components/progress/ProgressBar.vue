@@ -3,7 +3,7 @@
     :class="[
       'progressBar',
       { progressBar_green: color === 'green' },
-      { progressBar_blue: color === 'blue' },
+      { progressBar_blue: color === 'blue' || color === 'red' },
     ]"
   >
     <span
@@ -11,6 +11,7 @@
         'progressBar__indicator',
         { progressBar__indicator_green: color === 'green' },
         { progressBar__indicator_blue: color === 'blue' },
+        { progressBar__indicator_red: color === 'red' },
       ]"
       :style="{ width: `${progress}%` }"
     ></span>
@@ -48,5 +49,8 @@ const { progress, color } = defineProps(['progress', 'color'])
 }
 .progressBar__indicator_blue {
   background: var(--gradient-progress-blue);
+}
+.progressBar__indicator_red {
+  background: var(--gradient-user-icon-box);
 }
 </style>

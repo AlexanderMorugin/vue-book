@@ -11,6 +11,7 @@
   --white-primary: #ffffff;
   --white-secondary: #fdfeff;
   --white-thirdly: rgba(255, 255, 255, 0.8);
+  --white-fourthly: rgba(255, 255, 255, 0.6);
 
   --violet-primary: #f3e8ff;
   --violet-secondary: #9810fa;
@@ -46,6 +47,8 @@
   --brown-primary: #e17100;
   --brown-secondary: #bb4d00;
 
+  --black-primary: rgba(0, 0, 0, 0.1);
+
   --border-color-primary: #e2e8f0;
 
   --gradient-primary: linear-gradient(135deg, var(--gray-primary) 0%, var(--gray-thirdly) 100%);
@@ -63,6 +66,11 @@
     var(--green-fifthly) 100%
   );
   --gradient-progress-blue: linear-gradient(90deg, #2b7fff 0%, var(--blue-primary) 100%);
+  --gradient-progress-gray: linear-gradient(
+    90deg,
+    var(--gray-primary) 0%,
+    var(--gray-thirdly) 100%
+  );
   --gradient-status-counter: linear-gradient(
     90deg,
     var(--gray-primary) 0%,
@@ -71,9 +79,10 @@
   --gradient-book-title: linear-gradient(135deg, var(--white-primary) 0%, var(--gray-primary) 100%);
 
   --shadow-primary: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-secondary: 0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-thirdly: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
-  --shadow-fourthly: 0px 2px 4px -2px rgba(0, 0, 0, 0.1), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-secondary:
+    0px 4px 6px -4px var(--black-primary), 0px 10px 15px -3px var(--black-primary);
+  --shadow-thirdly: 0px 1px 2px -1px var(--black-primary), 0px 1px 3px 0px var(--black-primary);
+  --shadow-fourthly: 0px 2px 4px -2px var(--black-primary), 0px 4px 6px -1px var(--black-primary);
   --shadow-fifthly: 0px 25px 100px -12px rgba(0, 0, 0, 0.8);
 
   --border-radius-full: 50%;

@@ -5,9 +5,16 @@
       { logoBox_register: place === 'register' },
       { logoBox_login: place === 'login' },
       { logoBox_addBook: place === 'addBook' },
+      { logoBox_progressYear: place === 'progressYear' },
     ]"
   >
+    <ProgressYearIcon
+      v-if="place === 'progressYear'"
+      :class="['logoIcon', { logoIcon_progressYearIcon: place === 'progressYear' }]"
+    />
+
     <LogoIcon
+      v-else
       :class="[
         'logoIcon',
         { logoIcon_register: place === 'register' },
@@ -20,6 +27,7 @@
 
 <script setup>
 import LogoIcon from '../icon/LogoIcon.vue'
+import ProgressYearIcon from '../icon/ProgressYearIcon.vue'
 
 const { place } = defineProps(['place'])
 </script>
@@ -52,6 +60,12 @@ const { place } = defineProps(['place'])
   border-radius: var(--border-radius-m);
   background: var(--green-primary);
 }
+.logoBox_progressYear {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--border-radius-m);
+  background: var(--violet-primary);
+}
 .logoIcon {
   width: 24px;
   height: 24px;
@@ -72,13 +86,26 @@ const { place } = defineProps(['place'])
   height: 20px;
   color: var(--green-secondary);
 }
+.logoIcon_progressYearIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--violet-secondary);
+}
 
 @media (max-width: 1023px) {
   .logoBox_addBook {
     width: 56px;
     height: 56px;
   }
+  .logoBox_progressYear {
+    width: 56px;
+    height: 56px;
+  }
   .logoIcon_addBook {
+    width: 32px;
+    height: 32px;
+  }
+  .logoIcon_progressYearIcon {
     width: 32px;
     height: 32px;
   }

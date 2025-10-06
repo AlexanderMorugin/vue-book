@@ -2,23 +2,27 @@
   <div
     :class="[
       'logoBlock',
-      { logoBlock_login: place === 'register' || place === 'login' || place === 'addBook' },
+      {
+        logoBlock_login:
+          place === 'register' ||
+          place === 'login' ||
+          place === 'addBook' ||
+          place === 'progressYear',
+      },
     ]"
   >
     <AppLogo :place="place" />
+
     <div>
       <component
-        :is="place === 'addBook' ? 'h1' : 'div'"
+        :is="place === 'addBook' ? 'h1' : 'progressYear' ? 'h2' : 'div'"
         :class="[
           'logoBlock__title',
           {
             logoBlock__title_login:
-              place === 'register' ||
-              place === 'login' ||
-              place === 'sidebar' ||
-              place === 'addBook',
+              place === 'register' || place === 'login' || place === 'sidebar',
           },
-          { logoBlock__title_addBook: place === 'addBook' },
+          { logoBlock__title_addBook: place === 'addBook' || place === 'progressYear' },
         ]"
       >
         {{
@@ -26,14 +30,16 @@
             ? 'Book Tracker'
             : place === 'addBook'
               ? 'Добавить новую книгу'
-              : ''
+              : place === 'progressYear'
+                ? 'Цель чтения'
+                : ''
         }}
       </component>
       <div
         :class="[
           'logoBlock__subtitle',
           { logoBlock__subtitle_login: place === 'register' || place === 'login' },
-          { logoBlock__subtitle_addBook: place === 'addBook' },
+          { logoBlock__subtitle_addBook: place === 'addBook' || place === 'progressYear' },
         ]"
       >
         {{ subtitle }}
@@ -55,6 +61,7 @@ const setSubtitle = () => {
   if (place === 'register') subtitle.value = 'Начните свой читательский путь'
   if (place === 'login') subtitle.value = 'Ваш персональный трекер чтения'
   if (place === 'addBook') subtitle.value = 'Пополните свою библиотеку'
+  if (place === 'progressYear') subtitle.value = 'Установите годовую цель по количеству книг'
 }
 
 onMounted(() => setSubtitle())
