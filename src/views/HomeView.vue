@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import ProgressYearBlock from '@/components/progress/ProgressYearBlock.vue'
 import ProgressReadingBlock from '@/components/progress/ProgressReadingBlock.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
@@ -55,6 +55,9 @@ import ButtonWithIcon from '@/components/page/ButtonWithIcon.vue'
 import LastRatingPlate from '@/components/page/LastRatingPlate.vue'
 import PageContainer from '@/components/page/PageContainer.vue'
 import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
+import { useHeaderStore } from '@/stores/header-store'
+
+const headerStore = useHeaderStore()
 
 const yearProgress = ref(10)
 const progressBookData = ref({
@@ -69,6 +72,10 @@ const readingBook = ref({
   author: 'Мэтт Хейг',
   image: BookMidnightLibraryImage,
   readingProgress: 65,
+})
+
+onMounted(() => {
+  headerStore.setHeaderTitle('Главная')
 })
 </script>
 

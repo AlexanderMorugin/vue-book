@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <BookEditProgressYearDisplayBlock />
+    <BookEditProgressYearDisplayBlock :allBooks="userStore.user[0]?.books_for_year" />
   </section>
 </template>
 
@@ -24,10 +24,15 @@
 import { ref } from 'vue'
 import AppLogoBlock from '../logo/AppLogoBlock.vue'
 import BookEditProgressYearDisplayBlock from './BookEditProgressYearDisplayBlock.vue'
+import { useUserStore } from '@/stores/user-store'
 
-const quantityBooksField = ref(20)
+const userStore = useUserStore()
 
-const setBooksQuantity = () => console.log(quantityBooksField.value)
+const quantityBooksField = ref(userStore.user[0]?.books_for_year || 0)
+
+const setBooksQuantity = () => {
+  userStore.updateBooksForYearInDatabase(quantityBooksField.value)
+}
 </script>
 
 <style scoped>

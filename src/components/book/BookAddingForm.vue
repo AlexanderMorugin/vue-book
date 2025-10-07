@@ -44,18 +44,19 @@
       :isLoading="isLoading"
     />
   </form>
-
-  <!-- parrentSelectedOption - {{ parrentSelectedOption }} -->
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, url } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
 import FormSelect from '../form/FormSelect.vue'
 import BookUploadImageBlock from './BookUploadImageBlock.vue'
+import { useGenreStore } from '@/stores/genre-store'
+
+const genreStore = useGenreStore()
 
 const { place } = defineProps(['place'])
 
@@ -64,11 +65,9 @@ const bookNameField = ref(null)
 const authorField = ref(null)
 const imageUrlField = ref(null)
 
-const options = ref([
-  { id: 1, name: 'Художественная литература' },
-  { id: 2, name: 'Классика' },
-  { id: 3, name: 'Саморазвитие' },
-])
+const options = ref(genreStore.genres || [])
+
+// console.log('options - ', options.value)
 
 const parrentSelectedOption = ref(null)
 
@@ -140,6 +139,10 @@ const submitAddBook = () => {
     isLoading.value = false
   }
 }
+
+onMounted(() => {
+  genreStore.loadGenres()
+})
 </script>
 
 <style scoped></style>

@@ -1,6 +1,6 @@
 <template>
   <div class="bookEditProgressYearDisplayBlock">
-    <div class="bookEditProgressYearDisplayBlock__count">12 / 20</div>
+    <div class="bookEditProgressYearDisplayBlock__count">12 / {{ allBooks }}</div>
     <span class="bookEditProgressYearDisplayBlock__title">Книг прочитано за год</span>
     <ProgressBar :progress="doneBooksProgress" color="red" />
     <span class="bookEditProgressYearDisplayBlock__subtitle">Осталось прочитать 8 книг!</span>
@@ -10,6 +10,8 @@
 <script setup>
 import { ref } from 'vue'
 import ProgressBar from '../progress/ProgressBar.vue'
+
+const { allBooks } = defineProps(['allBooks'])
 
 const doneBooksProgress = ref(60)
 </script>

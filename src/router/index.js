@@ -75,8 +75,8 @@ const getLocalUser = async (next) => {
     // и создаем его в сторе для дальнейшей работы
     await userStore.searchUserInDatabaseById(localUser)
 
-    // console.log('databaseUser - ', databaseUser[0])
-    // // создаем в сторе пользователя при перезагрузке страницы
+    // console.log('databaseUser - ', userStore.user)
+    // создаем в сторе пользователя при перезагрузке страницы
     // userStore.setUserInStore(localUser)
     next()
   }

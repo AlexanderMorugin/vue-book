@@ -9,9 +9,17 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import BookAddingBlock from '@/components/book/BookAddingBlock.vue'
 import BookEditProgressYearBlock from '@/components/book/BookEditProgressYearBlock.vue'
 import PageContainer from '@/components/page/PageContainer.vue'
+import { useHeaderStore } from '@/stores/header-store'
+
+const headerStore = useHeaderStore()
+
+onMounted(() => {
+  headerStore.setHeaderTitle('Добавить книгу')
+})
 </script>
 
 <style scoped>

@@ -16,7 +16,7 @@
       <div v-if="place === 'home'" class="progressYearBlock__starBox">
         <StarIcon class="starIcon" />
         <span class="progressYearBlock__quantity progressYearBlock__quantity_accent"
-          >{{ progressBookData.done }}/{{ progressBookData.all }}</span
+          >{{ progressBookData.done }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
         >
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div v-if="place === 'sidebar'" class="progressYearBlock__detailsTop">
         <span class="progressYearBlock__detailsTopTitle">Прогресс</span>
         <span class="progressYearBlock__quantity"
-          >{{ progressBookData.done }}/{{ progressBookData.all }}</span
+          >{{ progressBookData.done }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
         >
       </div>
 
@@ -53,6 +53,9 @@
 import ProgressIcon from '../icon/ProgressIcon.vue'
 import StarIcon from '../icon/StarIcon.vue'
 import ProgressBar from './ProgressBar.vue'
+import { useUserStore } from '@/stores/user-store'
+
+const userStore = useUserStore()
 
 const { progress, place, title, progressBookData } = defineProps([
   'progress',

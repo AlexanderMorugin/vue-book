@@ -5,11 +5,6 @@ import { supabase } from '@/config/supabase'
 export const useUserStore = defineStore('userStore', () => {
   /* state */
   const user = ref([])
-  // const user = ref({
-  //   id: null,
-  //   email: null,
-  //   name: null,
-  // })
   const existUserErrorMessage = ref(null)
 
   /* actions */
@@ -56,6 +51,8 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   const searchUserInDatabaseById = async (localUser) => {
+    user.value = []
+
     let { data, error } = await supabase
       .from('users')
       .select('*')
@@ -64,27 +61,12 @@ export const useUserStore = defineStore('userStore', () => {
     if (error) console.log(error.message)
 
     if (data) {
-      user.value = []
-      user.value = data
-
-      // return data
       // записываем данные пользователя в стейт и далее с ним везде работаем
-      // user.value = data
+      user.value = data
+      // Realtime function
+      subscribeEntries()
     }
-
-    // console.log(user.value[0].id)
-    // console.log(user.value[0].name)
-    // console.log(user.value[0].email)
   }
-
-  // const setUserInStore = (userData) => {
-  //   // console.log(userData.data.session.user.user_metadata.first_name)
-  //   // console.log(userData.data.session.user.id)
-
-  //   user.value.id = userData.data.session.user.id
-  //   user.value.name = userData.data.session.user.user_metadata.first_name
-  //   user.value.email = userData.data.session.user.user_metadata.email
-  // }
 
   const loginUser = async (userData) => {
     existUserErrorMessage.value = null
@@ -113,6 +95,54 @@ export const useUserStore = defineStore('userStore', () => {
     else user.value = []
   }
 
+  // const getBooksForYearInDatabase = async () => {
+  //   const { data, error } = await supabase
+  //     .from('users')
+  //     .upsert({ id: `${user.value[0].id}`, books_for_year: setBooksForYearInDatabase })
+  //     .select()
+
+  //   if (error) console.log(error.message)
+  //   else console.log('data = ', data)
+  // }
+
+  const updateBooksForYearInDatabase = async (setBooksForYearInDatabase) => {
+    const { data, error } = await supabase
+      .from('users')
+      .upsert({ id: `${user.value[0].id}`, books_for_year: setBooksForYearInDatabase })
+      .select()
+
+    if (error) {
+      console.log(error.message)
+    } else {
+      console.log('data = ', data)
+      // Realtime function
+      subscribeEntries()
+    }
+  }
+
+  const subscribeEntries = async () => {
+    supabase
+      .channel('users-channel')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, (payload) => {
+        console.log('Change received!', payload)
+
+        if (payload.eventType === 'INSERT') user.value.push(payload.new)
+
+        if (payload.eventType === 'UPDATE') {
+          const index = getUserIndexById(payload.new.id)
+
+          Object.assign(user.value[index], payload.new)
+        }
+      })
+      .subscribe()
+  }
+
+  /* helpers */
+
+  const getUserIndexById = (entryId) => {
+    return user.value.findIndex((entry) => entry.id === entryId)
+  }
+
   const clearExistUserErrorMessage = () => (existUserErrorMessage.value = null)
 
   return {
@@ -123,7 +153,8 @@ export const useUserStore = defineStore('userStore', () => {
     getUser,
     logout,
     clearExistUserErrorMessage,
-    // setUserInStore,
     searchUserInDatabaseById,
+    updateBooksForYearInDatabase,
+    subscribeEntries,
   }
 })

@@ -6,20 +6,31 @@
         name="menu"
         @handleClick="emit('openMobileSideBar')"
       />
-      <span class="header__title">Главная</span>
+      <span class="header__title">{{ headerStore.headerTitle }}</span>
     </div>
 
-    <ButtonIconNavigate name="back" />
+    <ButtonIconNavigate
+      v-if="headerStore.headerTitle === 'Детали книги'"
+      name="back"
+      @handleClick="goBack"
+    />
   </header>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+import { useHeaderStore } from '@/stores/header-store'
 import ButtonIconNavigate from './page/ButtonIconNavigate.vue'
 import { useResizeLarge } from '@/composables/useResizeLarge'
+
+const router = useRouter()
+const headerStore = useHeaderStore()
 
 const { isScreenLarge } = useResizeLarge()
 
 const emit = defineEmits(['openMobileSideBar'])
+
+const goBack = () => router.go(-1)
 </script>
 
 <style scoped>

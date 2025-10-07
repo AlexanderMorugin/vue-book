@@ -60,19 +60,18 @@ export const useBookStore = defineStore('bookStore', () => {
       .subscribe()
   }
 
-  // const addEntry = async (addEntryForm) => {
-  //   console.log(addEntryForm);
-  //   const newEntry = Object.assign({}, addEntryForm, {
-  //     paid: false,
-  //     order: generateOrderNumber(),
-  //   });
-  //   if (newEntry.amount === null) newEntry.amount = 0;
-  //   const { error } = await supabase
-  //     .from("entries")
-  //     .insert([newEntry])
-  //     .select();
-  //   if (error) console.log(error.message);
-  // };
+  const addBook = async (formData, userId) => {
+    // console.log(formData)
+    const newEntry = Object.assign({}, formData, {
+      user_id: userId,
+      progress: null,
+      comment: null,
+      rating: null,
+    })
+    const { data, error } = await supabase.from('books').insert([newEntry]).select()
+    if (error) console.log(error.message)
+    else console.log(data)
+  }
 
   // const deleteEntry = async (entryId) => {
   //   console.log(entryId);
@@ -115,7 +114,7 @@ export const useBookStore = defineStore('bookStore', () => {
     isBookLoading,
     loadBooks,
     subscribeEntries,
-    // addEntry,
+    addBook,
     // deleteEntry,
     // updateEntry,
   }
