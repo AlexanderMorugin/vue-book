@@ -1,19 +1,21 @@
 <template>
   <div class="bookEditProgressYearDisplayBlock">
-    <div class="bookEditProgressYearDisplayBlock__count">12 / {{ allBooks }}</div>
+    <div class="bookEditProgressYearDisplayBlock__count">{{ doneBooks }} / {{ allBooks }}</div>
     <span class="bookEditProgressYearDisplayBlock__title">Книг прочитано за год</span>
-    <ProgressBar :progress="doneBooksProgress" color="red" />
-    <span class="bookEditProgressYearDisplayBlock__subtitle">Осталось прочитать 8 книг!</span>
+    <ProgressBar :progress="isYearProgress" color="red" />
+    <span class="bookEditProgressYearDisplayBlock__subtitle"
+      >Осталось прочитать {{ allBooks - doneBooks }} книг!</span
+    >
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import ProgressBar from '../progress/ProgressBar.vue'
 
-const { allBooks } = defineProps(['allBooks'])
+const { doneBooks, allBooks } = defineProps(['doneBooks', 'allBooks'])
 
-const doneBooksProgress = ref(60)
+const isYearProgress = computed(() => Math.round((doneBooks / allBooks) * 100))
 </script>
 
 <style scoped>

@@ -5,7 +5,7 @@
       <SideBarAuth />
       <SideBarMenu @closeMobileSideBar="emit('closeMobileSideBar')" />
       <SideBarYearProgress place="sidebar" title="Цель 2024" />
-      <SideBarReadingProgress place="sidebar" title="Сейчас читаю" :readingBook="readingBook" />
+      <SideBarReadingProgress place="sidebar" title="Сейчас читаю" />
     </div>
 
     <SideBarCounter padding="slim" line="top" />
@@ -13,24 +13,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import SideBarAuth from './SideBarAuth.vue'
 import SideBarLogo from './SideBarLogo.vue'
 import SideBarMenu from './SideBarMenu.vue'
 import SideBarYearProgress from './SideBarYearProgress.vue'
 import SideBarReadingProgress from './SideBarReadingProgress.vue'
 import SideBarCounter from './SideBarCounter.vue'
-import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 
 const emit = defineEmits(['closeMobileSideBar'])
-
-const readingBook = ref({
-  id: 1,
-  title: 'Полуночная библиотека',
-  author: 'Мэтт Хейг',
-  image: BookMidnightLibraryImage,
-  readingProgress: 65,
-})
 </script>
 
 <style scoped>

@@ -16,7 +16,7 @@
       <div v-if="place === 'home'" class="progressYearBlock__starBox">
         <StarIcon class="starIcon" />
         <span class="progressYearBlock__quantity progressYearBlock__quantity_accent"
-          >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
+          >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year }}</span
         >
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div v-if="place === 'sidebar'" class="progressYearBlock__detailsTop">
         <span class="progressYearBlock__detailsTopTitle">Прогресс</span>
         <span class="progressYearBlock__quantity"
-          >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
+          >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year }}</span
         >
       </div>
 
@@ -43,7 +43,8 @@
       </div>
 
       <p v-if="place === 'home'" class="progressYearBlock__detailsBottom">
-        Для достижения цели еще {{ bookStore.plannedBooks.length }} книг!
+        Для достижения цели еще
+        {{ userStore.user[0]?.books_for_year - bookStore.doneBooks.length }} книг!
       </p>
     </div>
   </div>
@@ -61,8 +62,8 @@ import { useBookStore } from '@/stores/book-store'
 const userStore = useUserStore()
 const bookStore = useBookStore()
 
-const isYearProgress = computed(
-  () => (bookStore.doneBooks.length / userStore.user[0]?.books_for_year) * 100,
+const isYearProgress = computed(() =>
+  Math.round((bookStore.doneBooks.length / userStore.user[0]?.books_for_year) * 100),
 )
 
 const { place, title } = defineProps(['place', 'title'])

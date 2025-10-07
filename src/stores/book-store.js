@@ -14,54 +14,50 @@ export const useBookStore = defineStore('bookStore', () => {
 
   /* actions */
 
+  // Получаем все книги пользователя
   const loadBooks = async () => {
+    let { data: localUser } = await supabase.auth.getSession()
+
     isBookLoading.value = false
-
-    let { data, error } = await supabase.from('books').select('*')
-
-    // let { data, error } = await supabase
-    //   .from('books') // название таблицы
-    //   .select(
-    //     `*, users (
-    //     *
-    //   )`,
-    //   )
-    //   .order('order', { ascending: true }) // сортировка
-    // .eq('name', 'Гордость и предубеждение') // поиск
-
+    let { data, error } = await supabase
+      .from('books')
+      .select()
+      .eq('user_id', localUser.session.user.id)
     if (error) console.log(error.message)
-
     if (data) {
       books.value = data
-      // plannedBooks.value = data.map((item) => item.progress <= 0)
-
       isBookLoading.value = true
-
       subscribeEntries()
     }
-
-    // console.log(data)
   }
 
+  // Получаем запланированные книги пользователя
   const loadPlanedBooks = async () => {
-    isBookLoading.value = false
+    let { data: localUser } = await supabase.auth.getSession()
 
-    let { data, error } = await supabase.from('books').select().eq('progress', 0)
+    isBookLoading.value = false
+    let { data, error } = await supabase
+      .from('books')
+      .select()
+      .eq('user_id', localUser.session.user.id)
+      .eq('progress', 0)
     if (error) console.log(error.message)
     if (data) {
       plannedBooks.value = data
       isBookLoading.value = true
       subscribeEntries()
     }
-
-    // console.log(data)
   }
 
+  // Получаем книги пользователя, которые читает
   const loadReadingBooks = async () => {
+    let { data: localUser } = await supabase.auth.getSession()
+
     isBookLoading.value = false
     let { data, error } = await supabase
       .from('books')
       .select()
+      .eq('user_id', localUser.session.user.id)
       .gt('progress', 0)
       .lt('progress', 100)
     if (error) console.log(error.message)
@@ -72,9 +68,16 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
+  // Получаем прочитанные книги пользователя
   const loadDoneBooks = async () => {
+    let { data: localUser } = await supabase.auth.getSession()
+
     isBookLoading.value = false
-    let { data, error } = await supabase.from('books').select().eq('progress', 100)
+    let { data, error } = await supabase
+      .from('books')
+      .select()
+      .eq('user_id', localUser.session.user.id)
+      .eq('progress', 100)
     if (error) console.log(error.message)
     if (data) {
       doneBooks.value = data
@@ -107,20 +110,6 @@ export const useBookStore = defineStore('bookStore', () => {
   }
 
   const addBook = async (bookData) => {
-    // console.log(formData)
-    // const newEntry = Object.assign({}, formData, {
-    //   user_id: userId,
-    //   progress: null,
-    //   comment: null,
-    //   rating: null,
-    // })
-    //     const newEntry = Object.assign({}, formData, {
-    //   user_id: userId,
-    //   progress: null,
-    //   comment: null,
-    //   rating: null,
-    // })
-    // const { data, error } = await supabase.from('books').insert([newEntry]).select()
     const { data, error } = await supabase.from('books').insert([bookData]).select()
     if (error) console.log(error.message)
     else console.log(data)
@@ -153,14 +142,6 @@ export const useBookStore = defineStore('bookStore', () => {
   const getBookIndexById = (entryId) => {
     return books.value.findIndex((entry) => entry.id === entryId)
   }
-
-  // const generateOrderNumber = () => {
-  //   const orderNumbers = books.value.map((item) => item.order)
-
-  //   const newOrderNumber = orderNumbers.length ? Math.max(...orderNumbers) + 1 : 1
-
-  //   return newOrderNumber
-  // }
 
   return {
     books,

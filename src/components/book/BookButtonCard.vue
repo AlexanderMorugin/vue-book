@@ -7,7 +7,7 @@
     <BookStatus :progress="book.progress" />
     <BookRating v-if="book.rating" :rating="book.rating" />
     <ProgressBarDetails
-      v-if="book.progress"
+      v-if="book.progress && book.progress < 100"
       :progress="book.progress"
       class="bookButtonCard__progress"
     />

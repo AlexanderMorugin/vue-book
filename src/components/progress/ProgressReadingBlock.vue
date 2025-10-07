@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="BOOKS_PATH + `/${readingBook.id}`"
+    :to="BOOKS_PATH + `/${bookStore.readingBooks[0]?.id}`"
     :class="[
       'progressReadingBlock',
       {
@@ -29,8 +29,8 @@
       <BookImage
         v-if="place === 'home'"
         :place="place"
-        :image="readingBook.image"
-        :title="readingBook.title"
+        :image="bookStore.readingBooks[0]?.image"
+        :title="bookStore.readingBooks[0]?.name"
       />
 
       <div
@@ -50,7 +50,7 @@
               },
             ]"
           >
-            {{ readingBook.title }}
+            {{ bookStore.readingBooks[0]?.name }}
           </p>
           <p
             :class="[
@@ -60,22 +60,30 @@
               },
             ]"
           >
-            {{ readingBook.author }}
+            {{ bookStore.readingBooks[0]?.author }}
           </p>
         </div>
 
-        <ProgressBarDetails :progress="readingBook.readingProgress" />
+        <ProgressBarDetails :progress="bookStore.readingBooks[0]?.progress" />
       </div>
     </div>
   </router-link>
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { BOOKS_PATH } from '@/mock/routes'
 import BookImage from '../book/BookImage.vue'
 import ProgressBarDetails from './ProgressBarDetails.vue'
+import { useBookStore } from '@/stores/book-store'
 
-const { readingBook, title } = defineProps(['readingBook', 'place', 'title'])
+const bookStore = useBookStore()
+
+const { title } = defineProps(['place', 'title'])
+
+onMounted(async () => {
+  bookStore.loadReadingBooks()
+})
 </script>
 
 <style scoped>

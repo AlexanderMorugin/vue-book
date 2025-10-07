@@ -17,7 +17,10 @@
       </div>
     </div>
 
-    <BookEditProgressYearDisplayBlock :allBooks="userStore.user[0]?.books_for_year" />
+    <BookEditProgressYearDisplayBlock
+      :doneBooks="bookStore.doneBooks.length"
+      :allBooks="userStore.user[0]?.books_for_year"
+    />
   </section>
 </template>
 
@@ -25,10 +28,12 @@
 import { ref } from 'vue'
 import AppLogoBlock from '../logo/AppLogoBlock.vue'
 import BookEditProgressYearDisplayBlock from './BookEditProgressYearDisplayBlock.vue'
-import { useUserStore } from '@/stores/user-store'
 import LoaderForButtonBlue from '../loader/LoaderForButtonBlue.vue'
+import { useUserStore } from '@/stores/user-store'
+import { useBookStore } from '@/stores/book-store'
 
 const userStore = useUserStore()
+const bookStore = useBookStore()
 
 const quantityBooksField = ref(userStore.user[0]?.books_for_year || 0)
 const isLoading = ref(false)

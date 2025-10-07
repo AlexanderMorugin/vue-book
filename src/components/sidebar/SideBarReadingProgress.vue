@@ -1,6 +1,6 @@
 <template>
   <SideBarContainer padding="slim">
-    <ProgressReadingBlock :readingBook="readingBook" :place="place" :title="title" />
+    <ProgressReadingBlock :place="place" :title="title" />
   </SideBarContainer>
 </template>
 
@@ -8,5 +8,5 @@
 import ProgressReadingBlock from '../progress/ProgressReadingBlock.vue'
 import SideBarContainer from './SideBarContainer.vue'
 
-const { readingBook, place, title } = defineProps(['readingBook', 'place', 'title'])
+const { place, title } = defineProps(['place', 'title'])
 </script>
