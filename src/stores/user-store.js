@@ -6,6 +6,7 @@ export const useUserStore = defineStore('userStore', () => {
   /* state */
   const user = ref([])
   const existUserErrorMessage = ref(null)
+  // const isUpdateBooksForYearInDatabaseLoading = ref(true)
 
   /* actions */
 
@@ -94,16 +95,6 @@ export const useUserStore = defineStore('userStore', () => {
     if (error) console.log(error)
     else user.value = []
   }
-
-  // const getBooksForYearInDatabase = async () => {
-  //   const { data, error } = await supabase
-  //     .from('users')
-  //     .upsert({ id: `${user.value[0].id}`, books_for_year: setBooksForYearInDatabase })
-  //     .select()
-
-  //   if (error) console.log(error.message)
-  //   else console.log('data = ', data)
-  // }
 
   const updateBooksForYearInDatabase = async (setBooksForYearInDatabase) => {
     const { data, error } = await supabase

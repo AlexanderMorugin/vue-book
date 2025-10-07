@@ -1,40 +1,43 @@
 <template>
   <div class="bookStatus">
     <component
-      :is="
-        status === 'Читаю'
-          ? LogoIcon
-          : status === 'Прочитано'
-            ? DoneIcon
-            : status === 'Запланировано'
-              ? MustDoIcon
-              : ''
-      "
+      :is="isStatusReading ? LogoIcon : isStatusDone ? DoneIcon : isStatusPlanned ? MustDoIcon : ''"
       :class="[
         'icon',
-        { icon_reading: status === 'Читаю' },
-        { icon_done: status === 'Прочитано' },
-        { icon_mustDo: status === 'Запланировано' },
+        { icon_mustDo: isStatusPlanned },
+        { icon_reading: isStatusReading },
+        { icon_done: isStatusDone },
       ]"
     />
     <span
       :class="[
         'bookStatus__text',
-        { bookStatus__text_reading: status === 'Читаю' },
-        { bookStatus__text_done: status === 'Прочитано' },
-        { bookStatus__text_mustDo: status === 'Запланировано' },
+        { bookStatus__text_mustDo: isStatusPlanned },
+        { bookStatus__text_reading: isStatusReading },
+        { bookStatus__text_done: isStatusDone },
       ]"
-      >{{ status }}</span
+      >{{
+        isStatusPlanned
+          ? 'Запланировано'
+          : isStatusReading
+            ? 'Читаю'
+            : isStatusDone
+              ? 'Прочитано'
+              : ''
+      }}</span
     >
   </div>
 </template>
 
 <script setup>
+import { useStatus } from '@/composables/useStatus'
 import DoneIcon from '../icon/DoneIcon.vue'
 import LogoIcon from '../icon/LogoIcon.vue'
 import MustDoIcon from '../icon/MustDoIcon.vue'
 
-const { status } = defineProps(['status'])
+const { progress } = defineProps(['progress'])
+
+const { isStatusPlanned, isStatusReading, isStatusDone } = useStatus(progress)
 </script>
 
 <style scoped>

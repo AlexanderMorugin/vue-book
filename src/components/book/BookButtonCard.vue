@@ -1,10 +1,10 @@
 <template>
   <router-link :to="`/books/${book.id}`" class="bookButtonCard">
     <img :src="book.image" :alt="book.title" class="bookButtonCard__image" />
-    <span class="bookButtonCard__title">{{ book.title }}</span>
+    <span class="bookButtonCard__title">{{ book.name }}</span>
     <span class="bookButtonCard__author">{{ book.author }}</span>
     <span class="bookButtonCard__genre">{{ book.genre }}</span>
-    <BookStatus :status="book.status" />
+    <BookStatus :progress="book.progress" />
     <BookRating v-if="book.rating" :rating="book.rating" />
     <ProgressBarDetails
       v-if="book.progress"

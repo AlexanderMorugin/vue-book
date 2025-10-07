@@ -14,29 +14,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarCounterBadge from './SideBarCounterBadge.vue'
+import { useBookStore } from '@/stores/book-store'
+
+const bookStore = useBookStore()
+
+// console.log(bookStore.books)
 
 const { padding, line, place } = defineProps(['padding', 'line', 'place'])
 
 const counter = ref([
   {
-    number: 2,
+    number: computed(() => bookStore.doneBooks.length),
     text: 'Прочитано',
     status: 'done',
   },
   {
-    number: 1,
+    number: computed(() => bookStore.readingBooks.length),
     text: 'Читаю',
     status: 'reading',
   },
   {
-    number: 1,
+    number: computed(() => bookStore.plannedBooks.length),
     text: 'К чтению',
     status: 'mustDo',
   },
 ])
+
+onMounted(() => {
+  bookStore.loadPlanedBooks()
+  bookStore.loadReadingBooks()
+  bookStore.loadDoneBooks()
+})
 </script>
 
 <style scoped>

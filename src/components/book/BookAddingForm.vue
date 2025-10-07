@@ -21,7 +21,11 @@
       @clearInput="authorField = null"
     />
 
-    <FormSelect label="Жанр" :options="options" v-model:value="v$.parrentSelectedOption.$model" />
+    <FormSelect
+      label="Жанр"
+      :options="genreStore.genres"
+      v-model:value="v$.parrentSelectedOption.$model"
+    />
 
     <FormInput
       lastInput="true"
@@ -55,8 +59,12 @@ import FormSubmitButton from '../form/FormSubmitButton.vue'
 import FormSelect from '../form/FormSelect.vue'
 import BookUploadImageBlock from './BookUploadImageBlock.vue'
 import { useGenreStore } from '@/stores/genre-store'
+import { useUserStore } from '@/stores/user-store'
+import { useBookStore } from '@/stores/book-store'
 
 const genreStore = useGenreStore()
+const userStore = useUserStore()
+const bookStore = useBookStore()
 
 const { place } = defineProps(['place'])
 
@@ -64,10 +72,6 @@ const isLoading = ref(false)
 const bookNameField = ref(null)
 const authorField = ref(null)
 const imageUrlField = ref(null)
-
-const options = ref(genreStore.genres || [])
-
-// console.log('options - ', options.value)
 
 const parrentSelectedOption = ref(null)
 
@@ -111,6 +115,9 @@ const submitAddBook = () => {
     author: authorField.value.trim(),
     genre: parrentSelectedOption.value.name,
     image: imageUrlField.value,
+    user_id: userStore.user[0].id,
+    progress: 0,
+    rating: 0,
   }
 
   try {
@@ -118,6 +125,7 @@ const submitAddBook = () => {
 
     if (!isFromEmpty.value && !isValid.value.length) {
       console.log(bookData)
+      bookStore.addBook(bookData)
     }
 
     //   // отправляем данные пользователя на регистрацию

@@ -26,9 +26,6 @@ import SideBarYearProgress from './SideBarYearProgress.vue'
 import SideBarReadingProgress from './SideBarReadingProgress.vue'
 import SideBarCounter from './SideBarCounter.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
-// import { useUserStore } from '@/stores/user-store'
-
-// const userStore = useUserStore()
 
 const emit = defineEmits(['closeMobileSideBar'])
 

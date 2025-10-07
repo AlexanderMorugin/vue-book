@@ -11,7 +11,8 @@
           class="bookEditProgressYearBlock__input"
         />
         <button class="bookEditProgressYearBlock__submitButton" @click="setBooksQuantity">
-          Обновить
+          <LoaderForButtonBlue v-if="isLoading" />
+          <span v-else>Обновить</span>
         </button>
       </div>
     </div>
@@ -25,13 +26,19 @@ import { ref } from 'vue'
 import AppLogoBlock from '../logo/AppLogoBlock.vue'
 import BookEditProgressYearDisplayBlock from './BookEditProgressYearDisplayBlock.vue'
 import { useUserStore } from '@/stores/user-store'
+import LoaderForButtonBlue from '../loader/LoaderForButtonBlue.vue'
 
 const userStore = useUserStore()
 
 const quantityBooksField = ref(userStore.user[0]?.books_for_year || 0)
+const isLoading = ref(false)
 
-const setBooksQuantity = () => {
-  userStore.updateBooksForYearInDatabase(quantityBooksField.value)
+const setBooksQuantity = async () => {
+  isLoading.value = true
+
+  await userStore.updateBooksForYearInDatabase(quantityBooksField.value)
+
+  isLoading.value = false
 }
 </script>
 
@@ -82,6 +89,8 @@ const setBooksQuantity = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  max-width: 101px;
   background: var(--white-primary);
   border-radius: var(--border-radius-s);
   border: 1px solid var(--black-primary);

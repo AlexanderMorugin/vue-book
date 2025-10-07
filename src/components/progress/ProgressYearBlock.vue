@@ -16,7 +16,7 @@
       <div v-if="place === 'home'" class="progressYearBlock__starBox">
         <StarIcon class="starIcon" />
         <span class="progressYearBlock__quantity progressYearBlock__quantity_accent"
-          >{{ progressBookData.done }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
+          >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
         >
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div v-if="place === 'sidebar'" class="progressYearBlock__detailsTop">
         <span class="progressYearBlock__detailsTopTitle">Прогресс</span>
         <span class="progressYearBlock__quantity"
-          >{{ progressBookData.done }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
+          >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year || 0 }}</span
         >
       </div>
 
@@ -37,32 +37,29 @@
             { progressYearBlock__detailsTextBox_big: place === 'home' },
           ]"
         >
-          <p v-if="place === 'home'">{{ progressBookData.done }} книги прочитаны</p>
+          <p v-if="place === 'home'">{{ bookStore.doneBooks.length }} книги прочитаны</p>
           <p>{{ progress }}% выполнено</p>
         </div>
       </div>
 
       <p v-if="place === 'home'" class="progressYearBlock__detailsBottom">
-        Для достижения цели еще {{ progressBookData.mustDo }} книг!
+        Для достижения цели еще {{ bookStore.plannedBooks.length }} книг!
       </p>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useBookStore } from '@/stores/book-store'
 import ProgressIcon from '../icon/ProgressIcon.vue'
 import StarIcon from '../icon/StarIcon.vue'
 import ProgressBar from './ProgressBar.vue'
 import { useUserStore } from '@/stores/user-store'
 
 const userStore = useUserStore()
+const bookStore = useBookStore()
 
-const { progress, place, title, progressBookData } = defineProps([
-  'progress',
-  'place',
-  'title',
-  'progressBookData',
-])
+const { progress, place, title } = defineProps(['progress', 'place', 'title'])
 </script>
 
 <style scoped>

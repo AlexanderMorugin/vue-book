@@ -7,7 +7,11 @@
           :title="button.title"
           :number="button.number"
           :route="button.route"
-          :isActive="button.status"
+          :isActive="
+            button.title === headerStore.headerTitle
+              ? (button.status = true)
+              : (button.status = false)
+          "
           @click="emit('closeMobileSideBar')"
         />
       </li>
@@ -16,10 +20,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import SideBarContainer from './SideBarContainer.vue'
 import SideBarMenuButton from './SideBarMenuButton.vue'
 import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
+import { useHeaderStore } from '@/stores/header-store'
+import { useBookStore } from '@/stores/book-store'
+
+const headerStore = useHeaderStore()
+const bookStore = useBookStore()
 
 const emit = defineEmits(['closeMobileSideBar'])
 
@@ -36,7 +45,7 @@ const menuButtons = ref([
     id: 2,
     name: 'library',
     title: 'Моя библиотека',
-    number: 4,
+    number: computed(() => bookStore.books.length),
     status: false,
     route: BOOKS_PATH,
   },
@@ -50,20 +59,9 @@ const menuButtons = ref([
   },
 ])
 
-// const setActive = (id) => {
-//   const currentButton = menuButtons.value.find((item) => item.id === id)
-//   const activeButton = menuButtons.value.find((item) => item.status === true)
-
-//   if (!activeButton) {
-//     currentButton.status = true
-//   } else if (currentButton.status === true) {
-//     return
-//   } else {
-//     currentButton.status = true
-//     activeButton.status = false
-//     emit('closeMobileSideBar')
-//   }
-// }
+onMounted(() => {
+  bookStore.loadBooks()
+})
 </script>
 
 <style scoped>

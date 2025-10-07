@@ -12,6 +12,7 @@
           (place === 'addBook' && !isFromEmpty && !isValid),
       },
       { formSubmitButton_book: place === 'book' },
+      { formSubmitButton_delete: place === 'delete' },
     ]"
   >
     <LoaderForButton v-if="isLoading" />
@@ -32,7 +33,9 @@
                 ? 'Прочитано'
                 : place === 'addBook'
                   ? 'Добавить книгу'
-                  : ''
+                  : place === 'delete'
+                    ? 'Удалить'
+                    : ''
         }}
       </span>
     </div>
@@ -148,5 +151,13 @@ const emit = defineEmits(['handleClick'])
 }
 .formSubmitButton_book:hover .icon {
   animation: scale 0.3s ease-in-out;
+}
+.formSubmitButton_delete {
+  background: var(--red-primary);
+  margin-top: 32px;
+  transition: 0.25s ease;
+}
+.formSubmitButton_delete:hover {
+  background: var(--blue-primary);
 }
 </style>

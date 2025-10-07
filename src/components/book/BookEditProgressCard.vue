@@ -16,6 +16,7 @@
       />
     </BookEditContainer>
     <FormSubmitButton place="book" :isLoading="isLoading" @handleClick="setProgressDone" />
+    <FormSubmitButton place="delete" :isLoading="isLoading" @handleClick="deleteBook" />
   </div>
 </template>
 
@@ -42,4 +43,6 @@ const submitData = () => {
 const setProgressDone = () => {
   progress.value = 100
 }
+
+const deleteBook = () => {}
 </script>

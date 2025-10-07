@@ -7,12 +7,7 @@
 
     <section class="home__content">
       <div class="home__contentBlock">
-        <ProgressYearBlock
-          :progress="yearProgress"
-          place="home"
-          title="Цель на 2024 год"
-          :progressBookData="progressBookData"
-        />
+        <ProgressYearBlock :progress="yearProgress" place="home" title="Цель на 2024 год" />
         <ProgressReadingBlock
           place="home"
           title="Текущие книги"
@@ -60,11 +55,6 @@ import { useHeaderStore } from '@/stores/header-store'
 const headerStore = useHeaderStore()
 
 const yearProgress = ref(10)
-const progressBookData = ref({
-  all: 20,
-  done: 2,
-  mustDo: 18,
-})
 
 const readingBook = ref({
   id: 1,

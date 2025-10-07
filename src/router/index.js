@@ -55,7 +55,7 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { top: 0, behavior: 'smooth' }
+      return { top: 0 }
     }
   },
 })
@@ -66,18 +66,13 @@ const getLocalUser = async (next) => {
 
   const userStore = useUserStore()
 
-  // console.log('Router - getLocalUser: ', localUser.data.session.user)
-
   if (localUser.data.session == null) {
     next(LOGIN_PATH)
   } else {
     // на основании ID аутентифицированного пользователя, находим его уже в Database
     // и создаем его в сторе для дальнейшей работы
-    await userStore.searchUserInDatabaseById(localUser)
+    userStore.searchUserInDatabaseById(localUser)
 
-    // console.log('databaseUser - ', userStore.user)
-    // создаем в сторе пользователя при перезагрузке страницы
-    // userStore.setUserInStore(localUser)
     next()
   }
 }
