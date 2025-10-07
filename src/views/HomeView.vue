@@ -18,7 +18,12 @@
       <div class="home__contentBlock">
         <div class="home__contentItems">
           <ButtonWithIcon name="addBook" text="Добавить книгу" :route="ADD_BOOK_PATH" />
-          <ButtonWithIcon name="library" text="Библиотека" number="4" :route="BOOKS_PATH" />
+          <ButtonWithIcon
+            name="library"
+            text="Библиотека"
+            :number="bookStore.books.length"
+            :route="BOOKS_PATH"
+          />
         </div>
 
         <div class="home__contentItems">
@@ -51,8 +56,10 @@ import LastRatingPlate from '@/components/page/LastRatingPlate.vue'
 import PageContainer from '@/components/page/PageContainer.vue'
 import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
 import { useHeaderStore } from '@/stores/header-store'
+import { useBookStore } from '@/stores/book-store'
 
 const headerStore = useHeaderStore()
+const bookStore = useBookStore()
 
 const yearProgress = ref(10)
 

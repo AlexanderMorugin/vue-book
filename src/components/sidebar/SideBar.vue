@@ -4,12 +4,7 @@
       <SideBarLogo place="sidebar" />
       <SideBarAuth />
       <SideBarMenu @closeMobileSideBar="emit('closeMobileSideBar')" />
-      <SideBarYearProgress
-        :progress="yearProgress"
-        place="sidebar"
-        title="Цель 2024"
-        :progressBookData="progressBookData"
-      />
+      <SideBarYearProgress place="sidebar" title="Цель 2024" />
       <SideBarReadingProgress place="sidebar" title="Сейчас читаю" :readingBook="readingBook" />
     </div>
 
@@ -28,13 +23,6 @@ import SideBarCounter from './SideBarCounter.vue'
 import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 
 const emit = defineEmits(['closeMobileSideBar'])
-
-const yearProgress = ref(10)
-const progressBookData = ref({
-  all: 20,
-  done: 2,
-  mustDo: 18,
-})
 
 const readingBook = ref({
   id: 1,

@@ -30,7 +30,7 @@
       </div>
 
       <div class="progressYearBlock__detailsMain">
-        <ProgressBar :progress="progress" color="green" />
+        <ProgressBar :progress="isYearProgress" color="green" />
         <div
           :class="[
             'progressYearBlock__detailsTextBox',
@@ -38,7 +38,7 @@
           ]"
         >
           <p v-if="place === 'home'">{{ bookStore.doneBooks.length }} книги прочитаны</p>
-          <p>{{ progress }}% выполнено</p>
+          <p>{{ isYearProgress }}% выполнено</p>
         </div>
       </div>
 
@@ -50,16 +50,22 @@
 </template>
 
 <script setup>
-import { useBookStore } from '@/stores/book-store'
+import { computed } from 'vue'
+
 import ProgressIcon from '../icon/ProgressIcon.vue'
 import StarIcon from '../icon/StarIcon.vue'
 import ProgressBar from './ProgressBar.vue'
 import { useUserStore } from '@/stores/user-store'
+import { useBookStore } from '@/stores/book-store'
 
 const userStore = useUserStore()
 const bookStore = useBookStore()
 
-const { progress, place, title } = defineProps(['progress', 'place', 'title'])
+const isYearProgress = computed(
+  () => (bookStore.doneBooks.length / userStore.user[0]?.books_for_year) * 100,
+)
+
+const { place, title } = defineProps(['place', 'title'])
 </script>
 
 <style scoped>

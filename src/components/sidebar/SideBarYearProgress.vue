@@ -1,11 +1,6 @@
 <template>
   <SideBarContainer padding="slim">
-    <ProgressYearBlock
-      :progress="progress"
-      :place="place"
-      :title="title"
-      :progressBookData="progressBookData"
-    />
+    <ProgressYearBlock :place="place" :title="title" />
   </SideBarContainer>
 </template>
 
@@ -13,10 +8,5 @@
 import ProgressYearBlock from '../progress/ProgressYearBlock.vue'
 import SideBarContainer from './SideBarContainer.vue'
 
-const { progress, place, title, progressBookData } = defineProps([
-  'progress',
-  'place',
-  'title',
-  'progressBookData',
-])
+const { place, title } = defineProps(['place', 'title'])
 </script>
