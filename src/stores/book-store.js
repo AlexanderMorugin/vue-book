@@ -13,7 +13,6 @@ export const useBookStore = defineStore('bookStore', () => {
   const currentBook = ref(null)
   const currentBookRating = ref(0)
   const isBookLoading = ref(false)
-  const isCurrentBookLoading = ref(false)
 
   /* actions */
 
@@ -91,27 +90,31 @@ export const useBookStore = defineStore('bookStore', () => {
 
   // Получаем по ID конкретную книги пользователя
   const loadCurrentBook = async (bookId) => {
-    isCurrentBookLoading.value = false
+    // isBookLoading.value = false
 
-    try {
-      let { data: localUser } = await supabase.auth.getSession()
+    // try {
+    let { data: localUser } = await supabase.auth.getSession()
 
-      isCurrentBookLoading.value = true
-      let { data, error } = await supabase
-        .from('books')
-        .select()
-        .eq('user_id', localUser.session.user.id)
-        .eq('id', bookId)
-      if (error) console.log(error.message)
-      if (data) {
-        currentBook.value = data[0]
-        subscribeEntries()
-      }
-    } catch (err) {
-      console.log(err.message)
-    } finally {
-      isCurrentBookLoading.value = false
+    // isBookLoading.value = true
+    let { data, error } = await supabase
+      .from('books')
+      .select()
+      .eq('user_id', localUser.session.user.id)
+      .eq('id', bookId)
+    if (error) console.log(error.message)
+    if (data) {
+      currentBook.value = data[0]
+      // currentBookRating.value = data[0].rating
+      // isBookLoading.value = true
+      subscribeEntries()
+
+      return { data }
     }
+    // } catch (err) {
+    //   console.log(err.message)
+    // } finally {
+    //   isBookLoading.value = false
+    // }
   }
 
   // Получаем рейтинг по ID конкретной книги пользователя
@@ -251,7 +254,6 @@ export const useBookStore = defineStore('bookStore', () => {
     currentBook,
     currentBookRating,
     isBookLoading,
-    isCurrentBookLoading,
     loadBooks,
     loadPlanedBooks,
     loadReadingBooks,

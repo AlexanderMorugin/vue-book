@@ -1,15 +1,12 @@
 <template>
   <PageContainer width="normal">
-    <BookTitleBlock
-      :currentBook="bookStore.currentBook"
-      :isLoading="bookStore.isCurrentBookLoading"
-    />
+    <BookTitleBlock :currentBook="bookStore.currentBook" :isLoading="isLoading" />
     <BookEditBlock :currentBook="bookStore.currentBook" :bookId="route.params.id" />
   </PageContainer>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import PageContainer from '@/components/page/PageContainer.vue'
 import BookTitleBlock from '@/components/book/BookTitleBlock.vue'
@@ -21,8 +18,22 @@ const headerStore = useHeaderStore()
 const bookStore = useBookStore()
 const route = useRoute()
 
+const isLoading = ref(false)
+
+async function getStoreData() {
+  isLoading.value = false
+  try {
+    isLoading.value = true
+    await bookStore.loadCurrentBook(route.params.id)
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 onMounted(() => {
   headerStore.setHeaderTitle('Детали книги')
-  bookStore.loadCurrentBook(route.params.id)
+  getStoreData()
 })
 </script>

@@ -1,46 +1,38 @@
 <template>
-  <ul class="bookStarRating">
-    <li
-      v-for="i in maxStars"
-      :key="i"
-      @click="setRating(i)"
-      @mouseover="hoverRating(i)"
-      @mouseleave="resetHover"
-    >
+  <div class="bookStarRating">
+    <div v-for="i in maxStars" :key="i" @click="setRating(i)">
       <button>
-        <StarIcon
-          :class="['starIcon', i <= (isHovered ? hoverValue : rating) ? 'starIconActive' : '']"
-        />
+        <StarIcon :class="['starIcon', i <= rating ? 'starIconActive' : '']" />
       </button>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import StarIcon from '../icon/StarIcon.vue'
+import { useBookStore } from '@/stores/book-store'
 
-const { value, maxStars } = defineProps(['value', 'maxStars'])
+const bookStore = useBookStore()
+
+const { value, maxStars, bookId } = defineProps(['value', 'maxStars', 'bookId'])
 const emit = defineEmits(['update:value'])
 
 const rating = ref(value)
-const isHovered = ref(false)
-const hoverValue = ref(0)
 
 const setRating = (newRating) => {
   rating.value = newRating
   emit('ratingData', newRating)
 }
 
-const hoverRating = (value) => {
-  if (isHovered.value) {
-    hoverValue.value = value
-  }
+async function getStoreData() {
+  const { data } = await bookStore.loadCurrentBook(bookId)
+  rating.value = data[0].rating
 }
 
-const resetHover = () => {
-  hoverValue.value = 0
-}
+onMounted(() => {
+  getStoreData()
+})
 </script>
 
 <style scoped>
