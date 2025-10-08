@@ -1,13 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-
 import { supabase } from '../config/supabase'
 
 export const useCommentStore = defineStore('commentStore', () => {
   /* state */
 
   const comments = ref([])
-  const isLoading = ref(false)
 
   /* actions */
 
@@ -28,6 +26,31 @@ export const useCommentStore = defineStore('commentStore', () => {
     //   isLoading.value = true
     //   subscribeEntries()
     // }
+  }
+
+  const loadCurrentBookComment = async (bookId) => {
+    let { data, error } = await supabase.from('comments').select().eq('book_id', bookId)
+    if (error) console.log(error.message)
+    if (data) {
+      console.log(data)
+      subscribeEntries()
+      return { data }
+    }
+  }
+
+  const addComment = async (bookId, comment) => {
+    let { data: localUser } = await supabase.auth.getSession()
+
+    // console.log(localUser.session.user.id)
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([{ user_id: localUser.session.user.id, book_id: bookId, text: comment }])
+      .select()
+    if (error) console.log(error.message)
+    else {
+      console.log(data)
+      subscribeEntries()
+    }
   }
 
   const subscribeEntries = async () => {
@@ -53,21 +76,6 @@ export const useCommentStore = defineStore('commentStore', () => {
       .subscribe()
   }
 
-  const addComment = async (bookId, comment) => {
-    let { data: localUser } = await supabase.auth.getSession()
-
-    console.log(localUser.session.user.id)
-    const { data, error } = await supabase
-      .from('comments')
-      .insert([{ user_id: localUser.session.user.id, book_id: bookId, text: comment }])
-      .select()
-    if (error) console.log(error.message)
-    else {
-      console.log(data)
-      subscribeEntries()
-    }
-  }
-
   /* helpers */
 
   const getCommentIndexById = (entryId) => {
@@ -76,10 +84,8 @@ export const useCommentStore = defineStore('commentStore', () => {
 
   return {
     comments,
-    isLoading,
     loadComments,
+    loadCurrentBookComment,
     addComment,
-    subscribeEntries,
-    getCommentIndexById,
   }
 })
