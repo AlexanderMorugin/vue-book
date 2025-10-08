@@ -1,32 +1,37 @@
 <template>
   <section class="bookTitleBlock">
-    <img
-      :src="BookMidnightLibraryImage"
-      alt="Полуночная библиотека"
-      class="bookTitleBlock__image"
-    />
-    <div class="bookTitleBlock__details">
-      <h1 class="bookTitleBlock__title">Полуночная библиотека</h1>
-      <span class="bookTitleBlock__author">Мэтт Хейг</span>
-      <span class="bookTitleBlock__genre">Художественная литература</span>
-      <BookStatus status="Читаю" />
+    <AppLoader v-if="isLoading" />
+    <div v-else class="bookTitleBlock__container">
+      <img :src="currentBook?.image" :alt="currentBook?.name" class="bookTitleBlock__image" />
+      <div class="bookTitleBlock__details">
+        <h1 class="bookTitleBlock__title">{{ currentBook?.name }}</h1>
+        <span class="bookTitleBlock__author">{{ currentBook?.author }}</span>
+        <span class="bookTitleBlock__genre">{{ currentBook?.genre }}</span>
+        <BookStatus :progress="currentBook?.progress" />
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
+import AppLoader from '../loader/AppLoader.vue'
 import BookStatus from './BookStatus.vue'
-import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
+
+const { currentBook, isLoading } = defineProps(['currentBook', 'isLoading'])
 </script>
 
 <style scoped>
 .bookTitleBlock {
-  display: flex;
-  gap: 32px;
+  width: 100%;
+  min-height: 384px;
   background: var(--gradient-book-title);
   border-radius: var(--border-radius-l);
   box-shadow: var(--shadow-secondary);
   padding: 32px;
+}
+.bookTitleBlock__container {
+  display: flex;
+  gap: 32px;
 }
 .bookTitleBlock__image {
   width: 224px;
@@ -69,9 +74,11 @@ import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 
 @media (max-width: 767px) {
   .bookTitleBlock {
+    padding: 16px 10px;
+  }
+  .bookTitleBlock__container {
     flex-direction: column;
     gap: 20px;
-    padding: 16px 10px;
   }
   .bookTitleBlock__image {
     width: 100%;
