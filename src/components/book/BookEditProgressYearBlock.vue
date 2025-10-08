@@ -19,13 +19,13 @@
 
     <BookEditProgressYearDisplayBlock
       :doneBooks="bookStore.doneBooks.length"
-      :allBooks="userStore.user[0]?.books_for_year"
+      :allBooks="quantityBooksField"
     />
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import AppLogoBlock from '../logo/AppLogoBlock.vue'
 import BookEditProgressYearDisplayBlock from './BookEditProgressYearDisplayBlock.vue'
 import LoaderForButtonBlue from '../loader/LoaderForButtonBlue.vue'
@@ -35,16 +35,39 @@ import { useBookStore } from '@/stores/book-store'
 const userStore = useUserStore()
 const bookStore = useBookStore()
 
-const quantityBooksField = ref(userStore.user[0]?.books_for_year || 0)
+const quantityBooksField = ref(0)
 const isLoading = ref(false)
 
 const setBooksQuantity = async () => {
-  isLoading.value = true
-
-  await userStore.updateBooksForYearInDatabase(quantityBooksField.value)
-
   isLoading.value = false
+
+  try {
+    isLoading.value = true
+    await userStore.updateBooksForYearInDatabase(quantityBooksField.value)
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
 }
+
+async function getStoreData() {
+  isLoading.value = false
+  try {
+    isLoading.value = true
+    const { data } = await userStore.loadCurrentUserFromDatabase()
+
+    quantityBooksField.value = data[0].books_for_year
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  getStoreData()
+})
 </script>
 
 <style scoped>

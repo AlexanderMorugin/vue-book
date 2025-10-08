@@ -1,6 +1,5 @@
 <template>
   <section class="bookEditBlock">
-    <!-- {{ currentBook }} -->
     <BookEditRatingCard :currentBook="currentBook" :bookId="bookId" />
     <BookEditCommentCard :bookId="bookId" />
     <BookEditProgressCard />

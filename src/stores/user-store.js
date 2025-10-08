@@ -6,7 +6,6 @@ export const useUserStore = defineStore('userStore', () => {
   /* state */
   const user = ref([])
   const existUserErrorMessage = ref(null)
-  // const isUpdateBooksForYearInDatabaseLoading = ref(true)
 
   /* actions */
 
@@ -89,6 +88,17 @@ export const useUserStore = defineStore('userStore', () => {
     user.value = await supabase.auth.getSession()
   }
 
+  const loadCurrentUserFromDatabase = async () => {
+    let { data: localUser } = await supabase.auth.getSession()
+
+    let { data, error } = await supabase.from('users').select().eq('id', localUser.session.user.id)
+    if (error) console.log(error.message)
+    if (data) {
+      subscribeEntries()
+      return { data }
+    }
+  }
+
   const logout = async () => {
     const { error } = await supabase.auth.signOut()
 
@@ -146,6 +156,6 @@ export const useUserStore = defineStore('userStore', () => {
     clearExistUserErrorMessage,
     searchUserInDatabaseById,
     updateBooksForYearInDatabase,
-    subscribeEntries,
+    loadCurrentUserFromDatabase,
   }
 })

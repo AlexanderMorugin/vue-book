@@ -1,7 +1,5 @@
 <template>
   <BookEditContainer>
-    <!-- <AppLoader v-if="isLoading" /> -->
-
     <BookEditTitle title="Рейтинг" />
     <LoaderForComponent v-if="isLoading" />
     <BookStarRating
