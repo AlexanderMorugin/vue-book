@@ -23,6 +23,11 @@ import BookEditContainer from './BookEditContainer.vue'
 import BookEditTitle from './BookEditTitle.vue'
 import BookCommentTextArea from './BookCommentTextArea.vue'
 import BookEditSubmitButtons from './BookEditSubmitButtons.vue'
+import { useCommentStore } from '@/stores/comment-store'
+
+const commentStore = useCommentStore()
+
+const { bookId } = defineProps(['bookId'])
 
 const isCommentActive = ref(false)
 const comment = ref('Очень нравятся философские размышления о параллельных жизнях.')
@@ -30,8 +35,17 @@ const comment = ref('Очень нравятся философские разм
 const setActiveComment = () => (isCommentActive.value = true)
 const removeActiveComment = () => (isCommentActive.value = false)
 
-const submitData = () => {
-  console.log(comment.value)
+const submitData = async () => {
+  // собираем дату для отправки
+  // const commentData = {
+  //   text: comment.value,
+  //   book_id: bookId,
+  // }
+  // console.log(commentData)
+
+  await commentStore.addComment(bookId, comment.value)
+  await commentStore.loadComments()
+
   removeActiveComment()
 }
 </script>

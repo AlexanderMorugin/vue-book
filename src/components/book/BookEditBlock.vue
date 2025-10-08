@@ -1,7 +1,8 @@
 <template>
   <section class="bookEditBlock">
-    <BookEditRatingCard />
-    <BookEditCommentCard />
+    <!-- {{ currentBook }} -->
+    <BookEditRatingCard :currentBook="currentBook" :bookId="bookId" />
+    <BookEditCommentCard :bookId="bookId" />
     <BookEditProgressCard />
   </section>
 </template>
@@ -10,6 +11,8 @@
 import BookEditCommentCard from './BookEditCommentCard.vue'
 import BookEditProgressCard from './BookEditProgressCard.vue'
 import BookEditRatingCard from './BookEditRatingCard.vue'
+
+const { currentBook, bookId } = defineProps(['currentBook', 'bookId'])
 </script>
 
 <style scoped>

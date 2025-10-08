@@ -11,6 +11,7 @@ export const useBookStore = defineStore('bookStore', () => {
   const readingBooks = ref([])
   const doneBooks = ref([])
   const currentBook = ref(null)
+  const currentBookRating = ref(0)
   const isBookLoading = ref(false)
   const isCurrentBookLoading = ref(false)
 
@@ -113,6 +114,61 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
+  // Получаем рейтинг по ID конкретной книги пользователя
+  // const getCurrentBookRating = async (bookId) => {
+  //   try {
+  //     let { data: localUser } = await supabase.auth.getSession()
+
+  //     isCurrentBookLoading.value = true
+  //     let { data, error } = await supabase
+  //       .from('books')
+  //       .select()
+  //       .eq('user_id', localUser.session.user.id)
+  //       .eq('id', bookId)
+  //     if (error) console.log(error.message)
+  //     if (data) {
+  //       console.log(data[0].rating)
+
+  //       subscribeEntries()
+  //     }
+  //   } catch (err) {
+  //     console.log(err.message)
+  //   } finally {
+  //     isCurrentBookLoading.value = false
+  //   }
+  // }
+
+  // Обновляем рейтинг по ID конкретной книги пользователя
+  const updateCurrentBookRating = async (rating, bookId) => {
+    const { data, error } = await supabase
+      .from('books')
+      .update({ rating: rating })
+      .eq('id', bookId)
+      .select()
+
+    if (error) {
+      console.log(error.message)
+    } else {
+      console.log('data = ', data)
+      // Realtime function
+      subscribeEntries()
+    }
+  }
+  // const updateCurrentBookRating = async (rating, bookId) => {
+  //   const { data, error } = await supabase
+  //     .from('books')
+  //     .upsert({ id: `${bookId}`, rating: rating })
+  //     .select()
+
+  //   if (error) {
+  //     console.log(error.message)
+  //   } else {
+  //     console.log('data = ', data)
+  //     // Realtime function
+  //     subscribeEntries()
+  //   }
+  // }
+
   const subscribeEntries = async () => {
     supabase
       .channel('books-channel')
@@ -120,12 +176,6 @@ export const useBookStore = defineStore('bookStore', () => {
         console.log('Change received!', payload)
 
         if (payload.eventType === 'INSERT') books.value.push(payload.new)
-
-        if (payload.eventType === 'DELETE') {
-          const index = getBookIndexById(payload.old.id)
-
-          books.value.splice(index, 1)
-        }
 
         if (payload.eventType === 'UPDATE') {
           const index = getBookIndexById(payload.new.id)
@@ -135,6 +185,29 @@ export const useBookStore = defineStore('bookStore', () => {
       })
       .subscribe()
   }
+
+  // const subscribeEntries = async () => {
+  //   supabase
+  //     .channel('books-channel')
+  //     .on('postgres_changes', { event: '*', schema: 'public', table: 'books' }, (payload) => {
+  //       console.log('Change received!', payload)
+
+  //       if (payload.eventType === 'INSERT') books.value.push(payload.new)
+
+  //       if (payload.eventType === 'DELETE') {
+  //         const index = getBookIndexById(payload.old.id)
+
+  //         books.value.splice(index, 1)
+  //       }
+
+  //       if (payload.eventType === 'UPDATE') {
+  //         const index = getBookIndexById(payload.new.id)
+
+  //         Object.assign(books.value[index], payload.new)
+  //       }
+  //     })
+  //     .subscribe()
+  // }
 
   const addBook = async (bookData) => {
     const { data, error } = await supabase.from('books').insert([bookData]).select()
@@ -176,6 +249,7 @@ export const useBookStore = defineStore('bookStore', () => {
     readingBooks,
     doneBooks,
     currentBook,
+    currentBookRating,
     isBookLoading,
     isCurrentBookLoading,
     loadBooks,
@@ -185,7 +259,7 @@ export const useBookStore = defineStore('bookStore', () => {
     subscribeEntries,
     addBook,
     loadCurrentBook,
-    // deleteEntry,
-    // updateEntry,
+    // getCurrentBookRating,
+    updateCurrentBookRating,
   }
 })

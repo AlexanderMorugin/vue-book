@@ -4,9 +4,7 @@
       :currentBook="bookStore.currentBook"
       :isLoading="bookStore.isCurrentBookLoading"
     />
-    <BookEditBlock />
-    <!-- <h1>Book #{{ currentId }}</h1> -->
-    <!-- <h1>{{ bookStore.currentBook }}</h1> -->
+    <BookEditBlock :currentBook="bookStore.currentBook" :bookId="route.params.id" />
   </PageContainer>
 </template>
 
@@ -22,8 +20,6 @@ import { useBookStore } from '@/stores/book-store'
 const headerStore = useHeaderStore()
 const bookStore = useBookStore()
 const route = useRoute()
-
-// const currentId = route.params.id
 
 onMounted(() => {
   headerStore.setHeaderTitle('Детали книги')
