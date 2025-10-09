@@ -47,6 +47,8 @@ const setActiveProgress = () => (isProgressActive.value = true)
 const removeActiveProgress = () => (isProgressActive.value = false)
 
 const submitData = () => {
+  if (progress.value < 0 || progress.value > 100) return
+
   bookStore.updateCurrentBookProgress(progress.value, bookId)
   removeActiveProgress()
 }

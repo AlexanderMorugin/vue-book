@@ -22,6 +22,26 @@ export const useBookStore = defineStore('bookStore', () => {
       .from('books')
       .select()
       .eq('user_id', localUser.session.user.id)
+      // .eq('progress', progress)
+      .order('created_at', { ascending: false })
+    if (error) console.log(error.message)
+    if (data) {
+      books.value = data
+      subscribeEntries()
+      return { data }
+    }
+  }
+
+  // Получаем книги по статусам
+  const loadStatusBooks = async (progressGreat, progressLess) => {
+    let { data: localUser } = await supabase.auth.getSession()
+
+    let { data, error } = await supabase
+      .from('books')
+      .select()
+      .eq('user_id', localUser.session.user.id)
+      .gte('progress', progressGreat)
+      .lte('progress', progressLess)
       .order('created_at', { ascending: false })
     if (error) console.log(error.message)
     if (data) {
@@ -223,6 +243,7 @@ export const useBookStore = defineStore('bookStore', () => {
     doneBooks,
     currentBook,
     loadBooks,
+    loadStatusBooks,
     loadPlanedBooks,
     loadReadingBooks,
     loadDoneBooks,

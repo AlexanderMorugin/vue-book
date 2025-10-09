@@ -21,8 +21,6 @@ import { useBookStore } from '@/stores/book-store'
 
 const bookStore = useBookStore()
 
-// console.log(bookStore.books)
-
 const { padding, line, place } = defineProps(['padding', 'line', 'place'])
 
 const counter = ref([

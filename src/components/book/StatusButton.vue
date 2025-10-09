@@ -6,12 +6,12 @@
     <span :class="['statusButton__title', { statusButton__title_active: isActive }]">{{
       title
     }}</span>
-    <span class="statusButton__number">{{ number }}</span>
+    <span class="statusButton__number">{{ quantity }}</span>
   </button>
 </template>
 
 <script setup>
-const { title, number, isActive } = defineProps(['title', 'number', 'isActive'])
+const { title, quantity, isActive } = defineProps(['title', 'quantity', 'isActive'])
 const emit = defineEmits(['handleClick'])
 </script>
 

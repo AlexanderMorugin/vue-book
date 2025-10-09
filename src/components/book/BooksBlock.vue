@@ -2,9 +2,9 @@
   <section>
     <AppLoader v-if="isLoading" />
     <div v-else>
-      <BookEmpty v-if="!bookStore.books.length" title="В вашей библиотеке книг пока нет." />
+      <BookEmpty v-if="!books.length" title="В вашей библиотеке книг пока нет." />
       <ul v-else class="booksBlock">
-        <li v-for="book in bookStore.books" :key="book.id">
+        <li v-for="book in books" :key="book.id">
           <BookCard :book="book" />
         </li>
       </ul>
@@ -13,31 +13,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import BookCard from './BookCard.vue'
-import { useBookStore } from '@/stores/book-store'
 import BookEmpty from './BookEmpty.vue'
 import AppLoader from '../loader/AppLoader.vue'
 
-const bookStore = useBookStore()
-
-const isLoading = ref(false)
-
-async function getStoreData() {
-  isLoading.value = false
-  try {
-    isLoading.value = true
-    await bookStore.loadBooks()
-  } catch (error) {
-    console.log(error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-onMounted(() => {
-  getStoreData()
-})
+const { books, isLoading } = defineProps(['books', 'isLoading'])
 </script>
 
 <style scoped>
