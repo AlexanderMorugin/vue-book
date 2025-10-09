@@ -24,6 +24,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import BookEditContainer from './BookEditContainer.vue'
 import BookEditTitle from './BookEditTitle.vue'
 import BookEditSubmitButtons from './BookEditSubmitButtons.vue'
@@ -34,10 +35,11 @@ import LoaderForComponent from '../loader/LoaderForComponent.vue'
 import { useBookStore } from '@/stores/book-store'
 
 const bookStore = useBookStore()
+const router = useRouter()
 
 const { bookId } = defineProps(['bookId'])
 
-const isLoading = ref(false)
+const isLoading = ref(true)
 const isProgressActive = ref(false)
 const progress = ref(0)
 
@@ -50,13 +52,33 @@ const submitData = () => {
 }
 
 const setProgressDone = async () => {
-  progress.value = 100
-  await bookStore.updateCurrentBookProgress(100, bookId)
-  getStoreData()
-  // progress.value = 100
+  isLoading.value = false
+
+  try {
+    isLoading.value = true
+    progress.value = 100
+    await bookStore.updateCurrentBookProgress(100, bookId)
+    getStoreData()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
 }
 
-const deleteBook = () => {}
+const deleteBook = async () => {
+  isLoading.value = false
+
+  try {
+    isLoading.value = true
+    await bookStore.deleteBook(bookId)
+    router.go(-1)
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 async function getStoreData() {
   isLoading.value = false

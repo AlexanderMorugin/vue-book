@@ -2,12 +2,6 @@
   <div class="loader" />
 </template>
 
-<script setup>
-const { theme } = defineProps('theme')
-
-console.log(theme)
-</script>
-
 <style scoped>
 .loader {
   width: 20px;

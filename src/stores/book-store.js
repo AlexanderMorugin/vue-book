@@ -79,6 +79,23 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
+  // Получаем книги пользователя по поиску
+  const loadSearchBooks = async (entry) => {
+    let { data: localUser } = await supabase.auth.getSession()
+
+    let { data, error } = await supabase
+      .from('books')
+      .select()
+      .eq('user_id', localUser.session.user.id)
+      .eq('name', entry)
+    // .eq('author', entry)
+    if (error) console.log(error.message)
+    if (data) {
+      subscribeEntries()
+      return { data }
+    }
+  }
+
   // Получаем по ID конкретную книгу пользователя
   const loadCurrentBook = async (bookId) => {
     let { data: localUser } = await supabase.auth.getSession()
@@ -142,6 +159,12 @@ export const useBookStore = defineStore('bookStore', () => {
 
         if (payload.eventType === 'INSERT') books.value.push(payload.new)
 
+        if (payload.eventType === 'DELETE') {
+          const index = getBookIndexById(payload.old.id)
+
+          books.value.splice(index, 1)
+        }
+
         if (payload.eventType === 'UPDATE') {
           const index = getBookIndexById(payload.new.id)
 
@@ -180,27 +203,12 @@ export const useBookStore = defineStore('bookStore', () => {
     else console.log(data)
   }
 
-  // const deleteEntry = async (entryId) => {
-  //   console.log(entryId);
-  //   const index = getEntryIndexById(entryId);
+  const deleteBook = async (bookId) => {
+    const { data, error } = await supabase.from('books').delete().eq('id', bookId)
 
-  //   const { error } = await supabase.from("entries").delete().eq("id", entryId);
-
-  //   if (error) console.log(error.message);
-  // };
-
-  // const updateEntry = async (entryId, updates) => {
-  //   console.log(entryId);
-  //   console.log(updates);
-
-  //   const { error } = await supabase
-  //     .from("entries")
-  //     .update(updates)
-  //     .eq("id", entryId)
-  //     .select();
-
-  //   if (error) console.log(error.message);
-  // };
+    if (error) console.log(error.message)
+    else console.log(data)
+  }
 
   /* helpers */
 
@@ -218,9 +226,11 @@ export const useBookStore = defineStore('bookStore', () => {
     loadPlanedBooks,
     loadReadingBooks,
     loadDoneBooks,
+    loadSearchBooks,
     addBook,
     loadCurrentBook,
     updateCurrentBookRating,
     updateCurrentBookProgress,
+    deleteBook,
   }
 })

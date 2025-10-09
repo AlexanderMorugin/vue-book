@@ -26,16 +26,17 @@
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
   line-height: 48px;
-  color: var(--black-primary);
+  color: var(--text-color-primary);
   padding-left: 41px;
   padding-right: 41px;
   transition: 0.3s ease all;
+  overflow: hidden;
 }
 .form-search-input:focus {
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
   line-height: 48px;
-  color: var(--black-primary);
+  color: var(--text-color-primary);
   outline: 0;
   border: 1px solid var(--blue-primary);
 }
@@ -44,6 +45,9 @@
   font-size: 14px;
   line-height: 48px;
   color: var(--text-color-fifthly);
+}
+.form-search-input:focus::placeholder {
+  color: transparent;
 }
 .form-input {
   height: 36px;
@@ -83,4 +87,10 @@
   line-height: 14px;
   color: red;
   text-align: right;
+}
+
+@media (max-width: 767px) {
+  .form-search-input {
+    padding-left: 20px;
+  }
 }
