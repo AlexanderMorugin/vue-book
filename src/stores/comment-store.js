@@ -14,25 +14,26 @@ export const useCommentStore = defineStore('commentStore', () => {
 
     console.log(localUser.session.user.id)
 
-    // isLoading.value = false
-    // let { data, error } = await supabase
-    //   .from('comments')
-    //   .select()
-    //   .eq('user_id', localUser.session.user.id)
-    // if (error) console.log(error.message)
-    // if (data) {
-    //   console.log(data)
-    //   comments.value = data
-    //   isLoading.value = true
-    //   subscribeEntries()
-    // }
+    let { data, error } = await supabase
+      .from('comments')
+      .select()
+      .eq('user_id', localUser.session.user.id)
+      .order('created_at', { ascending: false })
+    // .limit(2)
+    if (error) console.log(error.message)
+    if (data) {
+      // comments.value = data
+
+      subscribeEntries()
+
+      return { data }
+    }
   }
 
   const loadCurrentBookComment = async (bookId) => {
     let { data, error } = await supabase.from('comments').select().eq('book_id', bookId)
     if (error) console.log(error.message)
     if (data) {
-      // console.log(data)
       subscribeEntries()
       return { data }
     }

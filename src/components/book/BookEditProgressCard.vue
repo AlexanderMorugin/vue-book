@@ -49,9 +49,9 @@ const submitData = () => {
   removeActiveProgress()
 }
 
-const setProgressDone = () => {
+const setProgressDone = async () => {
   progress.value = 100
-  bookStore.updateCurrentBookProgress(100, bookId)
+  await bookStore.updateCurrentBookProgress(100, bookId)
   getStoreData()
   // progress.value = 100
 }

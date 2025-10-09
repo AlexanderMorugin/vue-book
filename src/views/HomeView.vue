@@ -27,17 +27,18 @@
 
         <div class="home__contentItems">
           <h2 class="home__contentTitle">Последние активности</h2>
-          <div class="home__contentSubItems">
+          <div v-if="estimateBooks.length" class="home__contentSubItems">
             <LastRatingPlate
-              bookName='Закончена "Гордость и предубеждение"'
-              author="Джейн Остин"
-              rating="5"
+              v-for="item in estimateBooks"
+              :key="item.id"
+              :bookName="`Закончена ${item.name}`"
+              :author="item.name"
+              :rating="item.rating"
+              :route="item.id"
             />
-            <LastRatingPlate
-              bookName='Закончена "Великий Гэтсби"'
-              author="Ф. Скотт Фицджеральд"
-              rating="4"
-            />
+          </div>
+          <div v-else class="home__contentSubItemsText">
+            Вы не оценили ни одной прочтённой книги.
           </div>
         </div>
       </div>
@@ -70,6 +71,8 @@ const isReadingBooks = computed(() =>
 )
 
 const isYearProgress = computed(() => userStore.user[0]?.books_for_year > 0)
+const doneBooks = computed(() => bookStore.books.filter((item) => item.progress === 100))
+const estimateBooks = computed(() => doneBooks.value.filter((item) => item.rating > 0).slice(0, 2))
 
 async function getStoreData() {
   isLoading.value = false
@@ -136,6 +139,13 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.home__contentSubItemsText {
+  font-family: 'Inter-Medium', sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--text-color-secondary);
 }
 
 @media (max-width: 1279px) {

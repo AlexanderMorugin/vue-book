@@ -1,5 +1,5 @@
 <template>
-  <div class="lastRatingPlate">
+  <router-link :to="BOOKS_PATH + `/${route}`" class="lastRatingPlate">
     <div class="lastRatingPlate__nameBlock">
       <div class="lastRatingPlate__circle" />
       <div>
@@ -9,13 +9,14 @@
     </div>
 
     <BookRating :rating="rating" />
-  </div>
+  </router-link>
 </template>
 
 <script setup>
+import { BOOKS_PATH } from '@/mock/routes'
 import BookRating from '../book/BookRating.vue'
 
-const { bookName, author, rating } = defineProps(['bookName', 'author', 'rating'])
+const { bookName, author, rating, route } = defineProps(['bookName', 'author', 'rating', 'route'])
 </script>
 
 <style scoped>
