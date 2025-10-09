@@ -19,7 +19,7 @@
 
     <BookEditProgressYearDisplayBlock
       :doneBooks="bookStore.doneBooks.length"
-      :allBooks="quantityBooksField"
+      :allBooks="quantityBooksFromDatabase"
     />
   </section>
 </template>
@@ -36,6 +36,7 @@ const userStore = useUserStore()
 const bookStore = useBookStore()
 
 const quantityBooksField = ref(0)
+const quantityBooksFromDatabase = ref(0)
 const isLoading = ref(false)
 
 const setBooksQuantity = async () => {
@@ -44,6 +45,7 @@ const setBooksQuantity = async () => {
   try {
     isLoading.value = true
     await userStore.updateBooksForYearInDatabase(quantityBooksField.value)
+    getStoreData()
   } catch (error) {
     console.log(error)
   } finally {
@@ -58,6 +60,7 @@ async function getStoreData() {
     const { data } = await userStore.loadCurrentUserFromDatabase()
 
     quantityBooksField.value = data[0].books_for_year
+    quantityBooksFromDatabase.value = data[0].books_for_year
   } catch (error) {
     console.log(error)
   } finally {

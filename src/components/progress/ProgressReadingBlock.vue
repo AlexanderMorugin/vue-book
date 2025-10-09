@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { BOOKS_PATH } from '@/mock/routes'
 import BookImage from '../book/BookImage.vue'
 import ProgressBarDetails from './ProgressBarDetails.vue'
@@ -81,8 +81,22 @@ const bookStore = useBookStore()
 
 const { title } = defineProps(['place', 'title'])
 
-onMounted(async () => {
-  bookStore.loadReadingBooks()
+const isLoading = ref(false)
+
+async function getStoreData() {
+  isLoading.value = false
+  try {
+    isLoading.value = true
+    await bookStore.loadReadingBooks()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  getStoreData()
 })
 </script>
 

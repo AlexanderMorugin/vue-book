@@ -22,6 +22,7 @@ export const useBookStore = defineStore('bookStore', () => {
       .from('books')
       .select()
       .eq('user_id', localUser.session.user.id)
+      .order('created_at', { ascending: false })
     if (error) console.log(error.message)
     if (data) {
       books.value = data
@@ -97,9 +98,12 @@ export const useBookStore = defineStore('bookStore', () => {
 
   // Обновляем рейтинг по ID конкретной книги пользователя
   const updateCurrentBookRating = async (rating, bookId) => {
+    let { data: localUser } = await supabase.auth.getSession()
+
     const { data, error } = await supabase
       .from('books')
       .update({ rating: rating })
+      .eq('user_id', localUser.session.user.id)
       .eq('id', bookId)
       .select()
 
@@ -107,6 +111,25 @@ export const useBookStore = defineStore('bookStore', () => {
       console.log(error.message)
     } else {
       console.log('updateCurrentBookRating - ', data)
+      subscribeEntries()
+    }
+  }
+
+  // Обновляем прогресс по ID конкретной книги пользователя
+  const updateCurrentBookProgress = async (progress, bookId) => {
+    let { data: localUser } = await supabase.auth.getSession()
+
+    const { data, error } = await supabase
+      .from('books')
+      .update({ progress: progress })
+      .eq('user_id', localUser.session.user.id)
+      .eq('id', bookId)
+      .select()
+
+    if (error) {
+      console.log(error.message)
+    } else {
+      console.log('updateCurrentBookProgress - ', data)
       subscribeEntries()
     }
   }
@@ -198,5 +221,6 @@ export const useBookStore = defineStore('bookStore', () => {
     addBook,
     loadCurrentBook,
     updateCurrentBookRating,
+    updateCurrentBookProgress,
   }
 })

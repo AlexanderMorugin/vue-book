@@ -2,7 +2,7 @@
   <section class="bookEditBlock">
     <BookEditRatingCard :currentBook="currentBook" :bookId="bookId" />
     <BookEditCommentCard :bookId="bookId" />
-    <BookEditProgressCard />
+    <BookEditProgressCard :bookId="bookId" />
   </section>
 </template>
 

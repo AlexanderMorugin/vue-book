@@ -1,15 +1,15 @@
 <template>
-  <router-link :to="`/books/${book.id}`" class="bookButtonCard">
-    <img :src="book.image" :alt="book.title" class="bookButtonCard__image" />
-    <span class="bookButtonCard__title">{{ book.name }}</span>
-    <span class="bookButtonCard__author">{{ book.author }}</span>
-    <span class="bookButtonCard__genre">{{ book.genre }}</span>
+  <router-link :to="`/books/${book.id}`" class="bookCard">
+    <img :src="book.image" :alt="book.title" class="bookCard__image" />
+    <span class="bookCard__title">{{ book.name }}</span>
+    <span class="bookCard__author">{{ book.author }}</span>
+    <span class="bookCardd__genre">{{ book.genre }}</span>
     <BookStatus :progress="book.progress" />
     <BookRating v-if="book.rating" :rating="book.rating" />
     <ProgressBarDetails
       v-if="book.progress && book.progress < 100"
       :progress="book.progress"
-      class="bookButtonCard__progress"
+      class="bookCard__progress"
     />
   </router-link>
 </template>
@@ -23,7 +23,7 @@ const { book } = defineProps(['book'])
 </script>
 
 <style scoped>
-.bookButtonCard {
+.bookCard {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -35,17 +35,17 @@ const { book } = defineProps(['book'])
   padding: 24px;
   transition: 0.25s ease;
 }
-.bookButtonCard:hover {
+.bookCard:hover {
   box-shadow: var(--shadow-primary);
 }
-.bookButtonCard__image {
+.bookCard__image {
   width: 100%;
   height: 224px;
   object-fit: cover;
   border-radius: var(--border-radius-m);
   box-shadow: var(--shadow-thirdly);
 }
-.bookButtonCard__title {
+.bookCard__title {
   font-family: 'Inter-Medium', sans-serif;
   font-size: 17px;
   line-height: 28px;
@@ -53,14 +53,14 @@ const { book } = defineProps(['book'])
   text-align: left;
   padding-top: 16px;
 }
-.bookButtonCard__author {
+.bookCard__author {
   font-family: 'Inter-Regular', sans-serif;
   font-size: 16px;
   line-height: 24px;
   color: var(--text-color-secondary);
   text-align: left;
 }
-.bookButtonCard__genre {
+.bookCard__genre {
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
   line-height: 20px;
@@ -68,18 +68,18 @@ const { book } = defineProps(['book'])
   text-align: left;
   padding-top: 4px;
 }
-.bookButtonCard__progress {
+.bookCard__progress {
   padding-top: 12px;
 }
 
 @media (max-width: 767px) {
-  .bookButtonCard {
+  .bookCard {
     padding: 16px 10px;
   }
 }
 
 @media (max-width: 379px) {
-  .bookButtonCard__image {
+  .bookCard__image {
     height: 160px;
   }
 }

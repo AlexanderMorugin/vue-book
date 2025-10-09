@@ -34,7 +34,7 @@ const { bookId } = defineProps(['bookId'])
 
 const isLoading = ref(false)
 const isCommentActive = ref(false)
-const comment = ref('Вы еще ничего не писали здесь.')
+const comment = ref('')
 
 const setActiveComment = () => (isCommentActive.value = true)
 const removeActiveComment = () => (isCommentActive.value = false)
@@ -58,8 +58,8 @@ async function getStoreData() {
     isLoading.value = true
     const { data } = await commentStore.loadCurrentBookComment(bookId)
 
-    console.log(data[0].text)
-    comment.value = data[0].text
+    // console.log(data[0].text)
+    comment.value = data[0]?.text ? data[0].text : 'Вы еще ничего не писали здесь.'
   } catch (error) {
     console.log(error)
   } finally {

@@ -32,7 +32,7 @@ export const useCommentStore = defineStore('commentStore', () => {
     let { data, error } = await supabase.from('comments').select().eq('book_id', bookId)
     if (error) console.log(error.message)
     if (data) {
-      console.log(data)
+      // console.log(data)
       subscribeEntries()
       return { data }
     }
@@ -42,13 +42,13 @@ export const useCommentStore = defineStore('commentStore', () => {
     let { data: localUser } = await supabase.auth.getSession()
 
     // console.log(localUser.session.user.id)
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('comments')
       .insert([{ user_id: localUser.session.user.id, book_id: bookId, text: comment }])
       .select()
     if (error) console.log(error.message)
     else {
-      console.log(data)
+      // console.log(data)
       subscribeEntries()
     }
   }

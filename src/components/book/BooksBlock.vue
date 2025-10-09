@@ -1,22 +1,42 @@
 <template>
   <section>
-    <ul class="booksBlock">
-      <li v-for="book in bookStore.books" :key="book.id">
-        <BookButtonCard :book="book" />
-      </li>
-    </ul>
+    <AppLoader v-if="isLoading" />
+    <div v-else>
+      <BookEmpty v-if="!bookStore.books.length" title="В вашей библиотеке книг пока нет." />
+      <ul v-else class="booksBlock">
+        <li v-for="book in bookStore.books" :key="book.id">
+          <BookCard :book="book" />
+        </li>
+      </ul>
+    </div>
   </section>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import BookButtonCard from './BookButtonCard.vue'
+import { onMounted, ref } from 'vue'
+import BookCard from './BookCard.vue'
 import { useBookStore } from '@/stores/book-store'
+import BookEmpty from './BookEmpty.vue'
+import AppLoader from '../loader/AppLoader.vue'
 
 const bookStore = useBookStore()
 
-onMounted(async () => {
-  bookStore.loadBooks()
+const isLoading = ref(false)
+
+async function getStoreData() {
+  isLoading.value = false
+  try {
+    isLoading.value = true
+    await bookStore.loadBooks()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  getStoreData()
 })
 </script>
 

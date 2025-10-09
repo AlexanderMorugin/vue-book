@@ -6,14 +6,13 @@
     </section>
 
     <section class="home__content">
-      <div class="home__contentBlock">
-        <ProgressYearBlock place="home" title="Цель на 2024 год" />
-        <ProgressReadingBlock
-          place="home"
-          title="Текущие книги"
-          :progress="readingProgress"
-          :readingBook="readingBook"
-        />
+      <AppLoader v-if="isLoading" />
+      <div v-else>
+        <BookEmpty v-if="!bookStore.books.length" title="Добавьте книги в свою библиотеку." />
+        <div v-else class="home__contentBlock">
+          <ProgressYearBlock v-if="isYearProgress" place="home" title="Цель на 2024 год" />
+          <ProgressReadingBlock v-if="isReadingBooks" place="home" title="Текущие книги" />
+        </div>
       </div>
       <div class="home__contentBlock">
         <div class="home__contentItems">
@@ -47,41 +46,50 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import ProgressYearBlock from '@/components/progress/ProgressYearBlock.vue'
 import ProgressReadingBlock from '@/components/progress/ProgressReadingBlock.vue'
-import BookMidnightLibraryImage from '/images/img-midnight-library.webp'
 import ButtonWithIcon from '@/components/page/ButtonWithIcon.vue'
 import LastRatingPlate from '@/components/page/LastRatingPlate.vue'
 import PageContainer from '@/components/page/PageContainer.vue'
 import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
 import { useHeaderStore } from '@/stores/header-store'
 import { useBookStore } from '@/stores/book-store'
+import AppLoader from '@/components/loader/AppLoader.vue'
+import BookEmpty from '@/components/book/BookEmpty.vue'
+import { useUserStore } from '@/stores/user-store'
 
 const headerStore = useHeaderStore()
 const bookStore = useBookStore()
+const userStore = useUserStore()
 
-const readingBook = ref({
-  id: 1,
-  title: 'Полуночная библиотека',
-  author: 'Мэтт Хейг',
-  image: BookMidnightLibraryImage,
-  readingProgress: 65,
-})
+const isLoading = ref(false)
+
+const isReadingBooks = computed(() =>
+  bookStore.books.find((item) => item.progress > 0 && item.progress < 100),
+)
+
+const isYearProgress = computed(() => userStore.user[0]?.books_for_year > 0)
+
+async function getStoreData() {
+  isLoading.value = false
+  try {
+    isLoading.value = true
+    await bookStore.loadBooks()
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 onMounted(() => {
+  getStoreData()
   headerStore.setHeaderTitle('Главная')
 })
 </script>
 
 <style scoped>
-/* .home {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  width: 100%;
-  max-width: 1216px;
-} */
 .home__titleBlock {
   display: flex;
   flex-direction: column;
