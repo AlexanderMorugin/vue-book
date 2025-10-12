@@ -66,6 +66,7 @@ onBeforeUnmount(() => {
   align-items: center;
   color: var(--text-color-fifthly);
   border-radius: var(--border-radius-s);
+  margin-bottom: 8px;
   cursor: pointer;
   transition: 0.25s ease;
 }

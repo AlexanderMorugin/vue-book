@@ -28,6 +28,7 @@
     />
 
     <FormInput
+      v-if="!images.length"
       lastInput="true"
       label="Обложка книги"
       type="text"
@@ -38,7 +39,48 @@
       @clearInput="imageUrlField = null"
     />
 
-    <BookUploadImageBlock />
+    <!-- Поле с ручной загрузкой картинки -->
+    <div v-if="!images.length && !imageUrlField" class="bookUploadImageBlock">
+      <div
+        :class="[
+          'bookUploadImageBlock__background',
+          { bookUploadImageBlock__background_isDragging: isDragging },
+        ]"
+      >
+        <div
+          class="bookUploadImageBlock__container"
+          @dragover.prevent="onDragover"
+          @dragleave.prevent="onDragleave"
+          @drop.prevent="onDrop"
+        >
+          <BookUploadImageButton @click="selectFiles" />
+
+          <span class="bookUploadImageBlock__title">Загрузить обложку книги</span>
+          <span class="bookUploadImageBlock__subtitle"
+            >Перетащите файл или нажмите для выбора • Макс. 5МБ</span
+          >
+
+          <input
+            name="file"
+            type="file"
+            ref="fileInput"
+            @change="onFileSelect"
+            class="bookUploadImageBlock__input"
+          />
+        </div>
+      </div>
+      <span v-if="!images.length" class="bookUploadImageBlock__subtitle"
+        >Загрузите файл изображения, вставьте ссылку или используйте кнопку "Найти"</span
+      >
+    </div>
+    <div v-else class="bookUploadImageBlock__imageContainer">
+      <div class="bookUploadImageBlock__imageBox" v-for="(image, index) in images" :key="index">
+        <button class="bookUploadImageBlock__imageDelete" @click="deleteImage(index)">
+          <ClearIcon />
+        </button>
+        <img :src="image.url" class="bookUploadImageBlock__image" />
+      </div>
+    </div>
 
     <!-- Кнопка Сабмит -->
     <FormSubmitButton
@@ -57,10 +99,11 @@ import { helpers, required, minLength, url } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
 import FormSelect from '../form/FormSelect.vue'
-import BookUploadImageBlock from './BookUploadImageBlock.vue'
 import { useGenreStore } from '@/stores/genre-store'
 import { useUserStore } from '@/stores/user-store'
 import { useBookStore } from '@/stores/book-store'
+import BookUploadImageButton from './BookUploadImageButton.vue'
+import ClearIcon from '../icon/ClearIcon.vue'
 
 const genreStore = useGenreStore()
 const userStore = useUserStore()
@@ -72,6 +115,9 @@ const isLoading = ref(false)
 const bookNameField = ref(null)
 const authorField = ref(null)
 const imageUrlField = ref(null)
+const images = ref([])
+const fileInput = ref(null)
+const isDragging = ref(false)
 
 const parrentSelectedOption = ref(null)
 
@@ -106,41 +152,74 @@ const isFromEmpty = computed(
 
 const isValid = computed(() => v$.value.$errors)
 
+const selectFiles = () => {
+  fileInput.value.click()
+}
+
+const onFileSelect = (event) => {
+  const files = event.target.files
+
+  if (files.length === 0) return
+
+  for (let i = 0; i < files.length; i++) {
+    if (files[i].type.split('/')[0] != 'image') continue
+    if (!images.value.some((e) => e.name === files[i].name)) {
+      images.value.push({ name: files[i].name, url: URL.createObjectURL(files[i]) })
+    }
+  }
+}
+
+const deleteImage = (index) => {
+  images.value.splice(index, 1)
+}
+
+const onDragover = (event) => {
+  event.preventDefault()
+  isDragging.value = true
+  event.dataTransfer.dropEffect = 'copy'
+}
+
+const onDragleave = (event) => {
+  event.preventDefault()
+  isDragging.value = false
+}
+
+const onDrop = (event) => {
+  event.preventDefault()
+  isDragging.value = false
+
+  const files = event.dataTransfer.files
+  for (let i = 0; i < files.length; i++) {
+    if (files[i].type.split('/')[0] != 'image') continue
+    if (!images.value.some((e) => e.name === files[i].name)) {
+      images.value.push({ name: files[i].name, url: URL.createObjectURL(files[i]) })
+    }
+  }
+}
+
 const submitAddBook = () => {
   isLoading.value = false
 
-  // собираем книгу для деплоя
-  const bookData = {
-    name: bookNameField.value.trim(),
-    author: authorField.value.trim(),
-    genre: parrentSelectedOption.value.name,
-    image: imageUrlField.value,
-    user_id: userStore.user[0].id,
-    progress: 0,
-    rating: 0,
-  }
+  console.log(images.value)
 
   try {
     isLoading.value = true
+
+    // собираем книгу для деплоя
+    const bookData = {
+      name: bookNameField.value.trim(),
+      author: authorField.value.trim(),
+      genre: parrentSelectedOption.value.name,
+      image: imageUrlField.value || images.value[0],
+      user_id: userStore.user[0].id,
+      progress: 0,
+      rating: 0,
+    }
 
     if (!isFromEmpty.value && !isValid.value.length) {
       console.log(bookData)
       bookStore.addBook(bookData)
     }
-
-    //   // отправляем данные пользователя на регистрацию
-    //   await userStore.registerUser(userData)
-
-    //   // Если приходит ошибка - очищаем поля чтобы снова регистрироваться
-    //   if (userStore.existUserErrorMessage) {
-    //     emailField.value = null
-    //     nameField.value = null
-    //     passwordField.value = null
-    //     confirmPasswordField.value = null
-    //   }
-
-    //   // если пользователь зарегистрирован, перенаправляем его на главную страницу
-    //   router.push('/')
   } catch (error) {
     console.log(error)
   } finally {
@@ -150,7 +229,93 @@ const submitAddBook = () => {
 
 onMounted(() => {
   genreStore.loadGenres()
+
+  selectFiles()
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.bookUploadImageBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bookUploadImageBlock__background {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  background: var(--white-primary);
+  border-radius: var(--border-radius-m);
+  border: 2px dashed var(--gray-seventhly);
+}
+.bookUploadImageBlock__background_isDragging {
+  background: var(--green-primary);
+  border: 2px dashed var(--green-secondary);
+}
+.bookUploadImageBlock__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 26px;
+}
+.bookUploadImageBlock__title {
+  font-family: 'Inter-Medium', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-color-thirdly);
+}
+.bookUploadImageBlock__subtitle {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text-color-sixthly);
+}
+.bookUploadImageBlock__imageContainer {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+}
+.bookUploadImageBlock__imageBox {
+  position: relative;
+  width: 75px;
+  height: 75px;
+}
+.bookUploadImageBlock__image {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--border-radius-s);
+  object-fit: cover;
+}
+.bookUploadImageBlock__imageDelete {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--border-radius-full);
+  background: var(--red-primary);
+  transition: 0.25s ease;
+}
+.bookUploadImageBlock__imageDelete:hover {
+  background: var(--green-secondary);
+}
+.clearIcon {
+  width: 17px;
+  height: 17px;
+  color: var(--white-primary);
+}
+.bookUploadImageBlock__input {
+  display: none;
+}
+</style>

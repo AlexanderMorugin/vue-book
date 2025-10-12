@@ -3,7 +3,7 @@
     <img :src="book.image" :alt="book.title" class="bookCard__image" />
     <span class="bookCard__title">{{ book.name }}</span>
     <span class="bookCard__author">{{ book.author }}</span>
-    <span class="bookCardd__genre">{{ book.genre }}</span>
+    <span class="bookCard__genre">{{ book.genre }}</span>
     <BookStatus :progress="book.progress" />
     <BookRating v-if="book.rating" :rating="book.rating" />
     <ProgressBarDetails

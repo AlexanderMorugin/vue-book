@@ -1,15 +1,18 @@
 <template>
-  <button class="bookUploadImageButton">
+  <button class="bookUploadImageButton" @click="emit('selectFiles')">
     <LogoutIcon class="icon" />
   </button>
 </template>
 
 <script setup>
 import LogoutIcon from '../icon/LogoutIcon.vue'
+
+const emit = defineEmits(['selectFiles'])
 </script>
 
 <style scoped>
 .bookUploadImageButton {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
