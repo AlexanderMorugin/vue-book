@@ -1,8 +1,8 @@
 <template>
-  <section class="bookAddingBlock">
+  <div class="bookAddingBlock">
     <AppLogoBlock place="addBook" />
     <BookAddingForm place="addBook" />
-  </section>
+  </div>
 </template>
 
 <script setup>
@@ -14,7 +14,9 @@ import BookAddingForm from './BookAddingForm.vue'
 .bookAddingBlock {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 16px;
+  width: 100%;
   background: var(--white-thirdly);
   border-radius: var(--border-radius-l);
   box-shadow: var(--shadow-secondary);

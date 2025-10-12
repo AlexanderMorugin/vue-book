@@ -55,6 +55,7 @@ const closeMobileSideBar = () => (isMobileSideBarOpen.value = false)
   display: flex;
   justify-content: center;
   width: 100%;
+  max-width: 1598px;
   height: 100%;
   background: var(--gradient-primary);
   padding: 32px;

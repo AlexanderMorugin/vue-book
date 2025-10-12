@@ -1,24 +1,24 @@
 <template>
-  <div class="form-field">
+  <div class="form-select">
     <span class="form-label">{{ label }}</span>
 
-    <div class="form-field" ref="dropDown">
+    <div class="dropDown" ref="dropDown">
       <div class="form-input dropdown-selected-option" @click="isDropDownVisible = true">
         <span>{{ mappedSelectedOption }}</span>
         <ArrowDropIcon :class="['arrowDropIcon', { arrowDropIcon_active: isDropDownVisible }]" />
       </div>
-      <transition name="slide-fade">
-        <ul v-if="isDropDownVisible">
-          <li
-            v-for="option in options"
-            :key="option.id"
-            class="option"
-            @click="toggleOptionSelect(option)"
-          >
-            {{ option.name || option }}
-          </li>
-        </ul>
-      </transition>
+      <!-- <transition name="slide-fade"> -->
+      <ul :class="['optionList', { optionList_active: isDropDownVisible }]">
+        <li
+          v-for="option in options"
+          :key="option.id"
+          class="optionText"
+          @click="toggleOptionSelect(option)"
+        >
+          {{ option.name || option }}
+        </li>
+      </ul>
+      <!-- </transition> -->
     </div>
   </div>
 </template>
@@ -70,6 +70,22 @@ onBeforeUnmount(() => {
   cursor: pointer;
   transition: 0.25s ease;
 }
+.dropDown {
+  position: relative;
+}
+.optionList {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  width: 100%;
+  background: var(--yellow-secondary);
+  opacity: 0;
+  transition: 0.25s ease;
+}
+.optionList_active {
+  opacity: 1;
+  z-index: 10;
+}
 .arrowDropIcon {
   width: 16px;
   height: 16px;
@@ -88,23 +104,23 @@ onBeforeUnmount(() => {
   opacity: 1;
   color: var(--text-color-secondary);
 }
-.option {
+.optionText {
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
   line-height: 14px;
   color: var(--text-color-primary);
   padding: 16px;
-  border: 1px solid var(--border-color-primary);
+  border: 1px solid var(--black-primary);
   cursor: pointer;
 }
-.option:hover {
+.optionText:hover {
   background: var(--violet-primary);
 }
-.option:first-of-type {
+.optionText:first-of-type {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
-.option:last-of-type {
+.optionText:last-of-type {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
