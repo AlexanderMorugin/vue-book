@@ -1,14 +1,14 @@
 <template>
-  <ModalOverlay :isSuccessModalOpen="isSuccessModalOpen">
+  <OverlayModal :isSuccessModalOpen="isSuccessModalOpen">
     <div class="modalAddingBook">
       <span class="modalAddingBook_message">{{ message }}</span>
       <button class="modalAddingBook_button" @click="emit('closeModal')">В библиотеку</button>
     </div>
-  </ModalOverlay>
+  </OverlayModal>
 </template>
 
 <script setup>
-import ModalOverlay from './modalOverlay.vue'
+import OverlayModal from './OverlayModal.vue'
 
 const { isSuccessModalOpen, message } = defineProps(['isSuccessModalOpen', 'message'])
 const emit = defineEmits(['closeModal'])
