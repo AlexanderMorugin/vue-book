@@ -2,7 +2,13 @@
   <section class="bookTitleBlock">
     <AppLoader v-if="isLoading" />
     <div v-else class="bookTitleBlock__container">
-      <img :src="currentBook?.image" :alt="currentBook?.name" class="bookTitleBlock__image" />
+      <div v-if="!currentBook.image" class="bookTitleBlock__noImage">Книга без обложки</div>
+      <img
+        v-else
+        :src="currentBook?.image"
+        :alt="currentBook?.name"
+        class="bookTitleBlock__image"
+      />
       <div class="bookTitleBlock__details">
         <h1 class="bookTitleBlock__title">{{ currentBook?.name }}</h1>
         <span class="bookTitleBlock__author">{{ currentBook?.author }}</span>
@@ -32,6 +38,23 @@ const { currentBook, isLoading } = defineProps(['currentBook', 'isLoading'])
 .bookTitleBlock__container {
   display: flex;
   gap: 32px;
+}
+.bookTitleBlock__noImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: gainsboro;
+  border-radius: var(--border-radius-m);
+  font-family: 'Inter-Medium', sans-serif;
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--text-color-secondary);
+  text-align: center;
+  width: 224px;
+  height: 320px;
+  border-radius: var(--border-radius-l);
+  box-shadow: var(--shadow-secondary);
+  padding: 20px;
 }
 .bookTitleBlock__image {
   width: 224px;
@@ -79,6 +102,10 @@ const { currentBook, isLoading } = defineProps(['currentBook', 'isLoading'])
   .bookTitleBlock__container {
     flex-direction: column;
     gap: 20px;
+  }
+  .bookTitleBlock__noImage {
+    width: 100%;
+    height: 260px;
   }
   .bookTitleBlock__image {
     width: 100%;
