@@ -5,7 +5,7 @@
         <div class="sideBarAuth__userIconBox">
           <ProfileIcon class="profileIcon" />
         </div>
-        <div class="sideBarAuth__userNameBox">
+        <div v-if="userStore.user.length" class="sideBarAuth__userNameBox">
           <span class="sideBarAuth__name">{{ userStore.user[0]?.name }}</span>
           <span class="sideBarAuth__email">{{ userStore.user[0]?.email }}</span>
         </div>

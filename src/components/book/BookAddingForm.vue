@@ -76,7 +76,11 @@
       </div>
       <div v-else class="bookUploadImageBlock__imageContainer">
         <div class="bookUploadImageBlock__imageBox" v-for="(image, index) in images" :key="index">
-          <button class="bookUploadImageBlock__imageDelete" @click="deleteImage(index)">
+          <button
+            type="button"
+            class="bookUploadImageBlock__imageDelete"
+            @click="deleteImage(index)"
+          >
             <ClearIcon />
           </button>
           <img :src="image.url" class="bookUploadImageBlock__image" />
@@ -224,7 +228,17 @@ const closeModal = () => {
 const submitAddBook = async () => {
   isLoading.value = false
 
-  // console.log(images.value)
+  const bookData = {
+    name: bookNameField.value.trim(),
+    author: authorField.value.trim(),
+    genre: parrentSelectedOption.value.name,
+    image: imageUrlField.value,
+    user_id: userStore.user[0].id,
+    progress: 0,
+    rating: 0,
+  }
+
+  console.log(bookData)
 
   try {
     isLoading.value = true
@@ -245,7 +259,7 @@ const submitAddBook = async () => {
 
       const { data } = await bookStore.addBook(bookData)
 
-      console.log('submitAddBook - ', data[0])
+      // console.log('submitAddBook - ', data[0])
 
       if (data) {
         isSuccessModalOpen.value = true

@@ -1,26 +1,30 @@
 <template>
   <section class="bookEditProgressYearBlock">
-    <AppLogoBlock place="progressYear" />
+    <AppLoader v-if="isLoading" />
 
-    <div class="bookEditProgressYearBlock__inputBox">
-      <span class="bookEditProgressYearBlock__inputBoxTitle">Книг к прочтению в 2024 году</span>
-      <div class="bookEditProgressYearBlock__inputContainer">
-        <input
-          type="number"
-          v-model="quantityBooksField"
-          class="bookEditProgressYearBlock__input"
-        />
-        <button class="bookEditProgressYearBlock__submitButton" @click="setBooksQuantity">
-          <LoaderForButtonBlue v-if="isLoading" />
-          <span v-else>Обновить</span>
-        </button>
+    <div v-else class="bookEditProgressYearBlock__container">
+      <AppLogoBlock place="progressYear" />
+
+      <div class="bookEditProgressYearBlock__inputBox">
+        <span class="bookEditProgressYearBlock__inputBoxTitle">Книг к прочтению в 2024 году</span>
+        <div class="bookEditProgressYearBlock__inputContainer">
+          <input
+            type="number"
+            v-model="quantityBooksField"
+            class="bookEditProgressYearBlock__input"
+          />
+          <button class="bookEditProgressYearBlock__submitButton" @click="setBooksQuantity">
+            <LoaderForButtonBlue v-if="isButtonLoading" />
+            <span v-else>Обновить</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <BookEditProgressYearDisplayBlock
-      :doneBooks="bookStore.doneBooks.length"
-      :allBooks="quantityBooksFromDatabase"
-    />
+      <BookEditProgressYearDisplayBlock
+        :doneBooks="bookStore.doneBooks.length"
+        :allBooks="quantityBooksFromDatabase"
+      />
+    </div>
   </section>
 </template>
 
@@ -31,6 +35,7 @@ import BookEditProgressYearDisplayBlock from './BookEditProgressYearDisplayBlock
 import LoaderForButtonBlue from '../loader/LoaderForButtonBlue.vue'
 import { useUserStore } from '@/stores/user-store'
 import { useBookStore } from '@/stores/book-store'
+import AppLoader from '../loader/AppLoader.vue'
 
 const userStore = useUserStore()
 const bookStore = useBookStore()
@@ -38,29 +43,33 @@ const bookStore = useBookStore()
 const quantityBooksField = ref(0)
 const quantityBooksFromDatabase = ref(0)
 const isLoading = ref(false)
+const isButtonLoading = ref(false)
 
 const setBooksQuantity = async () => {
-  isLoading.value = false
+  isButtonLoading.value = false
 
   try {
-    isLoading.value = true
+    isButtonLoading.value = true
     await userStore.updateBooksForYearInDatabase(quantityBooksField.value)
     getStoreData()
   } catch (error) {
     console.log(error)
   } finally {
-    isLoading.value = false
+    isButtonLoading.value = false
   }
 }
 
 async function getStoreData() {
   isLoading.value = false
+
   try {
     isLoading.value = true
     const { data } = await userStore.loadCurrentUserFromDatabase()
 
     if (!data[0].books_for_year) {
       quantityBooksField.value = 0
+    } else {
+      quantityBooksField.value = data[0].books_for_year
     }
 
     quantityBooksFromDatabase.value = data[0].books_for_year
@@ -78,12 +87,21 @@ onMounted(() => {
 
 <style scoped>
 .bookEditProgressYearBlock {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 16px; */
   background: var(--gradient-progress-gray);
   border-radius: var(--border-radius-l);
   box-shadow: var(--shadow-secondary);
+  padding: 24px 32px 32px 32px;
+}
+.bookEditProgressYearBlock__container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* background: var(--gradient-progress-gray);
+  border-radius: var(--border-radius-l);
+  box-shadow: var(--shadow-secondary); */
   padding: 24px 32px 32px 32px;
 }
 .bookEditProgressYearBlock__inputBox {

@@ -10,8 +10,16 @@
       <div v-else>
         <BookEmpty v-if="!bookStore.books.length" title="Добавьте книги в свою библиотеку." />
         <div v-else class="home__contentBlock">
-          <ProgressYearBlock v-if="isYearProgress" place="home" title="Цель на 2024 год" />
-          <ProgressReadingBlock v-if="isReadingBooks" place="home" title="Текущие книги" />
+          <ProgressYearBlock
+            v-if="userStore.user.length && isYearProgress"
+            place="home"
+            title="Цель на 2024 год"
+          />
+          <ProgressReadingBlock
+            v-if="bookStore.books.length && isReadingBooks"
+            place="home"
+            title="Текущие книги"
+          />
         </div>
       </div>
       <div class="home__contentBlock">

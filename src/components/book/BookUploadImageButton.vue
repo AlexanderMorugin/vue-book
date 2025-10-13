@@ -1,5 +1,5 @@
 <template>
-  <button class="bookUploadImageButton" @click="emit('selectFiles')">
+  <button type="button" class="bookUploadImageButton" @click="emit('selectFiles')">
     <LogoutIcon class="icon" />
   </button>
 </template>

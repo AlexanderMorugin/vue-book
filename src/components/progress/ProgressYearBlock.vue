@@ -15,7 +15,9 @@
 
       <div v-if="place === 'home'" class="progressYearBlock__starBox">
         <StarIcon class="starIcon" />
-        <span class="progressYearBlock__quantity progressYearBlock__quantity_accent"
+        <span
+          v-if="bookStore.doneBooks.length && userStore.user.length"
+          class="progressYearBlock__quantity progressYearBlock__quantity_accent"
           >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year }}</span
         >
       </div>
@@ -24,25 +26,36 @@
     <div class="progressYearBlock__details">
       <div v-if="place === 'sidebar'" class="progressYearBlock__detailsTop">
         <span class="progressYearBlock__detailsTopTitle">Прогресс</span>
-        <span class="progressYearBlock__quantity"
+        <span
+          v-if="bookStore.doneBooks.length && userStore.user.length"
+          class="progressYearBlock__quantity"
           >{{ bookStore.doneBooks.length }}/{{ userStore.user[0]?.books_for_year }}</span
         >
       </div>
 
       <div class="progressYearBlock__detailsMain">
-        <ProgressBar :progress="isYearProgress" color="green" />
+        <ProgressBar
+          v-if="bookStore.doneBooks.length && userStore.user.length"
+          :progress="isYearProgress"
+          color="green"
+        />
         <div
           :class="[
             'progressYearBlock__detailsTextBox',
             { progressYearBlock__detailsTextBox_big: place === 'home' },
           ]"
         >
-          <p v-if="place === 'home'">{{ bookStore.doneBooks.length }} книги прочитаны</p>
+          <p v-if="place === 'home' && bookStore.doneBooks.length && userStore.user.length">
+            {{ bookStore.doneBooks.length }} книги прочитаны
+          </p>
           <p>{{ isYearProgress }}% выполнено</p>
         </div>
       </div>
 
-      <p v-if="place === 'home'" class="progressYearBlock__detailsBottom">
+      <p
+        v-if="place === 'home' && bookStore.doneBooks.length && userStore.user.length"
+        class="progressYearBlock__detailsBottom"
+      >
         Для достижения цели еще
         {{ userStore.user[0]?.books_for_year - bookStore.doneBooks.length }} книг!
       </p>

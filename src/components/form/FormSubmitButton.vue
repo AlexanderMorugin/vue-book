@@ -1,5 +1,6 @@
 <template>
   <button
+    type="submit"
     @click="emit('handleClick')"
     :class="[
       'formSubmitButton',

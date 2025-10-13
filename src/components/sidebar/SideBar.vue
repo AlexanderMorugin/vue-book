@@ -4,8 +4,16 @@
       <SideBarLogo place="sidebar" />
       <SideBarAuth />
       <SideBarMenu @closeMobileSideBar="emit('closeMobileSideBar')" />
-      <SideBarYearProgress v-if="isYearProgress" place="sidebar" title="Цель 2024" />
-      <SideBarReadingProgress v-if="isReadingBooks" place="sidebar" title="Сейчас читаю" />
+      <SideBarYearProgress
+        v-if="userStore.user.length && isYearProgress"
+        place="sidebar"
+        title="Цель 2024"
+      />
+      <SideBarReadingProgress
+        v-if="bookStore.books.length && isReadingBooks"
+        place="sidebar"
+        title="Сейчас читаю"
+      />
     </div>
 
     <SideBarCounter padding="slim" line="top" />
