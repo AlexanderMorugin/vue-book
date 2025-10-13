@@ -1,99 +1,114 @@
 <template>
-  <form class="form-auth" @submit.prevent="submitAddBook">
-    <FormInput
-      lastInput="true"
-      label="Название книги *"
-      type="text"
-      name="bookName"
-      placeholder="Введите название книги"
-      v-model:value="v$.bookNameField.$model"
-      :error="v$.bookNameField.$errors"
-      @clearInput="bookNameField = null"
-    />
-    <FormInput
-      lastInput="true"
-      label="Автор *"
-      type="text"
-      name="author"
-      placeholder="Введите имя автора"
-      v-model:value="v$.authorField.$model"
-      :error="v$.authorField.$errors"
-      @clearInput="authorField = null"
-    />
+  <div>
+    <form class="form-auth" @submit.prevent="submitAddBook">
+      <FormInput
+        lastInput="true"
+        label="Название книги *"
+        type="text"
+        name="bookName"
+        placeholder="Введите название книги"
+        v-model:value="v$.bookNameField.$model"
+        :error="v$.bookNameField.$errors"
+        @clearInput="bookNameField = null"
+      />
+      <FormInput
+        lastInput="true"
+        label="Автор *"
+        type="text"
+        name="author"
+        placeholder="Введите имя автора"
+        v-model:value="v$.authorField.$model"
+        :error="v$.authorField.$errors"
+        @clearInput="authorField = null"
+      />
 
-    <FormSelect
-      label="Жанр"
-      :options="genreStore.genres"
-      v-model:value="v$.parrentSelectedOption.$model"
-    />
+      <FormSelect
+        label="Жанр"
+        :options="genreStore.genres"
+        v-model:value="v$.parrentSelectedOption.$model"
+      />
 
-    <FormInput
-      v-if="!images.length"
-      lastInput="true"
-      label="Обложка книги"
-      type="text"
-      name="imageUrl"
-      placeholder="Вставьте ссылку на изображение"
-      v-model:value="v$.imageUrlField.$model"
-      :error="v$.imageUrlField.$errors"
-      @clearInput="imageUrlField = null"
-    />
+      <FormInput
+        v-if="!images.length"
+        lastInput="true"
+        label="Обложка книги"
+        type="text"
+        name="imageUrl"
+        placeholder="Вставьте ссылку на изображение"
+        v-model:value="v$.imageUrlField.$model"
+        :error="v$.imageUrlField.$errors"
+        @clearInput="imageUrlField = null"
+      />
 
-    <!-- Поле с ручной загрузкой картинки -->
-    <div v-if="!images.length && !imageUrlField" class="bookUploadImageBlock">
-      <div
-        :class="[
-          'bookUploadImageBlock__background',
-          { bookUploadImageBlock__background_isDragging: isDragging },
-        ]"
-      >
+      <!-- Поле с ручной загрузкой картинки -->
+      <div v-if="!images.length && !imageUrlField" class="bookUploadImageBlock">
         <div
-          class="bookUploadImageBlock__container"
-          @dragover.prevent="onDragover"
-          @dragleave.prevent="onDragleave"
-          @drop.prevent="onDrop"
+          :class="[
+            'bookUploadImageBlock__background',
+            { bookUploadImageBlock__background_isDragging: isDragging },
+          ]"
         >
-          <BookUploadImageButton @click="selectFiles" />
-
-          <span class="bookUploadImageBlock__title">Загрузить обложку книги</span>
-          <span class="bookUploadImageBlock__subtitle"
-            >Перетащите файл или нажмите для выбора • Макс. 5МБ</span
+          <div
+            class="bookUploadImageBlock__container"
+            @dragover.prevent="onDragover"
+            @dragleave.prevent="onDragleave"
+            @drop.prevent="onDrop"
           >
+            <BookUploadImageButton @click="selectFiles" />
 
-          <input
-            name="file"
-            type="file"
-            ref="fileInput"
-            @change="onFileSelect"
-            class="bookUploadImageBlock__input"
-          />
+            <span class="bookUploadImageBlock__title">Загрузить обложку книги</span>
+            <span class="bookUploadImageBlock__subtitle"
+              >Перетащите файл или нажмите для выбора • Макс. 5МБ</span
+            >
+
+            <input
+              name="file"
+              type="file"
+              ref="fileInput"
+              @change="onFileSelect"
+              class="bookUploadImageBlock__input"
+            />
+          </div>
+        </div>
+        <span v-if="!images.length" class="bookUploadImageBlock__subtitle"
+          >Загрузите файл изображения, вставьте ссылку или используйте кнопку "Найти"</span
+        >
+      </div>
+      <div v-else class="bookUploadImageBlock__imageContainer">
+        <div class="bookUploadImageBlock__imageBox" v-for="(image, index) in images" :key="index">
+          <button class="bookUploadImageBlock__imageDelete" @click="deleteImage(index)">
+            <ClearIcon />
+          </button>
+          <img :src="image.url" class="bookUploadImageBlock__image" />
         </div>
       </div>
-      <span v-if="!images.length" class="bookUploadImageBlock__subtitle"
-        >Загрузите файл изображения, вставьте ссылку или используйте кнопку "Найти"</span
-      >
-    </div>
-    <div v-else class="bookUploadImageBlock__imageContainer">
-      <div class="bookUploadImageBlock__imageBox" v-for="(image, index) in images" :key="index">
-        <button class="bookUploadImageBlock__imageDelete" @click="deleteImage(index)">
-          <ClearIcon />
-        </button>
-        <img :src="image.url" class="bookUploadImageBlock__image" />
-      </div>
-    </div>
 
-    <!-- Кнопка Сабмит -->
-    <FormSubmitButton
-      :place="place"
-      :isFromEmpty="isFromEmpty"
-      :isValid="isValid.length"
-      :isLoading="isLoading"
-    />
-  </form>
+      <!-- Кнопка Сабмит -->
+      <FormSubmitButton
+        :place="place"
+        :isFromEmpty="isFromEmpty"
+        :isValid="isValid.length"
+        :isLoading="isLoading"
+      />
+    </form>
+
+    <!-- Модалка успешного добавления книги в supabase -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <ModalAddingBook
+          v-if="isSuccessModalOpen"
+          :isSuccessModalOpen="isSuccessModalOpen"
+          :message="successCreatingNewBookMessage"
+          @closeModal="closeModal"
+        />
+      </Transition>
+    </Teleport>
+  </div>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, required, minLength, url } from '@vuelidate/validators'
 import FormInput from '../form/FormInput.vue'
@@ -104,10 +119,13 @@ import { useUserStore } from '@/stores/user-store'
 import { useBookStore } from '@/stores/book-store'
 import BookUploadImageButton from './BookUploadImageButton.vue'
 import ClearIcon from '../icon/ClearIcon.vue'
+import { BOOKS_PATH } from '@/mock/routes'
+import ModalAddingBook from '../modal/modalAddingBook.vue'
 
 const genreStore = useGenreStore()
 const userStore = useUserStore()
 const bookStore = useBookStore()
+const router = useRouter()
 
 const { place } = defineProps(['place'])
 
@@ -118,7 +136,8 @@ const imageUrlField = ref(null)
 const images = ref([])
 const fileInput = ref(null)
 const isDragging = ref(false)
-
+const isSuccessModalOpen = ref(false)
+const successCreatingNewBookMessage = ref(null)
 const parrentSelectedOption = ref(null)
 
 // Валидация
@@ -197,28 +216,41 @@ const onDrop = (event) => {
   }
 }
 
-const submitAddBook = () => {
+const closeModal = () => {
+  isSuccessModalOpen.value = false
+  router.push(BOOKS_PATH)
+}
+
+const submitAddBook = async () => {
   isLoading.value = false
 
-  console.log(images.value)
+  // console.log(images.value)
 
   try {
     isLoading.value = true
 
-    // собираем книгу для деплоя
-    const bookData = {
-      name: bookNameField.value.trim(),
-      author: authorField.value.trim(),
-      genre: parrentSelectedOption.value.name,
-      image: imageUrlField.value || images.value[0],
-      user_id: userStore.user[0].id,
-      progress: 0,
-      rating: 0,
-    }
-
     if (!isFromEmpty.value && !isValid.value.length) {
-      console.log(bookData)
-      bookStore.addBook(bookData)
+      // собираем книгу для деплоя
+      const bookData = {
+        name: bookNameField.value.trim(),
+        author: authorField.value.trim(),
+        genre: parrentSelectedOption.value.name,
+        image: imageUrlField.value || images.value[0],
+        user_id: userStore.user[0].id,
+        progress: 0,
+        rating: 0,
+      }
+
+      // console.log(bookData)
+
+      const { data } = await bookStore.addBook(bookData)
+
+      console.log('submitAddBook - ', data[0])
+
+      if (data) {
+        isSuccessModalOpen.value = true
+        successCreatingNewBookMessage.value = 'Книга успешно добавлена!'
+      }
     }
   } catch (error) {
     console.log(error)
@@ -229,8 +261,6 @@ const submitAddBook = () => {
 
 onMounted(() => {
   genreStore.loadGenres()
-
-  selectFiles()
 })
 </script>
 

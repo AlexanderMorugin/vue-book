@@ -59,7 +59,10 @@ async function getStoreData() {
     isLoading.value = true
     const { data } = await userStore.loadCurrentUserFromDatabase()
 
-    quantityBooksField.value = data[0].books_for_year
+    if (!data[0].books_for_year) {
+      quantityBooksField.value = 0
+    }
+
     quantityBooksFromDatabase.value = data[0].books_for_year
   } catch (error) {
     console.log(error)

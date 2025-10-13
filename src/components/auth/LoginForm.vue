@@ -87,22 +87,26 @@ const isValid = computed(() => v$.value.$errors)
 const submitLoginForm = async () => {
   isLoading.value = false
 
-  const userData = {
-    email: emailField.value?.trim(),
-    password: passwordField.value?.trim(),
-  }
-
   try {
     isLoading.value = true
-    await userStore.loginUser(userData)
 
-    // Если приходит ошибка - очищаем поля
-    if (userStore.existUserErrorMessage) {
-      emailField.value = null
-      passwordField.value = null
+    if (!isFromEmpty.value && !isValid.value.length) {
+      // собираем пользователя
+      const userData = {
+        email: emailField.value?.trim(),
+        password: passwordField.value?.trim(),
+      }
+
+      await userStore.loginUser(userData)
+
+      // Если приходит ошибка - очищаем поля
+      if (userStore.existUserErrorMessage) {
+        emailField.value = null
+        passwordField.value = null
+      }
+
+      router.push('/')
     }
-
-    router.push('/')
   } catch (error) {
     console.log(error)
   } finally {

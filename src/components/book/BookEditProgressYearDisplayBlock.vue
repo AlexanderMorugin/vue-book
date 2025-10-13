@@ -1,6 +1,6 @@
 <template>
   <div class="bookEditProgressYearDisplayBlock">
-    <div class="bookEditProgressYearDisplayBlock__count">{{ doneBooks }} / {{ allBooks }}</div>
+    <div class="bookEditProgressYearDisplayBlock__count">{{ doneBooks }} / {{ allBooks || 0 }}</div>
     <span class="bookEditProgressYearDisplayBlock__title">Книг прочитано за год</span>
     <ProgressBar :progress="isYearProgress" color="red" />
     <span class="bookEditProgressYearDisplayBlock__subtitle"

@@ -220,7 +220,7 @@ export const useBookStore = defineStore('bookStore', () => {
   const addBook = async (bookData) => {
     const { data, error } = await supabase.from('books').insert([bookData]).select()
     if (error) console.log(error.message)
-    else console.log(data)
+    else return { data }
   }
 
   const deleteBook = async (bookId) => {

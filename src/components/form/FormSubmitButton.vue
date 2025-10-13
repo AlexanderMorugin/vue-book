@@ -68,6 +68,7 @@ const emit = defineEmits(['handleClick'])
   height: 36px;
   border-radius: var(--border-radius-s);
   box-shadow: var(--shadow-secondary);
+  cursor: auto;
 }
 .formSubmitButton_register {
   background: var(--gradient-form-register);

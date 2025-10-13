@@ -3,6 +3,7 @@ html {
 }
 
 body {
+  position: relative;
   background: var(--white-primary);
   vertical-align: middle;
 }
