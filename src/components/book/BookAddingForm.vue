@@ -95,7 +95,7 @@
     <!-- Модалка успешного добавления книги в supabase -->
     <Teleport to="body">
       <Transition name="fade">
-        <ModalAddingBook
+        <SuccessAddBookModal
           v-if="isSuccessModalOpen"
           :isSuccessModalOpen="isSuccessModalOpen"
           :message="successCreatingNewBookMessage"
@@ -120,7 +120,7 @@ import { useBookStore } from '@/stores/book-store'
 import BookUploadImageButton from './BookUploadImageButton.vue'
 import ClearIcon from '../icon/ClearIcon.vue'
 import { BOOKS_PATH } from '@/mock/routes'
-import ModalAddingBook from '../modal/modalAddingBook.vue'
+import SuccessAddBookModal from '../modal/SuccessAddBookModal.vue'
 
 const genreStore = useGenreStore()
 const userStore = useUserStore()
