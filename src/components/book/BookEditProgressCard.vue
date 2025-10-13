@@ -9,6 +9,7 @@
         :is="isProgressActive ? BookProgressInput : ProgressBarDetails"
         v-model:value="progress"
         :progress="progress"
+        :progressErrorMessage="progressErrorMessage"
       />
 
       <BookEditSubmitButtons
@@ -42,15 +43,32 @@ const { bookId } = defineProps(['bookId'])
 const isLoading = ref(true)
 const isProgressActive = ref(false)
 const progress = ref(0)
+const progressErrorMessage = ref(null)
 
 const setActiveProgress = () => (isProgressActive.value = true)
-const removeActiveProgress = () => (isProgressActive.value = false)
+const removeActiveProgress = () => {
+  isProgressActive.value = false
+  progressErrorMessage.value = null
+  progress.value = bookStore.currentBook.progress
+}
 
-const submitData = () => {
-  if (progress.value < 0 || progress.value > 100) return
+const submitData = async () => {
+  progressErrorMessage.value = null
 
-  bookStore.updateCurrentBookProgress(progress.value, bookId)
+  // if (progress.value < 0 || progress.value > 100) return
+  if (progress.value < 0 || progress.value > 100) {
+    progressErrorMessage.value = 'от 0 до 100'
+    progress.value = bookStore.currentBook.progress
+    return
+  }
+
+  // if (!progress.value < 0 || !progress.value > 0)
+  // progress.value = bookStore.currentBook.progress
+  progressErrorMessage.value = null
+  await bookStore.updateCurrentBookProgress(progress.value, bookId)
   removeActiveProgress()
+  getStoreData()
+  // }
 }
 
 const setProgressDone = async () => {

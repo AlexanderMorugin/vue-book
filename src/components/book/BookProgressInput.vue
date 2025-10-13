@@ -9,11 +9,13 @@
       @input="updateValue"
     />
     <span class="bookProgressInput__percent">%</span>
+
+    <span class="bookProgressInput__error">{{ progressErrorMessage }}</span>
   </div>
 </template>
 
 <script setup>
-const { value } = defineProps(['value'])
+const { value, progressErrorMessage } = defineProps(['value', 'progressErrorMessage'])
 const emit = defineEmits(['update:value'])
 const updateValue = (e) => emit('update:value', e.target.value)
 </script>
@@ -24,7 +26,6 @@ const updateValue = (e) => emit('update:value', e.target.value)
   align-items: center;
   gap: 8px;
 }
-
 .bookProgressInput__field {
   width: fit-content;
   height: 36px;
@@ -46,5 +47,12 @@ const updateValue = (e) => emit('update:value', e.target.value)
   font-size: 14px;
   line-height: 20px;
   color: var(--text-color-eighthly);
+}
+.bookProgressInput__error {
+  font-family: 'Inter-Regular', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--red-primary);
+  padding-left: 50px;
 }
 </style>

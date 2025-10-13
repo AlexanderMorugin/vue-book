@@ -2,7 +2,7 @@
   <section class="bookTitleBlock">
     <AppLoader v-if="isLoading" />
     <div v-else class="bookTitleBlock__container">
-      <div v-if="!currentBook.image" class="bookTitleBlock__noImage">Книга без обложки</div>
+      <div v-if="!currentBook?.image" class="bookTitleBlock__noImage">Книга без обложки</div>
       <img
         v-else
         :src="currentBook?.image"

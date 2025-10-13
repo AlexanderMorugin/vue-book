@@ -166,8 +166,8 @@ export const useBookStore = defineStore('bookStore', () => {
     if (error) {
       console.log(error.message)
     } else {
-      console.log('updateCurrentBookProgress - ', data)
       subscribeEntries()
+      return { data }
     }
   }
 
