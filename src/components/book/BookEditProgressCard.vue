@@ -55,20 +55,16 @@ const removeActiveProgress = () => {
 const submitData = async () => {
   progressErrorMessage.value = null
 
-  // if (progress.value < 0 || progress.value > 100) return
   if (progress.value < 0 || progress.value > 100) {
     progressErrorMessage.value = 'от 0 до 100'
     progress.value = bookStore.currentBook.progress
     return
   }
 
-  // if (!progress.value < 0 || !progress.value > 0)
-  // progress.value = bookStore.currentBook.progress
   progressErrorMessage.value = null
   await bookStore.updateCurrentBookProgress(progress.value, bookId)
   removeActiveProgress()
   getStoreData()
-  // }
 }
 
 const setProgressDone = async () => {
