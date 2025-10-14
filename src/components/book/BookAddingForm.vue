@@ -23,6 +23,7 @@
       />
 
       <FormSelect
+        v-if="genreStore.genres.length"
         label="Жанр"
         :options="genreStore.genres"
         v-model:value="v$.parrentSelectedOption.$model"
@@ -41,7 +42,7 @@
       />
 
       <!-- Поле с ручной загрузкой картинки -->
-      <div v-if="!images.length && !imageUrlField" class="bookUploadImageBlock">
+      <div class="bookUploadImageBlock">
         <div
           :class="[
             'bookUploadImageBlock__background',
@@ -49,6 +50,7 @@
           ]"
         >
           <div
+            v-if="!images.length"
             class="bookUploadImageBlock__container"
             @dragover.prevent="onDragover"
             @dragleave.prevent="onDragleave"
@@ -69,22 +71,28 @@
               class="bookUploadImageBlock__input"
             />
           </div>
+
+          <div class="bookUploadImageBlock__imageContainer">
+            <div
+              class="bookUploadImageBlock__imageBox"
+              v-for="(image, index) in images"
+              :key="index"
+            >
+              <button
+                type="button"
+                class="bookUploadImageBlock__imageDelete"
+                @click="deleteImage(index)"
+              >
+                <ClearIcon />
+              </button>
+              <img :src="image.url" class="bookUploadImageBlock__image" />
+            </div>
+          </div>
         </div>
+
         <span v-if="!images.length" class="bookUploadImageBlock__subtitle"
           >Загрузите файл изображения, вставьте ссылку или используйте кнопку "Найти"</span
         >
-      </div>
-      <div v-else class="bookUploadImageBlock__imageContainer">
-        <div class="bookUploadImageBlock__imageBox" v-for="(image, index) in images" :key="index">
-          <button
-            type="button"
-            class="bookUploadImageBlock__imageDelete"
-            @click="deleteImage(index)"
-          >
-            <ClearIcon />
-          </button>
-          <img :src="image.url" class="bookUploadImageBlock__image" />
-        </div>
       </div>
 
       <!-- Кнопка Сабмит -->
@@ -95,6 +103,9 @@
         :isLoading="isLoading"
       />
     </form>
+
+    {{ images }}
+    {{ imageUrlField }}
 
     <!-- Модалка успешного добавления книги в supabase -->
     <Teleport to="body">
@@ -190,6 +201,9 @@ const onFileSelect = (event) => {
       images.value.push({ name: files[i].name, url: URL.createObjectURL(files[i]) })
     }
   }
+
+  // Очищаем инпут ввода картинки в текстовом режиме
+  imageUrlField.value = null
 }
 
 const deleteImage = (index) => {
@@ -218,6 +232,9 @@ const onDrop = (event) => {
       images.value.push({ name: files[i].name, url: URL.createObjectURL(files[i]) })
     }
   }
+
+  // Очищаем инпут ввода картинки в текстовом режиме
+  imageUrlField.value = null
 }
 
 const closeModal = () => {
@@ -228,17 +245,7 @@ const closeModal = () => {
 const submitAddBook = async () => {
   isLoading.value = false
 
-  const bookData = {
-    name: bookNameField.value.trim(),
-    author: authorField.value.trim(),
-    genre: parrentSelectedOption.value.name,
-    image: imageUrlField.value,
-    user_id: userStore.user[0].id,
-    progress: 0,
-    rating: 0,
-  }
-
-  console.log(bookData)
+  console.log('images')
 
   try {
     isLoading.value = true
@@ -250,16 +257,18 @@ const submitAddBook = async () => {
         author: authorField.value.trim(),
         genre: parrentSelectedOption.value.name,
         image: imageUrlField.value || images.value[0],
+        // image: imageUrlField.value,
+        // image: images.value[0],
         user_id: userStore.user[0].id,
         progress: 0,
         rating: 0,
       }
 
-      // console.log(bookData)
+      console.log(bookData)
 
       const { data } = await bookStore.addBook(bookData)
 
-      // console.log('submitAddBook - ', data[0])
+      console.log('submitAddBook - ', data[0])
 
       if (data) {
         isSuccessModalOpen.value = true
@@ -284,7 +293,11 @@ onMounted(() => {
   flex-direction: column;
   gap: 12px;
 }
+.bookUploadImageBlock_hide {
+  display: none;
+}
 .bookUploadImageBlock__background {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -292,6 +305,7 @@ onMounted(() => {
   background: var(--white-primary);
   border-radius: var(--border-radius-m);
   border: 2px dashed var(--gray-seventhly);
+  min-height: 152px;
 }
 .bookUploadImageBlock__background_isDragging {
   background: var(--green-primary);
@@ -318,24 +332,19 @@ onMounted(() => {
   color: var(--text-color-sixthly);
 }
 .bookUploadImageBlock__imageContainer {
-  position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  width: 100%;
-  height: auto;
-  max-height: 200px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }
 .bookUploadImageBlock__imageBox {
   position: relative;
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
 }
 .bookUploadImageBlock__image {
   width: 100%;
   height: 100%;
-  border-radius: var(--border-radius-s);
+  border-radius: var(--border-radius-m);
   object-fit: cover;
 }
 .bookUploadImageBlock__imageDelete {
@@ -345,8 +354,8 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: var(--border-radius-full);
   background: var(--red-primary);
   transition: 0.25s ease;
@@ -355,8 +364,8 @@ onMounted(() => {
   background: var(--green-secondary);
 }
 .clearIcon {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
   color: var(--white-primary);
 }
 .bookUploadImageBlock__input {
