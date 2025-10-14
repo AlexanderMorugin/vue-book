@@ -107,10 +107,10 @@ export const useBookStore = defineStore('bookStore', () => {
       .from('books')
       .select()
       .eq('user_id', localUser.session.user.id)
-      .eq('name', entry)
-    // .eq('author', entry)
+      .or(`name.ilike.%${entry}%, author.ilike.%${entry}%`)
     if (error) console.log(error.message)
     if (data) {
+      books.value = data
       subscribeEntries()
       return { data }
     }

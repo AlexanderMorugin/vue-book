@@ -41,6 +41,8 @@ export const useUserStore = defineStore('userStore', () => {
       }
       // делаем логин
       await loginUser(userForLogin)
+
+      return { data }
     }
   }
 
@@ -80,7 +82,7 @@ export const useUserStore = defineStore('userStore', () => {
       console.log(error)
       existUserErrorMessage.value = 'Почта или пароль не верные.'
     } else {
-      console.log('loginUser - ', data)
+      return { data }
     }
   }
 

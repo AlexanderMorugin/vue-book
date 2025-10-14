@@ -97,7 +97,7 @@ const submitLoginForm = async () => {
         password: passwordField.value?.trim(),
       }
 
-      await userStore.loginUser(userData)
+      const { data } = await userStore.loginUser(userData)
 
       // Если приходит ошибка - очищаем поля
       if (userStore.existUserErrorMessage) {
@@ -105,7 +105,10 @@ const submitLoginForm = async () => {
         passwordField.value = null
       }
 
-      router.push('/')
+      if (data) {
+        console.log(data)
+        router.push('/')
+      }
     }
   } catch (error) {
     console.log(error)

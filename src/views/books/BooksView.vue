@@ -5,7 +5,7 @@
       name="bookField"
       placeholder="Поиск книги или автора"
       v-model:value="bookField"
-      @clearInput="bookField = null"
+      @clearInput="clearInput"
     />
 
     <!-- Блок с кнопками -->
@@ -78,6 +78,12 @@ const statusButtons = ref([
     status: false,
   },
 ])
+
+const clearInput = () => {
+  bookField.value = null
+
+  getStoreData()
+}
 
 const setActive = (id, progressGreat, progressLess) => {
   const currentButton = statusButtons.value.find((item) => item.id === id)

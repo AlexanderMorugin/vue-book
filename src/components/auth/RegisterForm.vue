@@ -133,7 +133,7 @@ const submitRegisterForm = async () => {
       }
 
       // отправляем данные пользователя на регистрацию
-      await userStore.registerUser(userData)
+      const { data } = await userStore.registerUser(userData)
 
       // Если приходит ошибка - очищаем поля чтобы снова регистрироваться
       if (userStore.existUserErrorMessage) {
@@ -144,7 +144,11 @@ const submitRegisterForm = async () => {
       }
 
       // если пользователь зарегистрирован, перенаправляем его на главную страницу
-      router.push('/')
+      if (data) {
+        console.log(data)
+        router.push('/')
+      }
+      // router.push('/')
     }
   } catch (error) {
     console.log(error)
