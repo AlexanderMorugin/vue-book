@@ -97,17 +97,16 @@ const submitLoginForm = async () => {
         password: passwordField.value?.trim(),
       }
 
-      const { data } = await userStore.loginUser(userData)
+      const { data, error } = await userStore.loginUser(userData)
 
-      // Если приходит ошибка - очищаем поля
-      if (userStore.existUserErrorMessage) {
+      // если пользователь залогинен, перенаправляем его на главную страницу
+      if (data) {
+        router.push('/')
+      }
+      // Если приходит ошибка - очищаем поля чтобы снова логинится
+      if (error) {
         emailField.value = null
         passwordField.value = null
-      }
-
-      if (data) {
-        console.log(data)
-        router.push('/')
       }
     }
   } catch (error) {

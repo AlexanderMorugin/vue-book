@@ -133,22 +133,18 @@ const submitRegisterForm = async () => {
       }
 
       // отправляем данные пользователя на регистрацию
-      const { data } = await userStore.registerUser(userData)
-
-      // Если приходит ошибка - очищаем поля чтобы снова регистрироваться
-      if (userStore.existUserErrorMessage) {
-        emailField.value = null
-        nameField.value = null
-        passwordField.value = null
-        confirmPasswordField.value = null
-      }
+      const { data, error } = await userStore.registerUser(userData)
 
       // если пользователь зарегистрирован, перенаправляем его на главную страницу
       if (data) {
-        console.log(data)
         router.push('/')
       }
-      // router.push('/')
+
+      // Если приходит ошибка - очищаем поля чтобы снова регистрироваться
+      if (error) {
+        passwordField.value = null
+        confirmPasswordField.value = null
+      }
     }
   } catch (error) {
     console.log(error)

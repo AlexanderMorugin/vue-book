@@ -104,9 +104,6 @@
       />
     </form>
 
-    {{ images }}
-    {{ imageUrlField }}
-
     <!-- Модалка успешного добавления книги в supabase -->
     <Teleport to="body">
       <Transition name="fade">
@@ -257,8 +254,6 @@ const submitAddBook = async () => {
         author: authorField.value.trim(),
         genre: parrentSelectedOption.value.name,
         image: imageUrlField.value || images.value[0],
-        // image: imageUrlField.value,
-        // image: images.value[0],
         user_id: userStore.user[0].id,
         progress: 0,
         rating: 0,

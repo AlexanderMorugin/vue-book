@@ -22,8 +22,8 @@ export const useUserStore = defineStore('userStore', () => {
     })
 
     if (error) {
-      console.log('useUserStore - registerUser: ', error)
       existUserErrorMessage.value = 'Пользователь с такой почтой уже существует.'
+      return { error }
     } else {
       // собираем пользователя для Database
       const newUser = {
@@ -33,14 +33,6 @@ export const useUserStore = defineStore('userStore', () => {
       }
       // создаем нового пользователя в Database
       await createUserInDatabase(newUser)
-
-      // собираем пользователя для логина
-      const userForLogin = {
-        email: userData.email,
-        password: userData.password,
-      }
-      // делаем логин
-      await loginUser(userForLogin)
 
       return { data }
     }
@@ -79,8 +71,8 @@ export const useUserStore = defineStore('userStore', () => {
     })
 
     if (error) {
-      console.log(error)
       existUserErrorMessage.value = 'Почта или пароль не верные.'
+      return { error }
     } else {
       return { data }
     }
