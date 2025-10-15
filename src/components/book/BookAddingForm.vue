@@ -146,6 +146,7 @@ const bookNameField = ref(null)
 const authorField = ref(null)
 const imageUrlField = ref(null)
 const images = ref([])
+const dropedImage = ref(null)
 const fileInput = ref(null)
 const isDragging = ref(false)
 const isSuccessModalOpen = ref(false)
@@ -190,6 +191,8 @@ const selectFiles = () => {
 const onFileSelect = (event) => {
   const files = event.target.files
 
+  dropedImage.value = event.target.files[0]
+
   if (files.length === 0) return
 
   for (let i = 0; i < files.length; i++) {
@@ -223,6 +226,10 @@ const onDrop = (event) => {
   isDragging.value = false
 
   const files = event.dataTransfer.files
+
+  dropedImage.value = event.dataTransfer.files[0]
+
+  // console.log(files)
   for (let i = 0; i < files.length; i++) {
     if (files[i].type.split('/')[0] != 'image') continue
     if (!images.value.some((e) => e.name === files[i].name)) {
@@ -242,28 +249,30 @@ const closeModal = () => {
 const submitAddBook = async () => {
   isLoading.value = false
 
-  console.log('images')
-
   try {
     isLoading.value = true
 
     if (!isFromEmpty.value && !isValid.value.length) {
+      // image: imageUrlField.value || images.value[0],
+
       // собираем книгу для деплоя
       const bookData = {
         name: bookNameField.value.trim(),
         author: authorField.value.trim(),
         genre: parrentSelectedOption.value.name,
-        image: imageUrlField.value || images.value[0],
+        // image: images.value[0],
+        image: dropedImage.value,
         user_id: userStore.user[0].id,
         progress: 0,
         rating: 0,
       }
 
-      console.log(bookData)
+      // await bookStore.addBook(bookData)
+      // console.log(bookData)
 
-      const { data } = await bookStore.addBook(bookData)
+      const data = await bookStore.addBook(bookData)
 
-      console.log('submitAddBook - ', data[0])
+      // console.log('submitAddBook - ', data)
 
       if (data) {
         isSuccessModalOpen.value = true

@@ -26,7 +26,7 @@ const emit = defineEmits(['update:value', 'clearInput'])
 
 const updateValue = async (e) => {
   const data = await bookStore.loadSearchBooks(e.target.value)
-  // console.log(e.target.value)
+
   console.log(data)
   emit('update:value', e.target.value)
 }
