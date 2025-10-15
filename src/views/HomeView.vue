@@ -8,7 +8,7 @@
     <section class="home__content">
       <AppLoader v-if="isLoading" />
       <div v-else>
-        <BookEmpty v-if="!bookStore.books.length" title="Добавьте книги в свою библиотеку." />
+        <BookEmptyArray v-if="!bookStore.books.length" title="Добавьте книги в свою библиотеку." />
         <div v-else class="home__contentBlock">
           <ProgressYearBlock
             v-if="userStore.user.length && isYearProgress"
@@ -40,7 +40,7 @@
               v-for="item in estimateBooks"
               :key="item.id"
               :bookName="`Закончена ${item.name}`"
-              :author="item.name"
+              :author="item.author"
               :rating="item.rating"
               :route="item.id"
             />
@@ -65,7 +65,7 @@ import { ADD_BOOK_PATH, BOOKS_PATH } from '@/mock/routes'
 import { useHeaderStore } from '@/stores/header-store'
 import { useBookStore } from '@/stores/book-store'
 import AppLoader from '@/components/loader/AppLoader.vue'
-import BookEmpty from '@/components/book/BookEmpty.vue'
+import BookEmptyArray from '@/components/book/BookEmptyArray.vue'
 import { useUserStore } from '@/stores/user-store'
 
 const headerStore = useHeaderStore()

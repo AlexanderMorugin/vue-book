@@ -1,6 +1,7 @@
 <template>
   <router-link
-    :to="BOOKS_PATH + `/${bookStore.readingBooks[0]?.id}`"
+    v-if="bookStore.readingBooks.length"
+    :to="BOOKS_PATH + `/${bookStore.readingBooks[0].id}`"
     :class="[
       'progressReadingBlock',
       {
@@ -29,8 +30,8 @@
       <BookImage
         v-if="place === 'home'"
         :place="place"
-        :image="bookStore.readingBooks[0]?.image"
-        :title="bookStore.readingBooks[0]?.name"
+        :image="bookStore.readingBooks[0].image"
+        :title="bookStore.readingBooks[0].name"
       />
 
       <div
@@ -64,7 +65,7 @@
           </p>
         </div>
 
-        <ProgressBarDetails :progress="bookStore.readingBooks[0]?.progress" />
+        <ProgressBarDetails :progress="bookStore.readingBooks[0].progress" />
       </div>
     </div>
   </router-link>

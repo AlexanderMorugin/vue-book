@@ -99,7 +99,7 @@ const rules = computed(() => ({
   },
   confirmPasswordField: {
     required: helpers.withMessage('', required),
-    sameAsPassword: helpers.withMessage('Не совпадает', sameAs(passwordField.value)),
+    sameAsPassword: helpers.withMessage('Не совпадает', sameAs(passwordField)),
   },
 }))
 

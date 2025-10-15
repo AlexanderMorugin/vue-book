@@ -1,5 +1,5 @@
 <template>
-  <div class="bookEmpty">{{ title }}</div>
+  <div class="bookEmptyArray">{{ title }}</div>
 </template>
 
 <script setup>
@@ -7,7 +7,7 @@ const { title } = defineProps(['title'])
 </script>
 
 <style scoped>
-.bookEmpty {
+.bookEmptyArray {
   display: flex;
   justify-content: center;
   align-items: center;

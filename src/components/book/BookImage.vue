@@ -1,10 +1,13 @@
 <template>
   <div :class="['bookImage', { bookImage_home: place === 'home' }]">
-    <img :src="image" :alt="title" class="bookImage__picture" />
+    <BookEmptyImage v-if="!image" title="Книга без обложки" place="home" />
+    <img v-else :src="image" :alt="title" class="bookImage__picture" />
   </div>
 </template>
 
 <script setup>
+import BookEmptyImage from './BookEmptyImage.vue'
+
 const { place, image, title } = defineProps(['place', 'image', 'title'])
 </script>
 

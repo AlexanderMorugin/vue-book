@@ -2,7 +2,7 @@
   <section>
     <AppLoader v-if="isLoading" />
     <div v-else>
-      <BookEmpty v-if="!books.length" title="В вашей библиотеке книг пока нет." />
+      <BookEmptyArray v-if="!books.length" title="В вашей библиотеке книг пока нет." />
       <ul v-else class="booksBlock">
         <li v-for="book in books" :key="book.id">
           <BookCard :book="book" />
@@ -14,7 +14,7 @@
 
 <script setup>
 import BookCard from './BookCard.vue'
-import BookEmpty from './BookEmpty.vue'
+import BookEmptyArray from './BookEmptyArray.vue'
 import AppLoader from '../loader/AppLoader.vue'
 
 const { books, isLoading } = defineProps(['books', 'isLoading'])

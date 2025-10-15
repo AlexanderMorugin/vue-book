@@ -1,6 +1,6 @@
 <template>
   <router-link :to="`/books/${book.id}`" class="bookCard">
-    <div v-if="!book.image" class="bookCard__noImage">Книга без обложки</div>
+    <BookEmptyImage v-if="!book.image" title="Книга без обложки" />
     <img v-else :src="book.image" :alt="book.title" class="bookCard__image" />
     <span class="bookCard__title">{{ book.name }}</span>
     <span class="bookCard__author">{{ book.author }}</span>
@@ -17,6 +17,7 @@
 
 <script setup>
 import ProgressBarDetails from '../progress/ProgressBarDetails.vue'
+import BookEmptyImage from './BookEmptyImage.vue'
 import BookRating from './BookRating.vue'
 import BookStatus from './BookStatus.vue'
 
@@ -38,22 +39,6 @@ const { book } = defineProps(['book'])
 }
 .bookCard:hover {
   box-shadow: var(--shadow-primary);
-}
-.bookCard__noImage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 224px;
-  background: gainsboro;
-  border-radius: var(--border-radius-m);
-  font-family: 'Inter-Medium', sans-serif;
-  font-size: 17px;
-  line-height: 28px;
-  color: var(--text-color-secondary);
-  text-align: center;
-  box-shadow: var(--shadow-thirdly);
-  padding: 20px;
 }
 .bookCard__image {
   width: 100%;
@@ -96,9 +81,6 @@ const { book } = defineProps(['book'])
 }
 
 @media (max-width: 379px) {
-  .bookCard__noImage {
-    height: 160px;
-  }
   .bookCard__image {
     height: 160px;
   }
