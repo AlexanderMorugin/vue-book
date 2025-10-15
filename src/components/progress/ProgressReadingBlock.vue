@@ -1,7 +1,7 @@
 <template>
   <router-link
-    v-if="bookStore.readingBooks.length"
-    :to="BOOKS_PATH + `/${bookStore.readingBooks[0].id}`"
+    v-if="readingBook"
+    :to="BOOKS_PATH + `/${readingBook.id}`"
     :class="[
       'progressReadingBlock',
       {
@@ -30,8 +30,8 @@
       <BookImage
         v-if="place === 'home'"
         :place="place"
-        :image="bookStore.readingBooks[0].image"
-        :title="bookStore.readingBooks[0].name"
+        :image="readingBook.image"
+        :title="readingBook.name"
       />
 
       <div
@@ -51,7 +51,7 @@
               },
             ]"
           >
-            {{ bookStore.readingBooks[0]?.name }}
+            {{ readingBook.name }}
           </p>
           <p
             :class="[
@@ -61,18 +61,18 @@
               },
             ]"
           >
-            {{ bookStore.readingBooks[0]?.author }}
+            {{ readingBook.author }}
           </p>
         </div>
 
-        <ProgressBarDetails :progress="bookStore.readingBooks[0].progress" />
+        <ProgressBarDetails :progress="readingBook.progress" />
       </div>
     </div>
   </router-link>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { BOOKS_PATH } from '@/mock/routes'
 import BookImage from '../book/BookImage.vue'
 import ProgressBarDetails from './ProgressBarDetails.vue'
@@ -82,23 +82,9 @@ const bookStore = useBookStore()
 
 const { title } = defineProps(['place', 'title'])
 
-const isLoading = ref(false)
-
-async function getStoreData() {
-  isLoading.value = false
-  try {
-    isLoading.value = true
-    await bookStore.loadReadingBooks()
-  } catch (error) {
-    console.log(error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-onMounted(() => {
-  getStoreData()
-})
+const readingBook = computed(() =>
+  bookStore.books.find((item) => item.progress > 0 && item.progress < 100),
+)
 </script>
 
 <style scoped>

@@ -20,7 +20,7 @@
       </div>
     </section>
 
-    <BooksBlock :books="bookStore.books" :isLoading="isLoading" />
+    <BooksBlock v-if="bookStore.books.length" :books="bookStore.books" :isLoading="isLoading" />
     <SideBarCounter place="books" />
   </PageContainer>
 </template>

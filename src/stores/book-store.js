@@ -166,8 +166,12 @@ export const useBookStore = defineStore('bookStore', () => {
     if (error) {
       console.log(error.message)
     } else {
+      if (data) {
+        loadBooks()
+      }
       subscribeEntries()
-      return { data }
+      console.log(data)
+      // return { data }
     }
   }
 
