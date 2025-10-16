@@ -1,7 +1,7 @@
 <template>
-  <button type="button" class="bookUploadImageButton" @click="emit('selectFiles')">
+  <div role="button" class="bookUploadImageButton" @click="emit('selectFiles')">
     <LogoutIcon class="icon" />
-  </button>
+  </div>
 </template>
 
 <script setup>

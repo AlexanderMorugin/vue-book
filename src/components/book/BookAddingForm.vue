@@ -42,7 +42,7 @@
       />
 
       <!-- Поле с ручной загрузкой картинки -->
-      <div class="bookUploadImageBlock">
+      <div v-if="!imageUrlField" class="bookUploadImageBlock">
         <div
           :class="[
             'bookUploadImageBlock__background',
@@ -72,19 +72,19 @@
             />
           </div>
 
-          <div class="bookUploadImageBlock__imageContainer">
+          <div v-if="images.length" class="bookUploadImageBlock__imageContainer">
             <div
               class="bookUploadImageBlock__imageBox"
               v-for="(image, index) in images"
               :key="index"
             >
-              <button
-                type="button"
+              <div
+                role="button"
                 class="bookUploadImageBlock__imageDelete"
                 @click="deleteImage(index)"
               >
                 <ClearIcon />
-              </button>
+              </div>
               <img :src="image.url" class="bookUploadImageBlock__image" />
             </div>
           </div>
@@ -104,14 +104,31 @@
       />
     </form>
 
+    <!-- Модалка предупреждения, что добавляется книга без обложки -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <BookModal
+          v-if="isWarningNoImageModalOpen"
+          :isModalOpen="isWarningNoImageModalOpen"
+          :message="warningNoImageMessage"
+          :listeners="iswarningAgreement"
+          yesButtonText="Да"
+          noButtonText="Нет"
+          @continue="continueSubmit"
+          @closeModal="closeWarningNoImageModal"
+        />
+      </Transition>
+    </Teleport>
+
     <!-- Модалка успешного добавления книги в supabase -->
     <Teleport to="body">
       <Transition name="fade">
-        <SuccessAddBookModal
+        <BookModal
           v-if="isSuccessModalOpen"
-          :isSuccessModalOpen="isSuccessModalOpen"
+          :isModalOpen="isSuccessModalOpen"
           :message="successCreatingNewBookMessage"
-          @closeModal="closeModal"
+          yesButtonText="В библиотеку"
+          @continue="closeSuccessModal"
         />
       </Transition>
     </Teleport>
@@ -132,7 +149,7 @@ import { useBookStore } from '@/stores/book-store'
 import BookUploadImageButton from './BookUploadImageButton.vue'
 import ClearIcon from '../icon/ClearIcon.vue'
 import { BOOKS_PATH } from '@/mock/routes'
-import SuccessAddBookModal from '../modal/SuccessAddBookModal.vue'
+import BookModal from '../modal/BookModal.vue'
 
 const genreStore = useGenreStore()
 const userStore = useUserStore()
@@ -151,6 +168,9 @@ const fileInput = ref(null)
 const isDragging = ref(false)
 const isSuccessModalOpen = ref(false)
 const successCreatingNewBookMessage = ref(null)
+const isWarningNoImageModalOpen = ref(false)
+const warningNoImageMessage = ref(null)
+const iswarningAgreement = ref(false)
 const parrentSelectedOption = ref(null)
 
 // Валидация
@@ -191,8 +211,6 @@ const selectFiles = () => {
 const onFileSelect = (event) => {
   const files = event.target.files
 
-  dropedImage.value = event.target.files[0]
-
   if (files.length === 0) return
 
   for (let i = 0; i < files.length; i++) {
@@ -201,6 +219,8 @@ const onFileSelect = (event) => {
       images.value.push({ name: files[i].name, url: URL.createObjectURL(files[i]) })
     }
   }
+
+  dropedImage.value = event.target.files[0]
 
   // Очищаем инпут ввода картинки в текстовом режиме
   imageUrlField.value = null
@@ -229,7 +249,6 @@ const onDrop = (event) => {
 
   dropedImage.value = event.dataTransfer.files[0]
 
-  // console.log(files)
   for (let i = 0; i < files.length; i++) {
     if (files[i].type.split('/')[0] != 'image') continue
     if (!images.value.some((e) => e.name === files[i].name)) {
@@ -241,11 +260,24 @@ const onDrop = (event) => {
   imageUrlField.value = null
 }
 
-const closeModal = () => {
+// Функции модалок
+const continueSubmit = () => {
+  iswarningAgreement.value = true
+  console.log(iswarningAgreement.value)
+  closeWarningNoImageModal()
+  submitAddBook()
+}
+
+const closeWarningNoImageModal = () => {
+  isWarningNoImageModalOpen.value = false
+}
+
+const closeSuccessModal = () => {
   isSuccessModalOpen.value = false
   router.push(BOOKS_PATH)
 }
 
+// Сабмит формы
 const submitAddBook = async () => {
   isLoading.value = false
 
@@ -253,30 +285,39 @@ const submitAddBook = async () => {
     isLoading.value = true
 
     if (!isFromEmpty.value && !isValid.value.length) {
-      // image: imageUrlField.value || images.value[0],
-
       // собираем книгу для деплоя
       const bookData = {
         name: bookNameField.value.trim(),
         author: authorField.value.trim(),
         genre: parrentSelectedOption.value.name,
-        // image: images.value[0],
-        image: dropedImage.value,
+        image: imageUrlField.value,
+        dropedImage: dropedImage.value,
         user_id: userStore.user[0].id,
         progress: 0,
         rating: 0,
       }
 
-      // await bookStore.addBook(bookData)
-      // console.log(bookData)
+      if (!iswarningAgreement.value && (!imageUrlField.value || !dropedImage.value)) {
+        isWarningNoImageModalOpen.value = true
+        warningNoImageMessage.value = 'Книга будет без обложки?'
+      }
 
-      const data = await bookStore.addBook(bookData)
+      if (iswarningAgreement.value && (!imageUrlField.value || !dropedImage.value)) {
+        const data = await bookStore.addBook(bookData)
 
-      // console.log('submitAddBook - ', data)
+        if (data) {
+          isSuccessModalOpen.value = true
+          successCreatingNewBookMessage.value = 'Книга успешно добавлена!'
+        }
+      }
 
-      if (data) {
-        isSuccessModalOpen.value = true
-        successCreatingNewBookMessage.value = 'Книга успешно добавлена!'
+      if (!iswarningAgreement.value && (imageUrlField.value || dropedImage.value)) {
+        const data = await bookStore.addBook(bookData)
+
+        if (data) {
+          isSuccessModalOpen.value = true
+          successCreatingNewBookMessage.value = 'Книга успешно добавлена!'
+        }
       }
     }
   } catch (error) {
@@ -297,9 +338,10 @@ onMounted(() => {
   flex-direction: column;
   gap: 12px;
 }
-.bookUploadImageBlock_hide {
-  display: none;
-}
+/* .bookUploadImageBlock_hide {
+  opacity: 0;
+  height: 0;
+} */
 .bookUploadImageBlock__background {
   position: relative;
   display: flex;

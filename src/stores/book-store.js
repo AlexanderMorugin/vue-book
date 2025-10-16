@@ -11,7 +11,6 @@ export const useBookStore = defineStore('bookStore', () => {
   const readingBooks = ref([])
   const doneBooks = ref([])
   const currentBook = ref(null)
-  // const bucket = supabase.storage.from('files')
 
   /* actions */
 
@@ -176,65 +175,84 @@ export const useBookStore = defineStore('bookStore', () => {
   }
 
   const uploadFile = async (file) => {
-    // const fileName = Date.now() + '-' + file.name
+    const fileName = Date.now() + '-' + file.name
 
-    // const { data, error } = await supabase.storage.from('files').upload(fileName, file)
-
-    const { data, error } = await supabase.storage
-      .from('files')
-      .upload(`images/${file.name}`, file, {
-        cacheControl: '3600',
-        upsert: false,
-      })
+    const { data: filePath, error } = await supabase.storage.from('files').upload(fileName, file)
+    const { data: fileUrl } = supabase.storage.from('files').getPublicUrl(filePath.path)
     if (error) {
       console.log(error)
       return
     } else {
-      console.log(data)
-      // console.log(URL.createObjectURL(file))
+      return { file_path: filePath.path, file_url: fileUrl.publicUrl }
     }
-
-    // const filePath = await bucket.upload(fileName, file)
-    // const fileUrl = bucket.getPublicUrl(filePath.data.path)
-
-    // console.log('uploadFile - ', {
-    //   file_path: filePath.data.path,
-    //   file_url: fileUrl.data.publicUrl,
-    // })
-    // return { file_path: filePath.data.path, file_url: fileUrl.data.publicUrl }
   }
 
   const addBook = async (bookData) => {
-    // console.log(bookData.image.name)
-    // console.log(bookData.image.url)
-    // const { file_path, file_url } = await uploadFile(bookData.image)
-    await uploadFile(bookData.image)
+    const dropedImageFromStorage = ref(null)
 
-    // const { data, error } = await supabase
-    //   .from('books')
-    //   .insert({
-    //     name: bookData.name,
-    //     author: bookData.author,
-    //     genre: bookData.genre,
-    //     user_id: bookData.user_id,
-    //     progress: bookData.progress,
-    //     rating: bookData.rating,
-    //     // uploadedFile
-    //     // file_path,
-    //     // file_url,
-    //   })
-    //   .select()
+    // Если есть дропнутая картинка, грузим ее в сторадж
+    if (bookData.dropedImage) {
+      const { file_url } = await uploadFile(bookData.dropedImage)
+      dropedImageFromStorage.value = file_url
+    }
 
-    // const { data, error } = await supabase.from('books').insert([bookData]).select()
-    //   if (error) console.log(error.message)
-    //   else return { data }
+    // Если картинку загрузили через ссылку, то создаем книгу так
+    if (bookData.image) {
+      const { data, error } = await supabase
+        .from('books')
+        .insert({
+          name: bookData.name,
+          author: bookData.author,
+          genre: bookData.genre,
+          image: bookData.image,
+          user_id: bookData.user_id,
+          progress: bookData.progress,
+          rating: bookData.rating,
+        })
+        .select()
+
+      if (error) console.log(error.message)
+      else return { data }
+    }
+
+    // Если картинку загрузили через драг ен дроп, то создаем книгу так
+    if (bookData.dropedImage) {
+      const { data, error } = await supabase
+        .from('books')
+        .insert({
+          name: bookData.name,
+          author: bookData.author,
+          genre: bookData.genre,
+          image: dropedImageFromStorage.value,
+          user_id: bookData.user_id,
+          progress: bookData.progress,
+          rating: bookData.rating,
+        })
+        .select()
+
+      if (error) console.log(error.message)
+      else return { data }
+    }
+
+    // Если картинку никак не загрузили, то создаем книгу так
+    if (!bookData.dropedImage && !bookData.image) {
+      const { data, error } = await supabase
+        .from('books')
+        .insert({
+          name: bookData.name,
+          author: bookData.author,
+          genre: bookData.genre,
+          image: null,
+          user_id: bookData.user_id,
+          progress: bookData.progress,
+          rating: bookData.rating,
+        })
+        .select()
+
+      if (error) console.log(error.message)
+      else return { data }
+    }
   }
-
-  // const addBook = async (bookData) => {
-  //   const { data, error } = await supabase.from('books').insert([bookData]).select()
-  //   if (error) console.log(error.message)
-  //   else return { data }
-  // }
 
   const deleteBook = async (bookId) => {
     const { data, error } = await supabase.from('books').delete().eq('id', bookId)
@@ -265,29 +283,6 @@ export const useBookStore = defineStore('bookStore', () => {
       })
       .subscribe()
   }
-
-  // const subscribeEntries = async () => {
-  //   supabase
-  //     .channel('books-channel')
-  //     .on('postgres_changes', { event: '*', schema: 'public', table: 'books' }, (payload) => {
-  //       console.log('Change received!', payload)
-
-  //       if (payload.eventType === 'INSERT') books.value.push(payload.new)
-
-  //       if (payload.eventType === 'DELETE') {
-  //         const index = getBookIndexById(payload.old.id)
-
-  //         books.value.splice(index, 1)
-  //       }
-
-  //       if (payload.eventType === 'UPDATE') {
-  //         const index = getBookIndexById(payload.new.id)
-
-  //         Object.assign(books.value[index], payload.new)
-  //       }
-  //     })
-  //     .subscribe()
-  // }
 
   /* helpers */
 

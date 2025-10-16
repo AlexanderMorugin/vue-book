@@ -7,7 +7,7 @@
 <script setup>
 import { onBeforeUnmount, watch } from 'vue'
 
-const { isSuccessModalOpen } = defineProps(['isSuccessModalOpen'])
+const { isModalOpen } = defineProps(['isModalOpen'])
 
 function lockScroll() {
   document.body.style.overflow = 'hidden'
@@ -17,7 +17,7 @@ function unlockScroll() {
   document.body.style.overflow = 'auto'
 }
 
-watch(() => isSuccessModalOpen, lockScroll())
+watch(() => isModalOpen, lockScroll())
 
 onBeforeUnmount(() => unlockScroll())
 </script>

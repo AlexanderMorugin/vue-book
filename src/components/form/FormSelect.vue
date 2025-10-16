@@ -3,22 +3,20 @@
     <span class="form-label">{{ label }}</span>
 
     <div class="dropDown" ref="dropDown">
-      <div class="form-input dropdown-selected-option" @click="isDropDownVisible = true">
+      <div class="form-input dropdown-selected-option" @click="openOptionSelect">
         <span>{{ mappedSelectedOption }}</span>
         <ArrowDropIcon :class="['arrowDropIcon', { arrowDropIcon_active: isDropDownVisible }]" />
       </div>
-      <!-- <transition name="slide-fade"> -->
       <ul :class="['optionList', { optionList_active: isDropDownVisible }]">
         <li
           v-for="option in options"
           :key="option.id"
-          class="optionText"
-          @click="toggleOptionSelect(option)"
+          :class="['optionText', { optionText_active: isDropDownVisible }]"
+          @click="closeOptionSelect(option)"
         >
           {{ option.name || option }}
         </li>
       </ul>
-      <!-- </transition> -->
     </div>
   </div>
 </template>
@@ -38,10 +36,12 @@ const mappedSelectedOption = computed(() => {
   return selectedOption.value?.name || selectedOption.value?.value || 'Выберите жанр'
 })
 
-const toggleOptionSelect = (option) => {
+const openOptionSelect = () => (isDropDownVisible.value = true)
+
+const closeOptionSelect = (option) => {
+  isDropDownVisible.value = false
   selectedOption.value = option
   emit('update:value', option)
-  isDropDownVisible.value = false
 }
 
 const closeDropDown = (element) => {
@@ -79,11 +79,11 @@ onBeforeUnmount(() => {
   right: 0;
   width: 100%;
   background: var(--yellow-secondary);
-  opacity: 0;
+  height: 0;
   transition: 0.25s ease;
 }
 .optionList_active {
-  opacity: 1;
+  height: 146px;
   z-index: 10;
 }
 .arrowDropIcon {
@@ -105,6 +105,7 @@ onBeforeUnmount(() => {
   color: var(--text-color-secondary);
 }
 .optionText {
+  display: none;
   font-family: 'Inter-Regular', sans-serif;
   font-size: 14px;
   line-height: 14px;
@@ -115,6 +116,9 @@ onBeforeUnmount(() => {
 }
 .optionText:hover {
   background: var(--violet-primary);
+}
+.optionText_active {
+  display: block;
 }
 .optionText:first-of-type {
   border-top-left-radius: 8px;
