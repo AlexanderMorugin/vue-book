@@ -18,8 +18,24 @@
         @handleCancel="removeActiveProgress"
       />
     </BookEditContainer>
+
+    <!-- Кнопка "Прочитано" -->
     <FormSubmitButton place="book" :isLoading="isLoading" @handleClick="setProgressDone" />
-    <FormSubmitButton place="delete" :isLoading="isLoading" @handleClick="deleteBook" />
+    <!-- Кнопка "Удалить" -->
+    <FormSubmitButton place="delete" :isLoading="isDeleteLoading" @handleClick="deleteBook" />
+
+    <!-- Модалка успешного удаления книги из supabase -->
+    <Teleport to="body">
+      <Transition name="fade">
+        <BookModal
+          v-if="isSuccessDeleteModalOpen"
+          :isModalOpen="isSuccessDeleteModalOpen"
+          :message="successDeleteMessage"
+          yesButtonText="В библиотеку"
+          @continue="closeSuccessDeleteModal"
+        />
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -34,6 +50,8 @@ import BookProgressInput from './BookProgressInput.vue'
 import FormSubmitButton from '../form/FormSubmitButton.vue'
 import LoaderForComponent from '../loader/LoaderForComponent.vue'
 import { useBookStore } from '@/stores/book-store'
+import { BOOKS_PATH } from '@/mock/routes'
+import BookModal from '../modal/BookModal.vue'
 
 const bookStore = useBookStore()
 const router = useRouter()
@@ -41,9 +59,12 @@ const router = useRouter()
 const { bookId } = defineProps(['bookId'])
 
 const isLoading = ref(true)
+const isDeleteLoading = ref(false)
 const isProgressActive = ref(false)
 const progress = ref(0)
 const progressErrorMessage = ref(null)
+const isSuccessDeleteModalOpen = ref(false)
+const successDeleteMessage = ref(null)
 
 const setActiveProgress = () => (isProgressActive.value = true)
 const removeActiveProgress = () => {
@@ -52,6 +73,14 @@ const removeActiveProgress = () => {
   progress.value = bookStore.currentBook.progress
 }
 
+// Функции модалок
+
+const closeSuccessDeleteModal = () => {
+  isSuccessDeleteModalOpen.value = false
+  router.push(BOOKS_PATH)
+}
+
+// Сабмит прогресса чтения книги
 const submitData = async () => {
   progressErrorMessage.value = null
 
@@ -67,6 +96,7 @@ const submitData = async () => {
   getStoreData()
 }
 
+// Установление прогресса чтения на 100%
 const setProgressDone = async () => {
   isLoading.value = false
 
@@ -82,17 +112,20 @@ const setProgressDone = async () => {
   }
 }
 
+// Удаление книги
 const deleteBook = async () => {
-  isLoading.value = false
+  isDeleteLoading.value = false
 
   try {
-    isLoading.value = true
+    isDeleteLoading.value = true
     await bookStore.deleteBook(bookId)
-    router.go(-1)
+    isSuccessDeleteModalOpen.value = true
+    successDeleteMessage.value = 'Книга успешно удалена!'
+    // router.go(-1)
   } catch (error) {
     console.log(error)
   } finally {
-    isLoading.value = false
+    isDeleteLoading.value = false
   }
 }
 

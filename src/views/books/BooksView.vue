@@ -21,6 +21,8 @@
     </section>
 
     <BooksBlock v-if="bookStore.books.length" :books="bookStore.books" :isLoading="isLoading" />
+    <div v-else class="booksEmptyBlock">Книги не найдены</div>
+
     <SideBarCounter place="books" />
   </PageContainer>
 </template>
@@ -126,5 +128,15 @@ onMounted(() => {
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+}
+.booksEmptyBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  font-family: 'Inter-Medium', sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--text-color-primary);
 }
 </style>

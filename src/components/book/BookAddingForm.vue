@@ -204,6 +204,7 @@ const isFromEmpty = computed(
 
 const isValid = computed(() => v$.value.$errors)
 
+// Функции добавления картинки по кнопке
 const selectFiles = () => {
   fileInput.value.click()
 }
@@ -230,6 +231,7 @@ const deleteImage = (index) => {
   images.value.splice(index, 1)
 }
 
+// Drag and Drop functions
 const onDragover = (event) => {
   event.preventDefault()
   isDragging.value = true
@@ -263,7 +265,7 @@ const onDrop = (event) => {
 // Функции модалок
 const continueSubmit = () => {
   iswarningAgreement.value = true
-  console.log(iswarningAgreement.value)
+  // console.log(iswarningAgreement.value)
   closeWarningNoImageModal()
   submitAddBook()
 }
@@ -297,11 +299,13 @@ const submitAddBook = async () => {
         rating: 0,
       }
 
+      // Появление модалки, если деплоим книгу без картинки совсем
       if (!iswarningAgreement.value && (!imageUrlField.value || !dropedImage.value)) {
         isWarningNoImageModalOpen.value = true
         warningNoImageMessage.value = 'Книга будет без обложки?'
       }
 
+      // Подтвердили модалку и деплоим, что книга действительно будет без картинки
       if (iswarningAgreement.value && (!imageUrlField.value || !dropedImage.value)) {
         const data = await bookStore.addBook(bookData)
 
@@ -311,7 +315,10 @@ const submitAddBook = async () => {
         }
       }
 
+      // Деплоим книгу с картинкой через инпут или драг дроп
       if (!iswarningAgreement.value && (imageUrlField.value || dropedImage.value)) {
+        isWarningNoImageModalOpen.value = false
+
         const data = await bookStore.addBook(bookData)
 
         if (data) {

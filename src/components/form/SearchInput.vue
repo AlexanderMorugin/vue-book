@@ -25,9 +25,13 @@ const { type, name, placeholder, value } = defineProps(['type', 'name', 'placeho
 const emit = defineEmits(['update:value', 'clearInput'])
 
 const updateValue = async (e) => {
-  const data = await bookStore.loadSearchBooks(e.target.value)
+  try {
+    const data = await bookStore.loadSearchBooks(e.target.value)
 
-  console.log(data)
-  emit('update:value', e.target.value)
+    console.log(data)
+    emit('update:value', e.target.value)
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>

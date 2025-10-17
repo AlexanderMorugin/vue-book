@@ -25,16 +25,16 @@ import BookEditContainer from './BookEditContainer.vue'
 import BookEditTitle from './BookEditTitle.vue'
 import BookCommentTextArea from './BookCommentTextArea.vue'
 import BookEditSubmitButtons from './BookEditSubmitButtons.vue'
-import { useCommentStore } from '@/stores/comment-store'
 import LoaderForComponent from '../loader/LoaderForComponent.vue'
+import { useBookStore } from '@/stores/book-store'
 
-const commentStore = useCommentStore()
+const bookStore = useBookStore()
 
 const { bookId } = defineProps(['bookId'])
 
 const isLoading = ref(false)
 const isCommentActive = ref(false)
-const comment = ref('')
+const comment = ref(null)
 
 const setActiveComment = () => (isCommentActive.value = true)
 const removeActiveComment = () => (isCommentActive.value = false)
@@ -43,8 +43,9 @@ const submitData = async () => {
   isLoading.value = false
   try {
     isLoading.value = true
-    await commentStore.addComment(bookId, comment.value)
+    await bookStore.updateCurrentBookComment(comment.value, bookId)
     removeActiveComment()
+    getStoreData()
   } catch (error) {
     console.log(error)
   } finally {
@@ -56,10 +57,10 @@ async function getStoreData() {
   isLoading.value = false
   try {
     isLoading.value = true
-    const { data } = await commentStore.loadCurrentBookComment(bookId)
+    const { data } = await bookStore.loadCurrentBook(bookId)
 
-    // console.log(data[0].text)
-    comment.value = data[0]?.text ? data[0].text : 'Вы еще ничего не писали здесь.'
+    // console.log(data)
+    comment.value = data[0]?.comment ? data[0].comment : 'Вы еще ничего не писали здесь.'
   } catch (error) {
     console.log(error)
   } finally {

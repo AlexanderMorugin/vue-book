@@ -43,6 +43,7 @@ const emit = defineEmits(['closeModal', 'continue'])
   gap: 32px;
   width: 100%;
   max-width: 450px;
+  height: fit-content;
   background: var(--white-primary);
   border-radius: var(--border-radius-l);
   padding: 32px;

@@ -24,16 +24,16 @@ onBeforeUnmount(() => unlockScroll())
 
 <style scoped>
 .modalOverlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: var(--black-secondary);
-  padding: 10px;
+  padding: 20px;
   z-index: 20;
 }
 </style>

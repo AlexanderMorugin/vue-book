@@ -151,6 +151,25 @@ export const useBookStore = defineStore('bookStore', () => {
     }
   }
 
+  // Обновляем или добавляем комментарий к конкретной книги пользователя
+  const updateCurrentBookComment = async (comment, bookId) => {
+    let { data: localUser } = await supabase.auth.getSession()
+
+    const { data, error } = await supabase
+      .from('books')
+      .update({ comment: comment })
+      .eq('user_id', localUser.session.user.id)
+      .eq('id', bookId)
+      .select()
+
+    if (error) {
+      console.log(error.message)
+    } else {
+      console.log('updateCurrentBookComment - ', data)
+      subscribeEntries()
+    }
+  }
+
   // Обновляем прогресс по ID конкретной книги пользователя
   const updateCurrentBookProgress = async (progress, bookId) => {
     let { data: localUser } = await supabase.auth.getSession()
@@ -255,17 +274,16 @@ export const useBookStore = defineStore('bookStore', () => {
   }
 
   const deleteBook = async (bookId) => {
-    const { data, error } = await supabase.from('books').delete().eq('id', bookId)
+    const { error } = await supabase.from('books').delete().eq('id', bookId)
 
     if (error) console.log(error.message)
-    else console.log(data)
   }
 
   const subscribeEntries = async () => {
     supabase
       .channel('books-channel')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'books' }, (payload) => {
-        console.log('Change received!', payload)
+        // console.log('Change received!', payload)
 
         if (payload.eventType === 'INSERT') books.value.push(payload.new)
 
@@ -308,5 +326,6 @@ export const useBookStore = defineStore('bookStore', () => {
     updateCurrentBookProgress,
     deleteBook,
     uploadFile,
+    updateCurrentBookComment,
   }
 })
