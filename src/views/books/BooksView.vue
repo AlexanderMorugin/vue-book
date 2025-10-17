@@ -8,7 +8,6 @@
       @clearInput="clearInput"
     />
 
-    {{ bookField }}
     <!-- Блок с кнопками -->
     <section class="booksStatusBlock">
       <div v-for="button in statusButtons" :key="button.id">
