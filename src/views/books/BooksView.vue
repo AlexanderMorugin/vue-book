@@ -8,6 +8,7 @@
       @clearInput="clearInput"
     />
 
+    {{ bookField }}
     <!-- Блок с кнопками -->
     <section class="booksStatusBlock">
       <div v-for="button in statusButtons" :key="button.id">
@@ -20,7 +21,11 @@
       </div>
     </section>
 
-    <BooksBlock v-if="bookStore.books.length" :books="bookStore.books" :isLoading="isLoading" />
+    <BooksBlock
+      v-if="bookStore.booksByStatus.length"
+      :books="bookStore.booksByStatus"
+      :isLoading="isLoading"
+    />
     <div v-else class="booksEmptyBlock">Книги не найдены</div>
 
     <SideBarCounter place="books" />
@@ -97,7 +102,7 @@ const setActive = (id, progressGreat, progressLess) => {
   }
 
   if (progressGreat === null) {
-    bookStore.loadBooks()
+    bookStore.loadStatusBooks(0, 100)
   } else {
     bookStore.loadStatusBooks(progressGreat, progressLess)
   }
@@ -108,6 +113,7 @@ async function getStoreData() {
   try {
     isLoading.value = true
     const { data } = await bookStore.loadBooks()
+    await bookStore.loadStatusBooks(0, 100)
     booksForButtons.value = data
   } catch (error) {
     console.log(error)

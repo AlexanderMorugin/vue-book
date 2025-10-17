@@ -31,7 +31,7 @@ const emit = defineEmits(['handleClick'])
 .statusButton_active {
   background: var(--green-thirdly);
   border: 1px solid var(--green-thirdly);
-  cursor: auto;
+  /* cursor: auto; */
 }
 .statusButton__title {
   font-family: 'Inter-Medium', sans-serif;

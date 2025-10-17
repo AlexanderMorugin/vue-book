@@ -7,6 +7,7 @@ export const useBookStore = defineStore('bookStore', () => {
   /* state */
 
   const books = ref([])
+  const booksByStatus = ref([])
   const plannedBooks = ref([])
   const readingBooks = ref([])
   const doneBooks = ref([])
@@ -44,8 +45,9 @@ export const useBookStore = defineStore('bookStore', () => {
       .order('created_at', { ascending: false })
     if (error) console.log(error.message)
     if (data) {
-      books.value = data
+      booksByStatus.value = data
       subscribeEntries()
+      return { data }
     }
   }
 
@@ -109,7 +111,7 @@ export const useBookStore = defineStore('bookStore', () => {
       .or(`name.ilike.%${entry}%, author.ilike.%${entry}%`)
     if (error) console.log(error.message)
     if (data) {
-      books.value = data
+      booksByStatus.value = data
       subscribeEntries()
       return { data }
     }
@@ -310,6 +312,7 @@ export const useBookStore = defineStore('bookStore', () => {
 
   return {
     books,
+    booksByStatus,
     plannedBooks,
     readingBooks,
     doneBooks,
